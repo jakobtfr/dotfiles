@@ -23,10 +23,5 @@ zsh-syntax-highlighting
 
 source $ZSH/oh-my-zsh.sh
 
-
 # powerlevel10k, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# atuin
-. "$HOME/.atuin/bin/env"
-eval "$(atuin init zsh)"
