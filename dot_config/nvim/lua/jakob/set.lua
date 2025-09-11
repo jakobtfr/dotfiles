@@ -1,4 +1,4 @@
-vim.cmd.colorscheme("tokyonight")
+vim.cmd("colorscheme github_dark")
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
@@ -32,7 +32,7 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
+--vim.opt.colorcolumn = "80"
 
 vim.diagnostic.config({
 	virtual_text = {
@@ -65,3 +65,4 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
+vim.opt.laststatus = 3
