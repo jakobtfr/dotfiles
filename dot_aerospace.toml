@@ -1,5 +1,5 @@
 # AEROSPACE CONFIG
-#https://github.com/edunfelt/base16-rose-pine-scheme/blob/main/assets/palette.png
+#https://github.com/agenttank/dotfiles_macos/blob/main/aerospace/aerospace.toml
 start-at-login = true
 
 after-login-command = []
@@ -48,9 +48,7 @@ cmd-q = [
   'close --quit-if-last-window'
 ]
 
-#cmd-m = 'exec-and-forget open -n /Volumes/Macintosh\ HD/Applications/Marta.app'
-
-ctrl-f = 'fullscreen'
+alt-f = 'fullscreen'
 
 cmd-h = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop left'
 cmd-j = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop down'
@@ -65,16 +63,16 @@ cmd-shift-down = 'move down'
 cmd-shift-up = 'move up'
 cmd-shift-right = 'move right'
 
-cmd-1 = 'workspace --auto-back-and-forth 1'  # Notes
+cmd-1 = 'workspace --auto-back-and-forth 1'  # Browser
 cmd-2 = 'workspace --auto-back-and-forth 2'  # Terminal
-cmd-3 = 'workspace --auto-back-and-forth 3'  # Browser
-cmd-4 = 'workspace --auto-back-and-forth 4'  # AltBrowser
-cmd-5 = 'workspace --auto-back-and-forth 5'  # Remote
-cmd-6 = 'workspace --auto-back-and-forth 6'  # Database
-cmd-7 = 'workspace --auto-back-and-forth 7'  # Chat
-cmd-8 = 'workspace --auto-back-and-forth 8'  # Mail
-cmd-9 = 'workspace --auto-back-and-forth 9'  # Music
-cmd-0 = 'workspace --auto-back-and-forth 10' # Secrets
+cmd-3 = 'workspace --auto-back-and-forth 3'  # Random
+cmd-4 = 'workspace --auto-back-and-forth 4'  # Communication
+cmd-5 = 'workspace --auto-back-and-forth 5'  # 
+cmd-6 = 'workspace --auto-back-and-forth 6'  # 
+cmd-7 = 'workspace --auto-back-and-forth 7'  #
+cmd-8 = 'workspace --auto-back-and-forth 8'  #
+cmd-9 = 'workspace --auto-back-and-forth 9'  #
+cmd-0 = 'workspace --auto-back-and-forth 10' # Spotify
 
 cmd-shift-1 = 'move-node-to-workspace 1'
 cmd-shift-2 = 'move-node-to-workspace 2'
@@ -113,3 +111,22 @@ run = [
 if.app-id = 'com.spotify.client'              
 run = ['move-node-to-workspace 10']  
 
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'              
+run = ['move-node-to-workspace 4']  
+
+[[on-window-detected]]
+if.app-id = 'net.whatsapp.WhatsApp'              
+run = ['move-node-to-workspace 4']  
+
+[[on-window-detected]]
+if.app-id = 'com.apple.mail'              
+run = ['move-node-to-workspace 4']  
+
+[[on-window-detected]]
+if.app-id = 'net.ankiweb.dtop'              
+run = ['move-node-to-workspace 3']  
+
+[[on-window-detected]]
+if.app-id = 'com.googlecode.iterm2'              
+run = ['move-node-to-workspace 2']  
