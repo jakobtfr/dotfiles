@@ -22,6 +22,19 @@ zsh-syntax-highlighting
 
 source $ZSH/oh-my-zsh.sh
 
+# swmh jira
+export JIRA_USER_EMAIL="jakob.friedrich@sz.de"
+export JIRA_API_TOKEN="ATATT3xFfGF0LQ_YbByck3v7RQAUSWw5hnOtpKwh4ESK82ktJKU2Qz5hbz8kjlUgFTdbokkicC7O4cyNi6Sgtta93p96SPG_qsYokMoN16BI6Xo3wYPjXTGxBGQT88x3fAK-1VTrPCpp55dU327W2h6QamC7u1K5oPjqNOlbJIUTcavPcVScd30=6ECE79EE"
+export JIRA_API_URL="https://swmh.atlassian.net"
+export JIRA_KEY_PREFIX="ONEAPP"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/friedrichj/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+export PATH="/usr/local/bin:$PATH"
+
+alias assume="source assume"
+
 # powerlevel10k, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
