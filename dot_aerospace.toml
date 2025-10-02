@@ -124,7 +124,7 @@ if.app-id = 'com.apple.mail'
 run = ['move-node-to-workspace 4']  
 
 [[on-window-detected]]
-if.app-id = 'net.ankiweb.dtop'              
+if.app-id = 'net.ankiweb.launcher'              
 run = ['move-node-to-workspace 3']  
 
 [[on-window-detected]]
