@@ -7,9 +7,9 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- tab size
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
 vim.opt.smartindent = true
@@ -32,7 +32,7 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
---vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "80"
 
 vim.diagnostic.config({
 	virtual_text = {
@@ -56,6 +56,8 @@ vim.diagnostic.config({
 	},
 })
 
+vim.o.winborder = "rounded"
+
 vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
@@ -64,5 +66,8 @@ vim.lsp.config("lua_ls", {
 			},
 		},
 	},
+})
+vim.lsp.config("sourcekit-lsp", {
+	filetypes = { "swift", "objective-c", "objective-cpp" },
 })
 vim.opt.laststatus = 3
