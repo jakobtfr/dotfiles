@@ -120,6 +120,7 @@ if.app-id = 'net.whatsapp.WhatsApp'
 run = ['move-node-to-workspace 4']  
 
 [[on-window-detected]]
+<<<<<<< HEAD
 if.app-id = 'com.microsoft.Outlook'              
 run = ['move-node-to-workspace 4']  
 
