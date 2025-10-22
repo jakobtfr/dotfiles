@@ -1,0 +1,18 @@
+session_name: TUM-ai
+start_directory: ~/code/tumai/website_new
+windows:
+  - window_name: Dev 
+    options:
+      main-pane-height: 80%
+    layout: main-horizontal
+    panes:
+      - shell_command:
+        - vim .
+        focus: true
+      - shell_command:
+          - git fetch
+          - git status
+  - window_name: Server
+    panes:
+      - shell_command:
+          - npm run dev
