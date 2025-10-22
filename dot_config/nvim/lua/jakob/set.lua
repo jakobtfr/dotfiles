@@ -56,6 +56,16 @@ vim.diagnostic.config({
 	},
 })
 
+vim.lsp.config("lua_ls", {
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
+			},
+		},
+	},
+})
+
 vim.o.winborder = "rounded"
 
 vim.opt.laststatus = 3
