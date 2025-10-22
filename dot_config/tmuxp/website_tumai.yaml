@@ -9,9 +9,7 @@ windows:
       - shell_command:
         - vim .
         focus: true
-      - shell_command:
-          - git fetch
-          - git status
+      - git fetch && git status
   - window_name: Server
     panes:
       - shell_command:

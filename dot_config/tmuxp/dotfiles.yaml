@@ -1,5 +1,4 @@
 session_name: Dotfiles 
-start_directory: ~/
 windows:
   - window_name: config 
     options:
@@ -8,7 +7,6 @@ windows:
     start_directory: ~/.config
     panes:
       - shell_command:
-          - chezmoi edit .
-      - shell_command:
-          - chezmoi cd
-          - git fetch
+        - chezmoi edit .
+        focus: true
+      - chezmoi cd && git fetch 
