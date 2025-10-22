@@ -120,19 +120,11 @@ if.app-id = 'net.whatsapp.WhatsApp'
 run = ['move-node-to-workspace 4']  
 
 [[on-window-detected]]
-if.app-id = 'com.microsoft.Outlook'              
-run = ['move-node-to-workspace 4']  
-
-[[on-window-detected]]
-if.app-id = 'com.microsoft.teams2'              
-run = ['move-node-to-workspace 4']  
-
-[[on-window-detected]]
 if.app-id = 'net.ankiweb.launcher'              
 run = ['move-node-to-workspace 3']  
 
 [[on-window-detected]]
-if.app-id = 'com.googlecode.iterm2'              
+if.app-id = 'com.github.wez.wezterm'              
 run = ['move-node-to-workspace 2']  
 
 [[on-window-detected]]
