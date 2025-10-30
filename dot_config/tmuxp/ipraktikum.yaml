@@ -1,5 +1,5 @@
-session_name: TUM-ai
-start_directory: ~/code/tumai/website_new
+session_name: iPraktikum
+start_directory: ~/code/ipraktikum/tum
 windows:
   - window_name: Dev 
     options:
@@ -10,7 +10,3 @@ windows:
         - vim .
         focus: true
       - git fetch && git status
-  - window_name: Server
-    panes:
-      - shell_command:
-          - npm run dev
