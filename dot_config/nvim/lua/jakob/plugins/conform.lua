@@ -10,6 +10,7 @@ return {
 				rust = { "rustfmt" },
 				typescript = { "biome" },
 				javascript = { "biome" },
+				java = { "checkstyle" },
 			},
 			format_on_save = {
 				timeout_ms = 500,
