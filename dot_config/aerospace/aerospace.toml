@@ -50,10 +50,10 @@ ctrl-q = [
 
 alt-f = 'fullscreen'
 
-ctrl-h = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop left'
-ctrl-j = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop down'
-ctrl-k = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop up'
-ctrl-l = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop right'
+ctrl-left = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop left'
+ctrl-down = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop down'
+ctrl-up = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop up'
+ctrl-right = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop right'
 
 ctrl-shift-h = 'move left'
 ctrl-shift-j = 'move down'
