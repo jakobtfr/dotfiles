@@ -1,0 +1,9 @@
+session_name: cpp
+start_directory: ~/code/cpp/playground
+windows:
+  - window_name: Dev 
+    layout: main-vertical
+    panes:
+      - shell_command:
+        - vim .
+        focus: true
