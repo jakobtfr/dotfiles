@@ -10,3 +10,7 @@ windows:
         - vim .
         focus: true
       - git fetch && git status
+  - window_name: Server
+    panes:
+      - shell_command:
+          - cd server && pnpm dev
