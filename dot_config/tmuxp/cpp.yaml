@@ -2,8 +2,12 @@ session_name: cpp
 start_directory: ~/code/cpp/playground
 windows:
   - window_name: Dev 
-    layout: main-vertical
+    options:
+      main-pane-width: 80%
+    layout: main-horizontal
     panes:
       - shell_command:
         - vim .
         focus: true
+      - 
+
