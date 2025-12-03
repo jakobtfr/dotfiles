@@ -13,4 +13,5 @@ config = {
 	send_composed_key_when_right_alt_is_pressed = false,
 	font_size = 15.0,
 }
+config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 return config
