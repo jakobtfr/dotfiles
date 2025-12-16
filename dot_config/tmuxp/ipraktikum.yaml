@@ -14,3 +14,7 @@ windows:
     panes:
       - shell_command:
           - cd server && pnpm dev
+  - window_name: VM
+    panes:
+      - shell_command:
+          - ssh -p 22 go69fag@ios2526tum.aet.cit.tum.de.
