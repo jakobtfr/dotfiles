@@ -1,5 +1,5 @@
 session_name: cpp
-start_directory: ~/code/cpp/playground
+start_directory: ~/code/cpp
 windows:
   - window_name: Dev 
     options:
