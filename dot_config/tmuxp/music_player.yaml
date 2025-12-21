@@ -1,0 +1,14 @@
+session_name: music_player
+start_directory: ~/code/cpp/music_player
+windows:
+  - window_name: Dev 
+    options:
+      main-pane-width: 70%
+    layout: main-vertical
+    panes:
+      - shell_command:
+        - vim .
+        focus: true
+      - shell_command:
+          - git fetch && git status
+
