@@ -3,7 +3,7 @@ start_directory: ~/code/ipraktikum/tum
 windows:
   - window_name: Dev 
     options:
-      main-pane-width: 80%
+      main-pane-width: 70%
     layout: main-vertical
     panes:
       - shell_command:
@@ -17,4 +17,4 @@ windows:
   - window_name: VM
     panes:
       - shell_command:
-          - ssh -p 22 go69fag@ios2526tum.aet.cit.tum.de.
+          - ssh go69fag@ios2526tum.aet.cit.tum.de.
