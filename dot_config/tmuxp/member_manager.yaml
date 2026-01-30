@@ -1,0 +1,16 @@
+session_name: MemberManager
+start_directory: ~/code/tumai/member-manager/
+windows:
+  - window_name: Dev 
+    options:
+      main-pane-width: 70%
+    layout: main-vertical
+    panes:
+      - shell_command:
+        - vim .
+        focus: true
+      - git fetch && git status
+  - window_name: Server
+    panes:
+      - shell_command:
+          - pnpm dev
