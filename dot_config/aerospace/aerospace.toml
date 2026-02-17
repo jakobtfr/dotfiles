@@ -71,8 +71,7 @@ ctrl-5 = 'workspace --auto-back-and-forth 5'  #
 ctrl-6 = 'workspace --auto-back-and-forth 6'  # 
 ctrl-7 = 'workspace --auto-back-and-forth 7'  #
 ctrl-8 = 'workspace --auto-back-and-forth 8'  #
-ctrl-9 = 'workspace --auto-back-and-forth 9'  #
-ctrl-0 = 'workspace --auto-back-and-forth 10' # Spotify
+ctrl-9 = 'workspace --auto-back-and-forth 9'  # Spotify
 
 ctrl-shift-1 = 'move-node-to-workspace 1'
 ctrl-shift-2 = 'move-node-to-workspace 2'
@@ -83,21 +82,20 @@ ctrl-shift-6 = 'move-node-to-workspace 6'
 ctrl-shift-7 = 'move-node-to-workspace 7'
 ctrl-shift-8 = 'move-node-to-workspace 8'
 ctrl-shift-9 = 'move-node-to-workspace 9'
-ctrl-shift-0 = 'move-node-to-workspace 10'
 
 ctrl-alt-h = []
 ctrl-shift-s = 'mode service'
+ctrl-0 = ['move-workspace-to-monitor --wrap-around next']
+ctrl-shift-0 = [
+  'move-node-to-monitor --wrap-around next',
+  'focus-monitor next --wrap-around'
+]
 
 [mode.service.binding]
     esc = ['reload-config', 'mode main']
     r = ['flatten-workspace-tree', 'mode main'] # reset layout
     f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
     backspace = ['close-all-windows-but-current', 'mode main']
-    ctrl-p = ['move-workspace-to-monitor --wrap-around next']
-    ctrl-shift-p = [
-      'move-node-to-monitor --wrap-around next',
-      'focus-monitor next --wrap-around'
-    ]
 
 [[on-window-detected]]
 if.app-id = 'org.mozilla.firefox'
@@ -132,4 +130,4 @@ run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
-run = ['move-node-to-workspace 10']
+run = ['move-node-to-workspace 9']
