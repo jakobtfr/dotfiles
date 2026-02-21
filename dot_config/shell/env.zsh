@@ -10,3 +10,4 @@ export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 # atuin
 . "$HOME/.atuin/bin/env"
 eval "$(atuin init zsh)"
+export OPENCODE_ENABLE_EXA=1
