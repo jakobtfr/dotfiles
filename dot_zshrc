@@ -19,3 +19,10 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # Added by Antigravity
 export PATH="/Users/jakobfriedrich/.antigravity/antigravity/bin:$PATH"
+
+# bun completions
+[ -s "/Users/jakobfriedrich/.bun/_bun" ] && source "/Users/jakobfriedrich/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
