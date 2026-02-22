@@ -1,5 +1,5 @@
 session_name: music_player
-start_directory: ~/code/cpp/music-player/
+start_directory: ~/code/projects/cpp/music-player/
 windows:
   - window_name: Dev 
     options:
