@@ -1,4 +1,3 @@
-vim.cmd("colorscheme github_dark")
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
@@ -38,14 +37,14 @@ vim.diagnostic.config({
 	virtual_text = {
 		prefix = "■",
 		spacing = 2,
-		current_line = true,
+		current_line = false,
 	},
 	signs = {
 		text = {
 			[vim.diagnostic.severity.ERROR] = "",
 			[vim.diagnostic.severity.WARN] = "",
 			[vim.diagnostic.severity.INFO] = "",
-			[vim.diagnostic.severity.HINT] = "",
+			[vim.diagnostic.severity.HINT] = "H",
 		},
 		linehl = {
 			[vim.diagnostic.severity.ERROR] = "ErrorMsg",
