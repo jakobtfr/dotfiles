@@ -10,3 +10,11 @@ windows:
         - chezmoi edit .
         focus: true
       - chezmoi cd && git fetch 
+  - window_name: agents
+    options:
+      main-pane-width: 70%
+    layout: main-vertical
+    start_directory: ~/code/agent-scripts/
+    panes:
+      - shell_command:
+        - vim .
