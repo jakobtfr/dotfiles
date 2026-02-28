@@ -2,6 +2,8 @@
 
 Policy and workflow: see `DOTFILES_POLICY.md`.
 
+Usage example: ```dotsync "chore(dotfiles): tweak shell"``` and ```dotpull```.
+
 Managed by Chezmoi:
 - zshrc
 - ohmyzsh

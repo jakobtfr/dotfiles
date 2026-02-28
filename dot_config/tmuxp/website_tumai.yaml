@@ -7,7 +7,7 @@ windows:
     layout: main-vertical
     panes:
       - shell_command:
-        - vim .
+        - nvim .
         focus: true
       - git fetch && git status
   - window_name: Server

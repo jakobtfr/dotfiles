@@ -17,4 +17,4 @@ windows:
     start_directory: ~/code/agent-scripts/
     panes:
       - shell_command:
-        - vim .
+        - nvim .
