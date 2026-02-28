@@ -2,3 +2,29 @@
 alias vim="nvim"
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
+
+dotsync() {
+  local repo
+  repo="$(chezmoi source-path)"
+  local msg="${1:-chore(dotfiles): update managed files}"
+
+  chezmoi diff || return 1
+  chezmoi apply || return 1
+
+  git -C "$repo" add -A || return 1
+  if git -C "$repo" diff --cached --quiet; then
+    echo "No changes to commit"
+    return 0
+  fi
+
+  git -C "$repo" commit -m "$msg" || return 1
+  git -C "$repo" push
+}
+
+dotpull() {
+  local repo
+  repo="$(chezmoi source-path)"
+
+  git -C "$repo" pull --rebase || return 1
+  chezmoi apply
+}
