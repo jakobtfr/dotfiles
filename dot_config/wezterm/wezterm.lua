@@ -7,11 +7,12 @@ config = {
 	enable_tab_bar = false,
 	window_close_confirmation = "NeverPrompt",
 	window_decorations = "RESIZE",
-	color_scheme = "Tokyo Night",
+	color_scheme = "rose-pine",
 	font = wezterm.font("JetBrains Mono", { weight = "Bold" }),
 	send_composed_key_when_left_alt_is_pressed = true,
 	send_composed_key_when_right_alt_is_pressed = false,
 	font_size = 15.0,
+	bypass_mouse_reporting_modifiers = "CMD",
 }
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 return config
