@@ -1,4 +1,5 @@
 vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { silent = true })
+vim.keymap.set("n", "<leader>fe", "<cmd>NvimTreeFindFile<CR>", { silent = true })
 
 -- move highlighted
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
