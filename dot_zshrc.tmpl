@@ -1,0 +1,33 @@
+# Brew must be first so brew-installed tools are in PATH
+{{ if eq .chezmoi.os "darwin" -}}
+eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(mise activate zsh)"
+{{ else -}}
+[[ -d /home/linuxbrew/.linuxbrew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{ end -}}
+
+SHELL_CONFIG="$HOME/.config/shell"
+
+if [[ -d "$SHELL_CONFIG" ]]; then
+  for file in "$SHELL_CONFIG"/*.zsh(N.); do
+    source "$file"
+  done
+fi
+
+eval "$(starship init zsh)"
+
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+[[ -f "$HOME/.atuin/bin/env" ]] && . "$HOME/.atuin/bin/env"
+eval "$(atuin init zsh)"
+
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.toolbox/bin:$PATH"
+
+{{ if eq .chezmoi.os "darwin" -}}
+source "$HOME/.brazil_completion/zsh_completion"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/amazon-corretto-25.jdk/Contents/Home"
+{{ else -}}
+[[ -f "$HOME/.brazil_completion/zsh_completion" ]] && source "$HOME/.brazil_completion/zsh_completion"
+{{ end -}}
