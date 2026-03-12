@@ -19,6 +19,8 @@ dotsync() {
   git -C "$repo" push
 }
 
+amz() { mwinit -o -s && tmuxp load amazon; }
+
 dotpull() {
   local repo
   repo="$(chezmoi source-path)"
