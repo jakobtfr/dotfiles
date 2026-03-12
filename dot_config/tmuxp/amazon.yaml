@@ -2,16 +2,10 @@ session_name: Amazon
 start_directory: ~/
 windows:
   - window_name: dev
-    layout: main-vertical
-    options:
-      main-pane-width: 65%
     panes:
       - shell_command:
           - ssh dev-dsk-jakobfri-1a-c222d663.eu-west-1.amazon.com
           - kiro-cli chat
-        focus: true
-      - shell_command:
-          - ssh dev-dsk-jakobfri-1a-c222d663.eu-west-1.amazon.com
   - window_name: ssh
     panes:
       - shell_command:
