@@ -10,8 +10,6 @@ windows:
       - blank
       - dotpull && agent
   - window_name: agents
-    options:
-      main-pane-width: 70%
     layout: main-vertical
     start_directory: ~/code/agent-scripts/
     panes:
