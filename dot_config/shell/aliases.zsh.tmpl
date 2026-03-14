@@ -7,12 +7,14 @@ alias pip="pip3"
 dotsync() {
   local repo
   repo="$(chezmoi source-path)"
-  local msg="${1:-chore(dotfiles): update managed files}"
   git -C "$repo" add -A || return 1
   if git -C "$repo" diff --cached --quiet; then
     echo "No changes to commit"
     return 0
   fi
+  local changed_file
+  changed_file="$(git -C "$repo" diff --cached --name-only | sed -n '1p')"
+  local msg="${1:-chore(dotfiles): updated $changed_file}"
 
   git -C "$repo" commit -m "$msg" || return 1
   git -C "$repo" push
