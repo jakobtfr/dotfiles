@@ -2,10 +2,10 @@ session_name: Dotfiles
 windows:
   - window_name: config 
     layout: 8a4e,282x68,0,0{140x68,0,0[140x54,0,0,12,140x13,0,55,14],141x68,141,0,13}
-    start_directory: ~/.config
+    start_directory: ~/code/dotfiles/
     panes:
       - shell_command:
-        - chezmoi edit .
+        - nvim .
         focus: true
       - blank
       - dotpull && agent
