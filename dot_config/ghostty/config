@@ -34,4 +34,4 @@ cursor-style = block
 cursor-style-blink = false
 
 macos-titlebar-style = hidden
-shell-integration-features = sudo
+shell-integration-features = sudo,no-cursor
