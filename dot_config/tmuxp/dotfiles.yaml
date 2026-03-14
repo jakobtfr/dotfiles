@@ -1,15 +1,14 @@
 session_name: Dotfiles 
 windows:
   - window_name: config 
-    options:
-      main-pane-width: 80%
-    layout: main-vertical
+    layout: 8a4e,282x68,0,0{140x68,0,0[140x54,0,0,12,140x13,0,55,14],141x68,141,0,13}
     start_directory: ~/.config
     panes:
       - shell_command:
         - chezmoi edit .
         focus: true
-      - chezmoi cd && git fetch 
+      - blank
+      - dotpull && agent
   - window_name: agents
     options:
       main-pane-width: 70%

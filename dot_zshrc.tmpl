@@ -1,9 +1,12 @@
 # Brew must be first so brew-installed tools are in PATH
 {{ if eq .chezmoi.os "darwin" -}}
 eval "$(/opt/homebrew/bin/brew shellenv)"
-eval "$(mise activate zsh)"
 {{ else -}}
 [[ -d /home/linuxbrew/.linuxbrew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{ end -}}
+
+{{ if .has_mise -}}
+command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
 {{ end -}}
 
 SHELL_CONFIG="$HOME/.config/shell"
@@ -25,9 +28,10 @@ eval "$(atuin init zsh)"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.toolbox/bin:$PATH"
 
-{{ if eq .chezmoi.os "darwin" -}}
-source "$HOME/.brazil_completion/zsh_completion"
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/amazon-corretto-25.jdk/Contents/Home"
-{{ else -}}
+{{ if .has_brazil -}}
 [[ -f "$HOME/.brazil_completion/zsh_completion" ]] && source "$HOME/.brazil_completion/zsh_completion"
+{{ end -}}
+
+{{ if eq .chezmoi.os "darwin" -}}
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/amazon-corretto-25.jdk/Contents/Home"
 {{ end -}}

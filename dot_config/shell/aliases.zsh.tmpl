@@ -8,10 +8,6 @@ dotsync() {
   local repo
   repo="$(chezmoi source-path)"
   local msg="${1:-chore(dotfiles): update managed files}"
-
-  chezmoi diff || return 1
-  chezmoi apply || return 1
-
   git -C "$repo" add -A || return 1
   if git -C "$repo" diff --cached --quiet; then
     echo "No changes to commit"
@@ -20,6 +16,11 @@ dotsync() {
 
   git -C "$repo" commit -m "$msg" || return 1
   git -C "$repo" push
+}
+
+dotapply() {
+  chezmoi diff || return 1
+  chezmoi apply
 }
 
 amz() { mwinit -o -s && tmuxp load amazon; }
