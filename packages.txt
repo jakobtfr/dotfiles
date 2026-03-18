@@ -1,0 +1,8 @@
+[packages]
+nvim
+tmux
+chezmoi
+
+[casks]
+spotify
+ghostty
