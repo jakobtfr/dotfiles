@@ -2,7 +2,15 @@
 nvim
 tmux
 chezmoi
+node
+python
+tmuxp
 
 [casks]
 spotify
 ghostty
+aerospace
+anki
+firefox
+slack
+font-jetbrains-mono
