@@ -3,4 +3,5 @@
 {{ if ne .chezmoi.os "darwin" }}
 dot_config/aerospace
 dot_config/wezterm
+dot_config/himalaya
 {{ end }}

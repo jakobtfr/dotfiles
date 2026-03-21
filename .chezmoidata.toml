@@ -2,5 +2,7 @@
 # [data]
 #   has_mise = true
 #   has_brazil = true
+#   email = "you@gmail.com"
 has_mise = false
 has_brazil = false
+email = ""
