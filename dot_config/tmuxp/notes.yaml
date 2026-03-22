@@ -1,9 +1,14 @@
 session_name: notes
 start_directory: ~/Documents/notes
 windows:
-  - window_name: notes 
-    layout: main-vertical
+  - window_name: editor
+    start_directory: ~/Documents/notes/
     panes:
       - shell_command:
         - nvim .
         focus: true
+  - window_name: opencode
+    start_directory: ~/Documents/notes/
+    panes:
+      - shell_command:
+        - opencode

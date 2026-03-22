@@ -6,7 +6,7 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 ## Agent Protocol
 - Workspace: `~/code/projects`. Missing jakobtfr repo: clone `https://github.com/jakobtfr/<repo>.git`.
 - 3rd-party/OSS (non-jakobtfr): clone under `~/code/other`.
-- Files: repo or `~/code/agent-scripts`.
+- Files: repo or `~/agent-coding`.
 - PRs: use `gh pr view/diff` (no URLs).
 - “Make a note” => edit AGENTS.md (shortcut; not a blocker).
 - Guardrails: use `trash` for deletes.
@@ -32,7 +32,7 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 ## Important Locations
 
 ## Docs
-- Start: run docs list (`bun scripts/docs-list.ts`; ignore if script missing); open docs before coding.
+- Start: open docs before coding.
 - Follow links until domain makes sense; honor `Read when` hints.
 - Keep notes short; update docs when behavior/API changes (no ship w/o docs).
 - Add `read_when` hints on cross-cutting docs.
@@ -65,7 +65,7 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 - Multi-agent: check `git status/diff` before edits; ship small commits.
 
 ## Language/Stack Notes
-- TypeScript: use repo PM; run `bun scripts/docs-list.ts`; keep files small; follow existing patterns.
+- TypeScript: use repo PM; keep files small; follow existing patterns.
 
 ## Critical Thinking
 - Fix root cause (not band-aid).
@@ -74,14 +74,10 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 - Leave breadcrumb notes in thread.
 
 ## Tools
-Read `~/code/agent-scripts/tools.md` for the full tool catalog if it exists.
+Read `~/agent-coding/tools.md` for the full tool catalog if it exists.
 
 ### trash
 - Move files to Trash: `trash …` (system command).
-
-### scripts/docs-list.ts
-- Optional. Lists `docs/`, requires `summary` front-matter, and surfaces `read_when` hints when present.
-- Run: `bun scripts/docs-list.ts`.
 
 ### gh
 - GitHub CLI for PRs/CI/releases. Given issue/PR URL (or `/pull/5`): use `gh`, not web search.
@@ -95,7 +91,11 @@ Read `~/code/agent-scripts/tools.md` for the full tool catalog if it exists.
 - Quick refs: `tmux new -d -s opencode`, `tmux attach -t opencode`, `tmux list-sessions`, `tmux kill-session -t opencode`.
 
 ## Skills
-Read `~/code/agent-scripts/skills/` for the full skill catalog if it exists.
+Read `~/agent-coding/skills/` for the full skill catalog if it exists.
+- `create-cli/` -- CLI design (syntax, flags, output contracts)
+- `frontend-design/` -- Frontend aesthetics (anti-AI-slop rules)
+- `markdown-converter/` -- File-to-markdown conversion via `markitdown`
+- `deepwiki/` -- Query public GitHub repos via DeepWiki CLI
 
 <frontend_aesthetics>
 Avoid “AI slop” UI. Be opinionated + distinctive.
