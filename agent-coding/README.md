@@ -6,8 +6,8 @@ Shared agent guardrails, skills, and helpers for **coding projects**. Agent-agno
 
 This directory is managed by chezmoi as part of `~/code/dotfiles/`.
 
-- **Source of truth:** `~/code/dotfiles/code/agent-scripts/`
-- **Deployed to:** `~/code/agent-scripts/` via `chezmoi apply`
+- **Source of truth:** `~/code/dotfiles/agent-coding/`
+- **Deployed to:** `~/agent-coding/` via `chezmoi apply`
 - **Sync:** Edit in chezmoi source, then `dotsync`
 
 ## How It Works
@@ -16,7 +16,7 @@ This directory is managed by chezmoi as part of `~/code/dotfiles/`.
 
 Every coding repo's `AGENTS.md` starts with:
 ```
-READ ~/code/agent-scripts/AGENTS.md BEFORE ANYTHING (skip if missing).
+READ ~/agent-coding/AGENTS.md BEFORE ANYTHING (skip if missing).
 ```
 Followed by repo-specific rules. The shared guardrails are never duplicated -- downstream repos reference this file at session start.
 
@@ -41,4 +41,4 @@ The notes vault (`~/Documents/notes/`) has its own separate system:
 - Its own shared `skills/` (email, anki, PDF processing, inbox)
 - Its own `.context/` directories (taste, background)
 
-The two systems are intentionally isolated. An agent in a coding project reads agent-scripts. An agent in the notes vault reads the vault's AGENTS.md. They never cross.
+The two systems are intentionally isolated. An agent in a coding project reads agent-coding. An agent in the notes vault reads the vault's AGENTS.md. They never cross.

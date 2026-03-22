@@ -1,17 +1,14 @@
-session_name: Dotfiles 
+session_name: Dotfiles
+start_directory: ~/code/dotfiles/
 windows:
-  - window_name: config 
-    layout: 8a4e,282x68,0,0{140x68,0,0[140x54,0,0,12,140x13,0,55,14],141x68,141,0,13}
+  - window_name: editor
     start_directory: ~/code/dotfiles/
     panes:
       - shell_command:
         - nvim .
         focus: true
-      - blank
-      - dotpull && agent
-  - window_name: agents
-    layout: main-vertical
-    start_directory: ~/code/agent-scripts/
+  - window_name: opencode
+    start_directory: ~/code/dotfiles/
     panes:
       - shell_command:
-        - nvim .
+        - opencode
