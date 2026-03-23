@@ -7,8 +7,13 @@ windows:
       - shell_command:
         - nvim .
         focus: true
-  - window_name: opencode
-    start_directory: ~/Documents/notes/
+  - window_name: personal
+    start_directory: ~/Documents/notes/personal/
+    panes:
+      - shell_command:
+        - opencode
+  - window_name: professional
+    start_directory: ~/Documents/notes/professional/
     panes:
       - shell_command:
         - opencode
