@@ -4,6 +4,10 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias python="python3"
 alias pip="pip3"
 
+{{ if ne .chezmoi.os "darwin" -}}
+alias trash="trash-put"
+{{ end -}}
+
 dotsync() {
   local repo
   repo="$(chezmoi source-path)"

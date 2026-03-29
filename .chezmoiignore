@@ -1,7 +1,8 @@
 .DS_Store
 
 {{ if ne .chezmoi.os "darwin" }}
-dot_config/aerospace
-dot_config/wezterm
-dot_config/himalaya
+.config/aerospace
+.config/wezterm
+.config/ghostty
+.config/himalaya
 {{ end }}

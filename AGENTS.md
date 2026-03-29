@@ -24,11 +24,11 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 - Multi-agent: check `git status/diff` before edits; ship small commits.
 
 ## Global CLI Tools
-- `trash` -- move files to Trash (system command)
+- `trash` -- move files to Trash (`trash` on macOS, `trash-put` on Linux — aliased to `trash`)
 - `markitdown` -- convert documents to markdown: `uvx markitdown file.pdf -o output.md`
 - `deepwiki-cli` -- query public GitHub repos: `deepwiki-cli ask owner/repo "question"`
 - `tmux` -- use only for persistence/interaction (debugger/server)
-- `osascript -l JavaScript` -- Apple ecosystem (Reminders, Calendar) via JXA
+- `osascript -l JavaScript` -- Apple ecosystem (Reminders, Calendar) via JXA (macOS only)
 
 ## Domain-Specific Configs
 - **Coding:** read `~/agent-coding/AGENTS.md` when working in `~/code/`.
