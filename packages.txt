@@ -5,6 +5,14 @@ chezmoi
 node
 python
 tmuxp
+powerlevel10k
+zsh-autosuggestions
+zsh-syntax-highlighting
+atuin
+starship
+
+[linux]
+trash-cli
 
 [casks]
 spotify
