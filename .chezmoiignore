@@ -6,3 +6,4 @@
 .config/ghostty
 .config/himalaya
 {{ end }}
+
