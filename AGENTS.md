@@ -53,9 +53,11 @@ Everything below is managed here and deployed via `chezmoi apply`.
 | File | Source path in dotfiles | Deployed to |
 |---|---|---|
 | Global agent config | `AGENTS.md` | `~/AGENTS.md` |
+| Codex global bootstrap | `dot_codex/AGENTS.md.tmpl` | `~/.codex/AGENTS.md` |
 | Coding agent config | `agent-coding/AGENTS.md` | `~/agent-coding/AGENTS.md` |
 | Coding skills | `agent-coding/skills/` | `~/agent-coding/skills/` |
 | Dotfiles docs | `docs/` | (not deployed, reference only) |
+| Codex runtime state | `~/.codex/config.toml` | unmanaged; Codex writes trust/project state here |
 | OpenCode config | `dot_config/opencode/opencode.json` | `~/.config/opencode/opencode.json` |
 | tmuxp sessions | `dot_config/tmuxp/*.yaml` | `~/.config/tmuxp/*.yaml` |
 | Shell aliases | `dot_config/shell/aliases.zsh.tmpl` | `~/.config/shell/aliases.zsh` |

@@ -21,7 +21,10 @@ tags: [config, dotfiles, chezmoi]
 | `~/.config/tmuxp/` | `dot_config/tmuxp/` | tmux session configs |
 | `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config + plugins |
 | `~/.config/shell/` | `dot_config/shell/` | Shell aliases, env |
+| `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex global instruction bootstrap |
 | `~/agent-coding/` | `agent-coding/` | Shared coding guardrails + skills |
+
+`~/.codex/config.toml` is intentionally not managed here because Codex writes project trust and other runtime state into that file.
 
 ## Templating
 
