@@ -42,3 +42,10 @@ export PATH="$HOME/.toolbox/bin:$PATH"
 {{ if eq .chezmoi.os "darwin" -}}
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/amazon-corretto-25.jdk/Contents/Home"
 {{ end -}}
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/jakobfriedrich/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/jakobfriedrich/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/jakobfriedrich/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jakobfriedrich/google-cloud-sdk/completion.zsh.inc'; fi
+
