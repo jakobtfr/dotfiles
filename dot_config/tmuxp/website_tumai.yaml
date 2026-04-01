@@ -2,14 +2,11 @@ session_name: TUM-ai
 start_directory: ~/code/tumai/website_new
 windows:
   - window_name: Dev 
-    options:
-      main-pane-width: 80%
-    layout: main-vertical
     panes:
       - shell_command:
         - nvim .
-        focus: true
-      - git fetch && git status
+  - window_name: sh
+  - window_name: agent
   - window_name: Server
     panes:
       - shell_command:

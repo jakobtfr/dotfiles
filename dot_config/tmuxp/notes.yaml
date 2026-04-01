@@ -2,22 +2,11 @@ session_name: notes
 start_directory: ~/Documents/notes
 windows:
   - window_name: editor
-    start_directory: ~/Documents/notes/
-    options:
-      main-pane-height: 80%
-    layout: main-horizontal
     panes:
       - shell_command:
         - nvim .
-        focus: true
-      -
+  - window_name: sh
   - window_name: personal
     start_directory: ~/Documents/notes/personal/
-    panes:
-      - shell_command:
-        - agent
   - window_name: professional
     start_directory: ~/Documents/notes/professional/
-    panes:
-      - shell_command:
-        - agent

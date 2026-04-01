@@ -29,7 +29,7 @@ Coding-specific rules for projects in `~/code/`.
 - Keep notes short; update docs when behavior/API changes (no ship w/o docs).
 
 ## Screenshots ("use a screenshot")
-- Pick newest PNG in `~/Desktop` or `~/Downloads`.
+- Pick newest PNG in `~/Desktop` or `~/Downloads` or `~/Pictures/Screenshots/`.
 - Verify it's the right UI (ignore filename).
 - Size: `sips -g pixelWidth -g pixelHeight <file>` (prefer 2×).
 - Optimize: `imageoptim <file>`.
