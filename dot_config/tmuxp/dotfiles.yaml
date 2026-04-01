@@ -2,17 +2,11 @@ session_name: Dotfiles
 start_directory: ~/code/dotfiles/
 windows:
   - window_name: editor
-    start_directory: ~/code/dotfiles/
-    options:
-      main-pane-height: 80%
-    layout: main-horizontal
     panes:
       - shell_command:
         - nvim .
-        focus: true
-      -
+  - window_name: sh
   - window_name: agent
-    start_directory: ~/code/dotfiles/
     panes:
       - shell_command:
         - agent
