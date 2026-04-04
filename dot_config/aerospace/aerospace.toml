@@ -87,7 +87,7 @@ ctrl-alt-h = []
 ctrl-shift-s = 'mode service'
 ctrl-0 = 'focus-monitor next --wrap-around'
 ctrl-shift-0 = [
-  'move-node-to-monitor --wrap-around next'
+  'move-workspace-to-monitor --wrap-around next'
 ]
 
 [mode.service.binding]
