@@ -32,13 +32,11 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.tw = 80
+vim.opt.colorcolumn = "+1"
 
 vim.diagnostic.config({
-	virtual_text = {
-		prefix = "■",
-		spacing = 2,
-		current_line = false,
-	},
+	virtual_text = false,
+	virtual_lines = true,
 	signs = {
 		text = {
 			[vim.diagnostic.severity.ERROR] = "",
