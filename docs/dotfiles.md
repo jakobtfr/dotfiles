@@ -49,8 +49,9 @@ chezmoi add FILE  # add a file to chezmoi management
 ## Neovim Plugins
 
 Neovim plugins use the native `vim.pack` manager, so Neovim must be 0.12 or
-newer. Plugin specs and setup live in `dot_config/nvim/lua/jakob/pack_init.lua`;
-the native lockfile is managed at `dot_config/nvim/nvim-pack-lock.json`.
+newer. `dot_config/nvim/lua/jakob/pack_init.lua` loads the per-plugin specs and
+setup files from `dot_config/nvim/lua/jakob/plugins/`; the native lockfile is
+managed at `dot_config/nvim/nvim-pack-lock.json`.
 
 Inside Neovim:
 
