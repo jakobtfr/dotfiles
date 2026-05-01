@@ -1,16 +1,15 @@
 return {
-	"stevearc/conform.nvim",
-	opts = {},
-	config = function()
-		local conform = require("conform")
-		conform.setup({
+	specs = {
+		{ src = "https://github.com/stevearc/conform.nvim" },
+	},
+	setup = function()
+		require("conform").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
 				python = { "isort" },
 				rust = { "rustfmt" },
 				typescript = { "biome" },
 				javascript = { "biome" },
-				-- java = { "google-java-format" },
 			},
 			format_on_save = {
 				lsp_format = "fallback",
