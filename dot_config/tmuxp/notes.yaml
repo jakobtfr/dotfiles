@@ -1,5 +1,5 @@
 session_name: notes
-start_directory: ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/notes
+start_directory: "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes"
 windows:
   - window_name: editor
     panes:
@@ -7,6 +7,6 @@ windows:
         - nvim .
   - window_name: sh
   - window_name: personal
-    start_directory: ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/notes/personal
+    start_directory: "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes/personal"
   - window_name: professional
-    start_directory: ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/notes/professional
+    start_directory: "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes/professional"
