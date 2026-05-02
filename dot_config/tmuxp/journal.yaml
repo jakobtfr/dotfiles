@@ -1,0 +1,8 @@
+session_name: journal
+start_directory: "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Journal/"
+windows:
+  - window_name: editor
+    panes:
+      - shell_command:
+        - nvim .
+  - window_name: sh
