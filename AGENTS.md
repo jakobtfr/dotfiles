@@ -54,6 +54,10 @@ Everything below is managed here and deployed via `chezmoi apply`.
 |---|---|---|
 | Global agent config | `AGENTS.md` | `~/AGENTS.md` |
 | Codex global bootstrap | `dot_codex/AGENTS.md.tmpl` | `~/.codex/AGENTS.md` |
+| OpenCode global bootstrap | `dot_config/opencode/AGENTS.md.tmpl` | `~/.config/opencode/AGENTS.md` |
+| Pi settings | `dot_pi/agent/settings.json` | `~/.pi/agent/settings.json` |
+| Pi keybindings | `dot_pi/agent/keybindings.json` | `~/.pi/agent/keybindings.json` |
+| Pi extensions | `dot_pi/agent/extensions/` | `~/.pi/agent/extensions/` |
 | Coding agent config | `agent-coding/AGENTS.md` | `~/agent-coding/AGENTS.md` |
 | Coding skills | `agent-coding/skills/` | `~/agent-coding/skills/` |
 | Dotfiles docs | `docs/` | (not deployed, reference only) |

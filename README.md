@@ -12,4 +12,5 @@ Managed by Chezmoi:
 - nvim
 - tmux
 - aerospace
+- pi coding agent
 
