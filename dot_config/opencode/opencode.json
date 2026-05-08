@@ -3,6 +3,9 @@
   "plugin": [
     "@rama_nigg/open-cursor@latest"
   ],
+  "instructions": [
+    "~/agent-coding/AGENTS.md"
+  ],
   "provider": {
     "cursor-acp": {
       "name": "Cursor",
@@ -262,8 +265,109 @@
         },
         "kimi-k2.5": {
           "name": "Kimi K2.5"
+        },
+        "gpt-5.5-high": {
+          "name": "GPT-5.5 1M High"
+        },
+        "gpt-5.5-high-fast": {
+          "name": "GPT-5.5 High Fast"
+        },
+        "claude-opus-4-7-thinking-high": {
+          "name": "Opus 4.7 1M High Thinking"
+        },
+        "claude-4.6-opus-high-thinking-fast": {
+          "name": "Opus 4.6 1M Thinking Fast"
+        },
+        "gpt-5.5-none": {
+          "name": "GPT-5.5 1M None"
+        },
+        "gpt-5.5-none-fast": {
+          "name": "GPT-5.5 None Fast"
+        },
+        "gpt-5.5-low": {
+          "name": "GPT-5.5 1M Low"
+        },
+        "gpt-5.5-low-fast": {
+          "name": "GPT-5.5 Low Fast"
+        },
+        "gpt-5.5-medium": {
+          "name": "GPT-5.5 1M"
+        },
+        "gpt-5.5-medium-fast": {
+          "name": "GPT-5.5 Fast"
+        },
+        "gpt-5.5-extra-high": {
+          "name": "GPT-5.5 1M Extra High"
+        },
+        "gpt-5.5-extra-high-fast": {
+          "name": "GPT-5.5 Extra High Fast"
+        },
+        "claude-opus-4-7-low": {
+          "name": "Opus 4.7 1M Low"
+        },
+        "claude-opus-4-7-medium": {
+          "name": "Opus 4.7 1M Medium"
+        },
+        "claude-opus-4-7-high": {
+          "name": "Opus 4.7 1M High"
+        },
+        "claude-opus-4-7-xhigh": {
+          "name": "Opus 4.7 1M"
+        },
+        "claude-opus-4-7-max": {
+          "name": "Opus 4.7 1M Max"
+        },
+        "claude-opus-4-7-thinking-low": {
+          "name": "Opus 4.7 1M Low Thinking"
+        },
+        "claude-opus-4-7-thinking-medium": {
+          "name": "Opus 4.7 1M Medium Thinking"
+        },
+        "claude-opus-4-7-thinking-xhigh": {
+          "name": "Opus 4.7 1M Thinking"
+        },
+        "claude-opus-4-7-thinking-max": {
+          "name": "Opus 4.7 1M Max Thinking"
+        },
+        "claude-4.6-opus-max-thinking-fast": {
+          "name": "Opus 4.6 1M Max Thinking Fast"
+        },
+        "grok-4.3": {
+          "name": "Grok 4.3 1M"
+        }
+      }
+    },
+    "azure": {
+      "name": "Azure OpenAI",
+      "options": {
+        "baseURL": "https://oai-coding-4890.openai.azure.com/openai"
+      },
+      "models": {
+        "gpt-5.5": {
+          "name": "GPT-5.5 Azure",
+          "family": "openai",
+          "release_date": "2026-04-24",
+          "attachment": true,
+          "reasoning": true,
+          "temperature": false,
+          "tool_call": true,
+          "limit": {
+            "context": 272000,
+            "output": 10000
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
         }
       }
     }
-  }
+  },
+  "model": "azure/gpt-5.5",
+  "small_model": "azure/gpt-5.5"
 }
