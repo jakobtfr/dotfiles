@@ -10,7 +10,7 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 - Conflicts: call out; pick safer path.
 - Leave breadcrumb notes in thread.
 - New deps: quick health check (recent releases/commits, adoption).
-- Web: search early; quote exact errors; prefer 2024–2026 sources.
+- Web: search early with available search skill/tool; quote exact errors; prefer 2024–2026 sources.
 
 ## Git
 - Safe by default: `git status/diff/log`. Push only when user asks.
@@ -26,7 +26,6 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 ## Global CLI Tools
 - `trash` -- move files to Trash (`trash` on macOS, `trash-put` on Linux — aliased to `trash`)
 - `markitdown` -- convert documents to markdown: `uvx markitdown file.pdf -o output.md`
-- `deepwiki-cli` -- query public GitHub repos: `deepwiki-cli ask owner/repo "question"`
 - `tmux` -- use only for persistence/interaction (debugger/server)
 - `osascript -l JavaScript` -- Apple ecosystem (Reminders, Calendar) via JXA (macOS only)
 
@@ -57,7 +56,6 @@ Everything below is managed here and deployed via `chezmoi apply`.
 | OpenCode global bootstrap | `dot_config/opencode/AGENTS.md.tmpl` | `~/.config/opencode/AGENTS.md` |
 | Pi settings | `dot_pi/agent/settings.json` | `~/.pi/agent/settings.json` |
 | Pi keybindings | `dot_pi/agent/keybindings.json` | `~/.pi/agent/keybindings.json` |
-| Pi extensions | `dot_pi/agent/extensions/` | `~/.pi/agent/extensions/` |
 | Coding agent config | `agent-coding/AGENTS.md` | `~/agent-coding/AGENTS.md` |
 | Coding skills | `agent-coding/skills/` | `~/agent-coding/skills/` |
 | Dotfiles docs | `docs/` | (not deployed, reference only) |

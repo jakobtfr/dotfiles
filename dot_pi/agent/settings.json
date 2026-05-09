@@ -3,5 +3,7 @@
   "defaultProvider": "openai",
   "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "high",
-  "theme": "dark"
+  "theme": "dark",
+  "skills": ["/Users/jakobfriedrich/agent-coding/skills"],
+  "extensions": ["/Users/jakobfriedrich/agent-coding/extensions"]
 }
