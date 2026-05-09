@@ -10,7 +10,7 @@ List tmux sessions on a socket (default tmux socket if none provided).
 Options:
   -L, --socket       tmux socket name (passed to tmux -L)
   -S, --socket-path  tmux socket path (passed to tmux -S)
-  -A, --all          scan all sockets under CLAUDE_TMUX_SOCKET_DIR
+  -A, --all          scan all sockets under PI_TMUX_SOCKET_DIR
   -q, --query        case-insensitive substring to filter session names
   -h, --help         show this help
 USAGE
@@ -20,7 +20,7 @@ socket_name=""
 socket_path=""
 query=""
 scan_all=false
-socket_dir="${CLAUDE_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/claude-tmux-sockets}"
+socket_dir="${PI_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/pi-tmux-sockets}"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -98,15 +98,15 @@ if [[ "$scan_all" == true ]]; then
   exit "$exit_code"
 fi
 
-tmux_cmd=(tmux)
+tmux_args=()
 socket_label="default socket"
 
 if [[ -n "$socket_name" ]]; then
-  tmux_cmd+=(-L "$socket_name")
+  tmux_args+=(-L "$socket_name")
   socket_label="socket name '$socket_name'"
 elif [[ -n "$socket_path" ]]; then
-  tmux_cmd+=(-S "$socket_path")
+  tmux_args+=(-S "$socket_path")
   socket_label="socket path '$socket_path'"
 fi
 
-list_sessions "$socket_label" "${tmux_cmd[@]:1}"
+list_sessions "$socket_label" "${tmux_args[@]}"
