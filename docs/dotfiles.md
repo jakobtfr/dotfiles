@@ -11,20 +11,48 @@ tags: [config, dotfiles, chezmoi]
 
 ## What's Managed
 
+### Shell + prompt
+
 | Target | Source in dotfiles | Notes |
 |---|---|---|
-| `~/.zshrc` | `dot_zshrc.tmpl` | Templated (p10k, aliases) |
+| `~/.zshrc` | `dot_zshrc.tmpl` | Templated (mise, brew, sources `~/.config/shell/`) |
 | `~/.p10k.zsh` | `dot_p10k.zsh` | Powerlevel10k config |
-| `~/.config/ghostty/` | `dot_config/ghostty/` | Terminal emulator |
-| `~/.config/nvim/` | `dot_config/nvim/` | Neovim config |
-| `~/.config/starship.toml` | `dot_config/starship.toml` | Prompt |
-| `~/.config/tmuxp/` | `dot_config/tmuxp/` | tmux session configs |
-| `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config + plugins |
-| `~/.config/shell/` | `dot_config/shell/` | Shell aliases, env |
-| `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex global instruction bootstrap |
-| `~/agent-coding/` | `agent-coding/` | Shared coding guardrails + skills |
+| `~/.config/starship.toml` | `dot_config/starship.toml` | Prompt (alternate) |
+| `~/.config/shell/aliases.zsh` | `dot_config/shell/aliases.zsh.tmpl` | Shell aliases |
+| `~/.config/shell/env.zsh` | `dot_config/shell/env.zsh.tmpl` | Shell env vars |
 
-`~/.codex/config.toml` is intentionally not managed here because Codex writes project trust and other runtime state into that file.
+### Editor + multiplexer
+
+| Target | Source in dotfiles | Notes |
+|---|---|---|
+| `~/.config/nvim/` | `dot_config/nvim/` | Neovim config (uses `vim.pack`) |
+| `~/.tmux.conf` | `dot_tmux.conf` | tmux config (CSI u extended keys) |
+| `~/.config/tmuxp/` | `dot_config/tmuxp/` | tmux session configs |
+
+### Terminal + window manager (macOS-only)
+
+| Target | Source in dotfiles | Notes |
+|---|---|---|
+| `~/.config/ghostty/` | `dot_config/ghostty/` | Terminal emulator |
+| `~/.config/wezterm/` | `dot_config/wezterm/` | Terminal emulator (alt) |
+| `~/.config/aerospace/` | `dot_config/aerospace/` | Tiling window manager |
+
+Gated off on non-darwin via `.chezmoiignore`.
+
+### Agents
+
+| Target | Source in dotfiles | Notes |
+|---|---|---|
+| `~/AGENTS.md` | `AGENTS.md` | Global agent directives + setup map |
+| `~/agent-coding/` | `agent-coding/` | Coding guardrails + shared skills |
+| `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex global instruction bootstrap |
+| `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config + AGENTS bootstrap + plugins |
+| `~/.pi/agent/settings.json` | `dot_pi/agent/settings.json` | Pi settings |
+| `~/.pi/agent/keybindings.json` | `dot_pi/agent/keybindings.json` | Pi keybindings |
+| `~/.pi/agent/extensions/` | `dot_pi/agent/extensions/` | Pi extensions (TS) |
+| `~/.pi/agent/themes/` | `dot_pi/agent/themes/` | Pi themes |
+
+`~/.codex/config.toml` is intentionally not managed here because Codex writes project trust and other runtime state into that file. `~/.pi/agent/auth.json` and `~/.pi/agent/sessions/` are explicitly ignored (runtime state). Repo-meta files (`README.md`, `DOTFILES_POLICY.md`, `docs/`, `install.sh`, `packages.txt`) are excluded from deployment via `.chezmoiignore` and stay in `~/code/dotfiles/` only.
 
 ## Templating
 
