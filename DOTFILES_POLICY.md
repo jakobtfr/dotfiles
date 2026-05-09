@@ -19,6 +19,8 @@
 
 ## Noisy generated files policy
 - No middle ground: every noisy file is explicitly tracked or explicitly ignored.
-- Explicitly ignored now:
-  - `~/.config/nvim/lazy-lock.json`
-  - `~/.config/tmuxp/ipraktikum.yaml`
+- Explicitly ignored now (see `.chezmoiignore` + `.gitignore`):
+  - `~/.pi/agent/auth.json` -- secrets
+  - `~/.pi/agent/sessions/` -- runtime state
+- Explicitly tracked (and intentionally version-controlled):
+  - `~/.config/nvim/nvim-pack-lock.json` -- native `vim.pack` lockfile
