@@ -20,7 +20,7 @@ Coding-specific rules for projects in `~/code/`.
 - CI red: `gh run list/view`, rerun, fix, push, repeat til green.
 - Keep it observable (logs, panes, tails, MCP/browser tools).
 - Use repo's package manager/runtime; no swaps w/o approval.
-- Use Opencode background for long jobs; tmux only for interactive/persistent.
+- Short checks: run directly. Long-running jobs, dev servers, watchers, REPLs, and debuggers: read the `tmux` skill; run detached on a private socket; print attach/capture commands; poll output; clean up when done.
 
 ## Docs
 - Open docs before coding.
