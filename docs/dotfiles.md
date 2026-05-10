@@ -47,7 +47,7 @@ Gated off on non-darwin via `.chezmoiignore`.
 | `~/agent-coding/` | `agent-coding/` | Coding guardrails + shared skills |
 | `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex global instruction bootstrap |
 | `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config + AGENTS bootstrap + plugins |
-| `~/.pi/agent/settings.json` | `dot_pi/agent/settings.json` | Pi settings |
+| `~/.pi/agent/settings.json` | `dot_pi/agent/settings.json.tmpl` | Pi settings |
 | `~/.pi/agent/keybindings.json` | `dot_pi/agent/keybindings.json` | Pi keybindings |
 | `~/.pi/agent/extensions/` | `dot_pi/agent/extensions/` | Pi extensions (TS) |
 | `~/.pi/agent/themes/` | `dot_pi/agent/themes/` | Pi themes |
@@ -67,7 +67,7 @@ Data variables (`.chezmoidata.toml`):
 ## Key Commands
 
 ```bash
-./install.sh      # new-machine bootstrap: brew packages/casks + chezmoi apply
+./install.sh      # new-machine bootstrap: Homebrew + packages/casks + chezmoi config/apply
 dotsync           # commit + push dotfiles
 dotpull           # pull + chezmoi apply
 dotapply          # diff + apply

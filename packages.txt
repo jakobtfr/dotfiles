@@ -10,6 +10,12 @@ zsh-autosuggestions
 zsh-syntax-highlighting
 atuin
 starship
+gh
+uv
+ripgrep
+fd
+opencode
+pi-coding-agent
 
 [linux]
 trash-cli
@@ -22,3 +28,4 @@ anki
 firefox
 slack
 font-jetbrains-mono
+codex
