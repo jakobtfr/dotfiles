@@ -53,7 +53,7 @@ for the full inventory (terminals, editor, WM, prompt, etc.) see
 | Global agent config | `AGENTS.md` | `~/AGENTS.md` |
 | Coding agent config | `agent-coding/AGENTS.md` | `~/agent-coding/AGENTS.md` |
 | Shared skills | `agent-coding/skills/` | `~/agent-coding/skills/` |
-| Pi settings | `dot_pi/agent/settings.json` | `~/.pi/agent/settings.json` |
+| Pi settings | `dot_pi/agent/settings.json.tmpl` | `~/.pi/agent/settings.json` |
 | Pi keybindings | `dot_pi/agent/keybindings.json` | `~/.pi/agent/keybindings.json` |
 | Pi extensions | `dot_pi/agent/extensions/` | `~/.pi/agent/extensions/` |
 | Pi themes | `dot_pi/agent/themes/` | `~/.pi/agent/themes/` |

@@ -4,7 +4,18 @@ Policy and workflow: see `DOTFILES_POLICY.md`.
 Full inventory: see `docs/dotfiles.md`.
 Agent setup: see `docs/agent-setup.md`.
 
-Usage: `dotapply`, `dotsync "chore(dotfiles): tweak shell"`, `dotpull`.
+## New machine
+
+```bash
+mkdir -p ~/code
+git clone https://github.com/jakobtfr/dotfiles.git ~/code/dotfiles
+cd ~/code/dotfiles
+./install.sh
+```
+
+This installs Homebrew if needed, installs packages/casks from `packages.txt`, configures chezmoi to use this checkout as the source, applies dotfiles, and runs post-apply hooks for agent/Pi npm dependencies.
+
+Daily usage: `dotapply`, `dotsync "chore(dotfiles): tweak shell"`, `dotpull`.
 
 ## Managed by chezmoi
 
