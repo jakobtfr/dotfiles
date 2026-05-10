@@ -4,5 +4,10 @@
   "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "high",
   "theme": "dark",
-  "skills": ["/Users/jakobfriedrich/agent-coding/skills"]
+  "skills": [
+    "/Users/jakobfriedrich/agent-coding/skills"
+  ],
+  "enabledModels": [],
+  "enableSkillCommands": false,
+  "packages": []
 }

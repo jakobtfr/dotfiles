@@ -67,6 +67,7 @@ Data variables (`.chezmoidata.toml`):
 ## Key Commands
 
 ```bash
+./install.sh      # new-machine bootstrap: brew packages/casks + chezmoi apply
 dotsync           # commit + push dotfiles
 dotpull           # pull + chezmoi apply
 dotapply          # diff + apply
