@@ -69,11 +69,11 @@ function parseArgs(argv) {
 
 function usage() {
 	return `Usage:
-  node search.mjs "<query>" [--purpose "<why>"] [--provider openai-codex|anthropic] [--model <id>] [--json]
+  node search.mjs "<query>" [--purpose "<why>"] [--provider openai|openai-codex|anthropic] [--model <id>] [--json]
 
 Examples:
   node search.mjs "latest python release" --purpose "update dependency notes"
-  node search.mjs "HTTP/3 browser support 2026" --provider openai-codex
+  node search.mjs "HTTP/3 browser support 2026" --provider openai
   node search.mjs "vite 7 breaking changes" --json`;
 }
 
@@ -119,21 +119,26 @@ function normalizeProvider(provider) {
 	if (!provider) return undefined;
 	const p = String(provider).toLowerCase().trim();
 	if (p.includes("anthropic") || p.includes("claude")) return "anthropic";
-	if (p.includes("codex") || p === "openai" || p.startsWith("openai")) return "openai-codex";
+	if (p.includes("codex")) return "openai-codex";
+	if (p === "openai" || p === "openai-responses") return "openai";
 	return undefined;
 }
 
 function pickProvider(argProvider, settings, auth) {
 	const forced = normalizeProvider(argProvider);
 	if (forced) return forced;
+	if (argProvider) {
+		throw new Error(`Unsupported provider '${argProvider}'. Pass --provider openai|openai-codex|anthropic`);
+	}
 
 	const fromSettings = normalizeProvider(settings?.defaultProvider);
 	if (fromSettings) return fromSettings;
 
+	if (auth?.openai) return "openai";
 	if (auth?.["openai-codex"]) return "openai-codex";
 	if (auth?.anthropic) return "anthropic";
 
-	throw new Error("Could not determine provider. Pass --provider openai-codex|anthropic");
+	throw new Error("Could not determine provider. Pass --provider openai|openai-codex|anthropic");
 }
 
 function decodeJwtAccountId(jwt) {
@@ -305,6 +310,7 @@ function pickFastModel(provider, requestedModel, piAi) {
 	const models = typeof piAi.getModels === "function" ? piAi.getModels(provider) : [];
 	if (!Array.isArray(models) || models.length === 0) {
 		if (requestedModel) return { id: requestedModel, baseUrl: undefined };
+		if (provider === "openai") return { id: "gpt-5.4-mini", baseUrl: "https://api.openai.com/v1" };
 		if (provider === "openai-codex") return { id: "gpt-5.4-mini", baseUrl: "https://chatgpt.com/backend-api" };
 		return { id: "claude-haiku-4-5", baseUrl: "https://api.anthropic.com" };
 	}
@@ -316,9 +322,11 @@ function pickFastModel(provider, requestedModel, piAi) {
 	}
 
 	const preferredIds =
-		provider === "openai-codex"
-			? ["gpt-5.4-mini", "gpt-5.3-codex-spark", "gpt-5.1", "gpt-5.1-codex-mini"]
-			: ["claude-haiku-4-5", "claude-3-5-haiku-latest", "claude-3-5-haiku-20241022"];
+		provider === "openai"
+			? ["gpt-5.4-mini", "gpt-5-mini", "gpt-4.1-mini", "gpt-4o-mini"]
+			: provider === "openai-codex"
+				? ["gpt-5.4-mini", "gpt-5.3-codex-spark", "gpt-5.1", "gpt-5.1-codex-mini"]
+				: ["claude-haiku-4-5", "claude-3-5-haiku-latest", "claude-3-5-haiku-20241022"];
 
 	for (const id of preferredIds) {
 		const found = models.find((m) => m.id === id);
@@ -393,6 +401,12 @@ function buildSystemPrompt() {
 	return "You are a fast web research assistant. Always produce practical summaries and include full source URLs (no shortened links).";
 }
 
+function resolveOpenAIResponsesUrl(baseUrl = "https://api.openai.com/v1") {
+	const normalized = String(baseUrl || "https://api.openai.com/v1").replace(/\/+$/, "");
+	if (normalized.endsWith("/responses")) return normalized;
+	return `${normalized}/responses`;
+}
+
 function resolveCodexUrl(baseUrl = "https://chatgpt.com/backend-api") {
 	const normalized = String(baseUrl || "https://chatgpt.com/backend-api").replace(/\/+$/, "");
 	if (normalized.endsWith("/codex/responses")) return normalized;
@@ -409,6 +423,63 @@ function extractEventData(chunk) {
 		.trim();
 	if (!payload || payload === "[DONE]") return null;
 	return payload;
+}
+
+function extractOpenAIText(parsed) {
+	const outputText = typeof parsed?.output_text === "string" ? parsed.output_text.trim() : "";
+	if (outputText) return outputText;
+
+	const parts = [];
+	for (const item of parsed?.output || []) {
+		if (item?.type !== "message") continue;
+		for (const content of item.content || []) {
+			if (content?.type === "output_text" && typeof content.text === "string") parts.push(content.text);
+		}
+	}
+	return parts.join("\n\n").trim();
+}
+
+async function runOpenAISearch({ model, apiKey, query, purpose, timeoutMs, baseUrl }) {
+	const body = {
+		model,
+		store: false,
+		instructions: buildSystemPrompt(),
+		input: buildUserPrompt(query, purpose),
+		tools: [{ type: "web_search" }],
+		tool_choice: "auto",
+		max_output_tokens: 1800,
+	};
+
+	const signal = typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(timeoutMs) : undefined;
+
+	const res = await fetch(resolveOpenAIResponsesUrl(baseUrl), {
+		method: "POST",
+		headers: {
+			authorization: `Bearer ${apiKey}`,
+			"content-type": "application/json",
+			accept: "application/json",
+		},
+		body: JSON.stringify(body),
+		signal,
+	});
+
+	const payload = await res.text();
+	if (!res.ok) {
+		throw new Error(`OpenAI request failed (${res.status}): ${payload}`);
+	}
+
+	let parsed;
+	try {
+		parsed = JSON.parse(payload);
+	} catch {
+		throw new Error("OpenAI returned non-JSON response");
+	}
+
+	const text = extractOpenAIText(parsed);
+	if (!text) {
+		throw new Error("OpenAI returned no text content");
+	}
+	return text;
 }
 
 async function runCodexSearch({ model, apiKey, accountId, query, purpose, timeoutMs, baseUrl }) {
@@ -594,23 +665,32 @@ async function main() {
 	const { apiKey, accountId } = await resolveApiKey(provider, auth, authPath, piAi);
 
 	const text =
-		provider === "openai-codex"
-			? await runCodexSearch({
+		provider === "openai"
+			? await runOpenAISearch({
 					model: model.id,
 					apiKey,
-					accountId,
 					query: args.query,
 					purpose: args.purpose,
 					timeoutMs: args.timeoutMs,
 					baseUrl: model.baseUrl,
 			  })
-			: await runAnthropicSearch({
-					model: model.id,
-					apiKey,
-					query: args.query,
-					purpose: args.purpose,
-					timeoutMs: args.timeoutMs,
-			  });
+			: provider === "openai-codex"
+				? await runCodexSearch({
+						model: model.id,
+						apiKey,
+						accountId,
+						query: args.query,
+						purpose: args.purpose,
+						timeoutMs: args.timeoutMs,
+						baseUrl: model.baseUrl,
+				  })
+				: await runAnthropicSearch({
+						model: model.id,
+						apiKey,
+						query: args.query,
+						purpose: args.purpose,
+						timeoutMs: args.timeoutMs,
+				  });
 
 	if (args.json) {
 		console.log(

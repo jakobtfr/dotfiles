@@ -23,12 +23,13 @@ Examples:
 
 ```bash
 node search.mjs "latest python release" --purpose "update dependency notes"
+node search.mjs "HTTP/3 browser support 2026" --provider openai
 node search.mjs "vite 7 breaking changes" --purpose "prepare migration checklist"
 ```
 
 Optional flags:
 
-- `--provider openai-codex|anthropic`
+- `--provider openai|openai-codex|anthropic`
 - `--model <model-id>`
 - `--timeout <ms>`
 - `--json`
@@ -46,4 +47,6 @@ The script instructs the model to:
 - No extra npm install is required.
 - If module resolution fails, set `PI_AI_MODULE_PATH` to `@earendil-works/pi-ai`'s `dist/index.js` path.
 - If OAuth helper resolution fails, set `PI_AI_OAUTH_MODULE_PATH` to `@earendil-works/pi-ai`'s `dist/oauth.js` path.
+- `openai` uses the OpenAI Responses API (`https://api.openai.com/v1/responses`) with the native `web_search` tool.
+- `openai-codex` is only for explicit ChatGPT/Codex subscription OAuth usage.
 - For OAuth providers, the script can fall back to a still-valid cached `access` token from `~/.pi/agent/auth.json`.

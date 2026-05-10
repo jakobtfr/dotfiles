@@ -5,6 +5,12 @@
 .pi/agent/sessions
 .pi/agent/extensions/**/node_modules
 
+# Editor-only TS workspace files — used here in ~/code/dotfiles/dot_pi/...
+# for vtsls type resolution; pi runtime in ~/.pi/ does not need them.
+.pi/agent/extensions/package.json
+.pi/agent/extensions/package-lock.json
+.pi/agent/extensions/tsconfig.json
+
 # Repo-meta files live in ~/code/dotfiles/, not ~/
 README.md
 DOTFILES_POLICY.md
