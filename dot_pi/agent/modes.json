@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "currentMode": "default",
+  "modes": {
+    "default": {
+      "provider": "openai",
+      "modelId": "gpt-5.5",
+      "thinkingLevel": "high"
+    },
+    "azure": {
+      "provider": "azure-openai-responses",
+      "modelId": "gpt-5.5",
+      "thinkingLevel": "high"
+    },
+    "opus": {
+      "provider": "anthropic",
+      "modelId": "claude-opus-4-7",
+      "thinkingLevel": "high"
+    }
+  }
+}

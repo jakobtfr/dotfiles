@@ -1,0 +1,14 @@
+{
+  "name": "pi-extension-cursor-provider",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "dependencies": {
+    "@cursor/sdk": "^1.0.12"
+  }
+}
