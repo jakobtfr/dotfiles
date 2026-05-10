@@ -1,0 +1,17 @@
+{
+  "name": "pi-agent-extensions-workspace",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Type-resolution workspace for ~/.pi/agent/extensions/*.ts. Pi auto-discovers loose .ts files here at runtime; this package.json only exists so the editor's TypeScript server can resolve imports against locally-installed @types/node and pi packages.",
+  "dependencies": {
+    "@earendil-works/pi-ai": "^0.74.0",
+    "@earendil-works/pi-coding-agent": "^0.74.0",
+    "@earendil-works/pi-tui": "^0.74.0",
+    "typebox": "^1.1.38"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}
