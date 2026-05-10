@@ -3,6 +3,7 @@
 # Pi runtime state — never deploy
 .pi/agent/auth.json
 .pi/agent/sessions
+.pi/agent/extensions/**/node_modules
 
 # Repo-meta files live in ~/code/dotfiles/, not ~/
 README.md
