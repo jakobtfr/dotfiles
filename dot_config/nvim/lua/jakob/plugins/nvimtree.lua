@@ -4,6 +4,10 @@ return {
 	},
 	setup = function()
 		require("nvim-tree").setup({
+			git = {
+				-- Default 400ms can make vim.system():wait() return nil on slow git startup.
+				timeout = 5000,
+			},
 			on_attach = function(bufnr)
 				local api = require("nvim-tree.api")
 
