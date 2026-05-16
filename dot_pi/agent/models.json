@@ -2,7 +2,12 @@
   "providers": {
     "azure-openai-responses": {
       "baseUrl": "https://oai-coding-4890.openai.azure.com",
-      "apiKey": "!security find-generic-password -s 'azure-openai-api-key' -w"
+      "apiKey": "!security find-generic-password -s 'azure-openai-api-key' -w",
+      "modelOverrides": {
+        "gpt-5.5": {
+          "contextWindow": 1050000
+        }
+      }
     }
   }
 }
