@@ -6,6 +6,8 @@ windows:
       - shell_command:
         - nvim .
   - window_name: sh
+  - window_name: journal
+    start_directory: "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes/journal"
   - window_name: personal
     start_directory: "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes/personal"
   - window_name: professional
