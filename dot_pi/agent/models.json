@@ -8,6 +8,13 @@
           "contextWindow": 1050000
         }
       }
+    },
+    "openai": {
+      "modelOverrides": {
+        "gpt-5.5": {
+          "contextWindow": 1050000
+        }
+      }
     }
   }
 }
