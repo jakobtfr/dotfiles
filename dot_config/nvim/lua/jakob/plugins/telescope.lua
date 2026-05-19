@@ -9,6 +9,11 @@ return {
 		local builtin = require("telescope.builtin")
 
 		telescope.setup({
+			pickers = {
+				find_files = {
+					no_ignore = true,
+				},
+			},
 			extensions = {
 				["ui-select"] = {
 					require("telescope.themes").get_dropdown({}),

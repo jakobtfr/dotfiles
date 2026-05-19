@@ -6,6 +6,7 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 ## Behavior
 - Safety: never delete without asking. Use `trash` for deletes.
 - Fix root cause (not band-aid).
+- Agent config discovery: never recurse into dependency/generated dirs when searching for `AGENTS.md`; prune `node_modules`, `.git`, `.venv`, `dist`, `build`, caches.
 - Unsure: read more code/context; if still stuck, ask w/ short options.
 - Conflicts: call out; pick safer path.
 - Leave breadcrumb notes in thread.
