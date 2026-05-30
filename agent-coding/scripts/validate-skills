@@ -3,9 +3,9 @@
 
 require "yaml"
 
-repo_root = File.expand_path("../..", __dir__)
-Dir.chdir(repo_root)
-skill_root = ARGV[0] || "dot_agents/skills"
+agent_root = File.expand_path("..", __dir__)
+Dir.chdir(agent_root)
+skill_root = ARGV[0] || "skills"
 
 def load_front_matter(path, text)
   match = text.match(/\A---\r?\n(.*?)\r?\n---[ \t]*(?:\r?\n|\z)/m)

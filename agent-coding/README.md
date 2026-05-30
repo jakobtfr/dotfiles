@@ -8,25 +8,26 @@ Managed by chezmoi as part of `~/code/dotfiles/`.
 
 - **Source of truth:** `~/code/dotfiles/agent-coding/`
 - **Deployed to:** `~/agent-coding/` via `chezmoi apply`
-- **Shared skills:** source `~/code/dotfiles/dot_agents/skills/`, deployed to `~/.agents/skills/`
+- **Shared skills:** source `~/code/dotfiles/agent-coding/skills/`, deployed to `~/agent-coding/skills/`
+- **Codex-native skills:** `dot_agents/skills` is a relative symlink source, deployed as `~/.agents/skills -> ~/agent-coding/skills`
 - **Harness adapters:** Codex discovers `~/.agents/skills` natively; Pi points at the same root; Claude Code and OpenCode use AGENTS routing.
 - **Pi extensions:** source `~/code/dotfiles/dot_pi/agent/extensions/`, deployed to `~/.pi/agent/extensions/`
 - **Sync:** Edit in chezmoi source, then `dotsync`
 
 ## Config Chain
 
-1. **Global** `~/AGENTS.md` -- universal behavior and config routing
-2. **Coding** `~/agent-coding/AGENTS.md` -- coding-specific workflow + skill triggers
+1. **Global** `~/AGENTS.md` -- pointer to `~/agent-coding/AGENTS.md`
+2. **Coding** `~/agent-coding/AGENTS.md` -- canonical shared hard rules + coding workflow
 3. **Repo-local** `<repo>/AGENTS.md` -- project-specific rules
 4. **Shared skills** `~/.agents/skills/` -- native skill root for reusable workflows
 
-Every coding repo's `AGENTS.md` should start with:
+Root and downstream repo `AGENTS.md` files should be pointer-style:
 
 ```md
 READ ~/agent-coding/AGENTS.md BEFORE ANYTHING (skip if missing).
 ```
 
-Which itself reads `~/AGENTS.md` first.
+Repo-specific rules go below that pointer.
 
 ## Agent-neutral boundary
 
@@ -39,7 +40,7 @@ Shared files should stay provider-agnostic:
 
 ## Shared Skills
 
-Shared skills live in `../dot_agents/skills/` and deploy to `~/.agents/skills/`.
+Shared skills live in `skills/` and deploy to `~/agent-coding/skills/`.
 
 - `commit/` -- commit workflow and Conventional Commit formatting.
 - `create-cli/` -- CLI UX, flags, output contracts, and command trees.
