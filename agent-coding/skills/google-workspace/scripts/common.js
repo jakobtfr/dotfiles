@@ -8,9 +8,13 @@ const net = require('node:net');
 const crypto = require('node:crypto');
 const { spawn, spawnSync } = require('node:child_process');
 
+function defaultConfigDir() {
+  return path.join(os.homedir(), '.agent', 'google-workspace');
+}
+
 const CONFIG_DIR =
   process.env.GOOGLE_WORKSPACE_CONFIG_DIR ||
-  path.join(os.homedir(), '.pi', 'google-workspace');
+  defaultConfigDir();
 
 const CREDENTIALS_PATH =
   process.env.GOOGLE_WORKSPACE_CREDENTIALS ||

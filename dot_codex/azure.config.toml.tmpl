@@ -1,0 +1,29 @@
+# Azure OpenAI profile for Codex.
+# Start with `codex --profile azure`.
+model_provider = "azure"
+model = "gpt-5.5"
+model_catalog_json = "{{ .chezmoi.homeDir }}/.codex/azure-models.json"
+
+[model_providers.azure]
+name = "Azure OpenAI"
+base_url = "https://oai-coding-4890.openai.azure.com/openai"
+query_params = { api-version = "2025-04-01-preview" }
+wire_api = "responses"
+request_max_retries = 4
+stream_max_retries = 10
+stream_idle_timeout_ms = 300000
+
+[model_providers.azure.auth]
+command = "az"
+args = [
+  "account",
+  "get-access-token",
+  "--resource",
+  "https://cognitiveservices.azure.com",
+  "--query",
+  "accessToken",
+  "-o",
+  "tsv",
+]
+refresh_interval_ms = 240000
+timeout_ms = 10000

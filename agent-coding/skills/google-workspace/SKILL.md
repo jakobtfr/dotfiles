@@ -18,7 +18,7 @@ This skill is **profile-based by email address**.
 
 - There is **no default account**.
 - Every API call must specify `--email <account@example.com>`.
-- Tokens are stored per-email under `~/.pi/google-workspace/tokens/`.
+- Tokens are stored per-email under `${GOOGLE_WORKSPACE_CONFIG_DIR:-~/.agent/google-workspace}/tokens/`.
 
 Before running API calls, discover available signed-in accounts:
 
@@ -127,7 +127,7 @@ Notes:
 
 - Dependencies auto-install on first run.
 - Default auth mode is **cloud** (no local `credentials.json` needed).
-- Optional local mode: `GOOGLE_WORKSPACE_AUTH_MODE=local` and credentials at `~/.pi/google-workspace/credentials.json`.
+- Optional local mode: `GOOGLE_WORKSPACE_AUTH_MODE=local` and credentials at `${GOOGLE_WORKSPACE_CONFIG_DIR:-~/.agent/google-workspace}/credentials.json`.
 - Useful diagnostics:
 
 ```bash

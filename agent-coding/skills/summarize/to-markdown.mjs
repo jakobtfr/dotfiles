@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
  * Convert a URL or local file to Markdown using `uvx markitdown`.
- * Optionally summarize the produced Markdown via `pi` (claude-haiku-4-5).
+ * Optionally summarize the produced Markdown via a configured agent CLI.
  *
  * Note: `markitdown` can fetch URLs on its own; this script mainly adds:
  *   - optional writing to a temp file / specific output path
- *   - optional summarization via `pi`
+ *   - optional summarization via `AGENT_SUMMARIZER_CMD`
  *   - ability to add a *custom summary prompt/context* (highly recommended)
  *
  * Usage:
@@ -26,7 +26,8 @@ import { spawnSync } from 'child_process';
 const argv = process.argv.slice(2);
 
 function usageAndExit(code = 1) {
-  console.error('Usage: node to-markdown.mjs <url-or-path> [--out <file>] [--tmp] [--summary [prompt]] [--prompt <prompt>]');
+  const out = code === 0 ? console.log : console.error;
+  out('Usage: node to-markdown.mjs <url-or-path> [--out <file>] [--tmp] [--summary [prompt]] [--prompt <prompt>]');
   process.exit(code);
 }
 
@@ -56,12 +57,70 @@ function getInputBasename(s) {
 }
 
 function makeTmpMdPath(input) {
-  const dir = join(tmpdir(), 'pi-summarize-out');
+  const dir = join(tmpdir(), 'agent-summarize-out');
   ensureDir(dir);
   const base = getInputBasename(input);
   const stamp = Date.now().toString(36);
   const rand = Math.random().toString(16).slice(2, 8);
   return join(dir, `${base}-${stamp}-${rand}.md`);
+}
+
+function splitCommand(command) {
+  const parts = [];
+  let current = '';
+  let quote = null;
+  let escaped = false;
+
+  for (const ch of command) {
+    if (escaped) {
+      current += ch;
+      escaped = false;
+      continue;
+    }
+    if (ch === '\\') {
+      escaped = true;
+      continue;
+    }
+    if (quote) {
+      if (ch === quote) quote = null;
+      else current += ch;
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      quote = ch;
+      continue;
+    }
+    if (/\s/.test(ch)) {
+      if (current) {
+        parts.push(current);
+        current = '';
+      }
+      continue;
+    }
+    current += ch;
+  }
+
+  if (escaped) current += '\\';
+  if (quote) throw new Error(`Unclosed quote in command: ${command}`);
+  if (current) parts.push(current);
+  return parts;
+}
+
+function getSummarizerCommand() {
+  const configured = process.env.AGENT_SUMMARIZER_CMD;
+  if (configured) return splitCommand(configured);
+
+  if (commandExists('agent')) return ['agent', '--no-tools', '--no-session', '-p'];
+  if (commandExists('pi')) return ['pi', '--provider', 'anthropic', '--model', 'claude-haiku-4-5', '--no-tools', '--no-session', '-p'];
+  if (commandExists('claude')) return ['claude', '-p'];
+
+  return ['agent', '--no-tools', '--no-session', '-p'];
+}
+
+function commandExists(command) {
+  const lookup = process.platform === 'win32' ? 'where' : 'which';
+  const result = spawnSync(lookup, [command], { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'ignore'] });
+  return result.status === 0;
 }
 
 // --- args parsing ---
@@ -73,6 +132,10 @@ let summaryPrompt = null;
 
 for (let i = 0; i < argv.length; i++) {
   const a = argv[i];
+
+  if (a === '--help' || a === '-h') {
+    usageAndExit(0);
+  }
 
   if (a === '--out') {
     outPath = argv[i + 1] ?? null;
@@ -149,7 +212,7 @@ function runMarkitdown(arg) {
   return result.stdout;
 }
 
-function summarizeWithPi(markdown, { mdPathForNote = null, extraPrompt = null } = {}) {
+function summarizeWithAgent(markdown, { mdPathForNote = null, extraPrompt = null } = {}) {
   const MAX_CHARS = 140_000;
   let truncated = false;
   let body = markdown;
@@ -182,25 +245,23 @@ ${truncNote}
 ${body}
 --- END DOCUMENT ---`;
 
-  const result = spawnSync('pi', [
-    '--provider', 'anthropic',
-    '--model', 'claude-haiku-4-5',
-    '--no-tools',
-    '--no-session',
-    '-p',
-    prompt
-  ], {
+  const [command, ...args] = getSummarizerCommand();
+  if (!command) {
+    throw new Error('No summarizer command configured. Set AGENT_SUMMARIZER_CMD.');
+  }
+
+  const result = spawnSync(command, [...args, prompt], {
     encoding: 'utf-8',
     maxBuffer: 20 * 1024 * 1024,
     timeout: 120_000
   });
 
   if (result.error) {
-    throw new Error(`Failed to run pi: ${result.error.message}`);
+    throw new Error(`Failed to run summarizer command '${command}': ${result.error.message}`);
   }
   if (result.status !== 0) {
     const stderr = (result.stderr || '').trim();
-    throw new Error(`pi failed${stderr ? `\n${stderr}` : ''}`);
+    throw new Error(`Summarizer command failed${stderr ? `\n${stderr}` : ''}`);
   }
   return (result.stdout || '').trim();
 }
@@ -234,7 +295,7 @@ async function main() {
   }
 
   if (doSummary) {
-    const summary = summarizeWithPi(md, { mdPathForNote: tmpMdPath ?? outPath, extraPrompt: summaryPrompt });
+    const summary = summarizeWithAgent(md, { mdPathForNote: tmpMdPath ?? outPath, extraPrompt: summaryPrompt });
     process.stdout.write(summary);
     if (tmpMdPath) {
       process.stdout.write(`\n\n[Hint: Full document Markdown saved to: ${tmpMdPath}]\n`);

@@ -108,7 +108,7 @@ function resolveConfigValue(config) {
 }
 
 function getAgentDir() {
-	const configured = process.env.PI_CODING_AGENT_DIR;
+	const configured = process.env.AGENT_AUTH_DIR || process.env.PI_CODING_AGENT_DIR;
 	if (!configured) return join(homedir(), ".pi", "agent");
 	if (configured === "~") return homedir();
 	if (configured.startsWith("~/")) return join(homedir(), configured.slice(2));
@@ -164,7 +164,7 @@ function findPiExecutable() {
 	return first || undefined;
 }
 
-function collectModuleCandidates(fileName = "index.js", envVarName = "PI_AI_MODULE_PATH") {
+function collectModuleCandidates(fileName = "index.js", envVarName = "AGENT_AI_MODULE_PATH", legacyEnvVarName = "PI_AI_MODULE_PATH") {
 	const candidates = new Set();
 
 	const add = (p) => {
@@ -174,6 +174,7 @@ function collectModuleCandidates(fileName = "index.js", envVarName = "PI_AI_MODU
 	};
 
 	if (envVarName && process.env[envVarName]) add(process.env[envVarName]);
+	if (legacyEnvVarName && process.env[legacyEnvVarName]) add(process.env[legacyEnvVarName]);
 
 	const cwd = process.cwd();
 	const scriptDir = dirname(fileURLToPath(import.meta.url));
@@ -208,7 +209,7 @@ function collectModuleCandidates(fileName = "index.js", envVarName = "PI_AI_MODU
 	return Array.from(candidates);
 }
 
-async function loadPiAi() {
+async function loadAgentAi({ required = false } = {}) {
 	const tried = [];
 
 	try {
@@ -217,7 +218,7 @@ async function loadPiAi() {
 		tried.push(`@earendil-works/pi-ai (${err?.code || err?.message || "not found"})`);
 	}
 
-	for (const candidate of collectModuleCandidates("index.js", "PI_AI_MODULE_PATH")) {
+	for (const candidate of collectModuleCandidates("index.js", "AGENT_AI_MODULE_PATH", "PI_AI_MODULE_PATH")) {
 		if (!existsSync(candidate)) continue;
 		try {
 			return await import(pathToFileURL(candidate).href);
@@ -226,14 +227,16 @@ async function loadPiAi() {
 		}
 	}
 
+	if (!required) return null;
+
 	throw new Error(
-		`Could not load @earendil-works/pi-ai. Set PI_AI_MODULE_PATH to its dist/index.js.\nTried:\n- ${tried.join("\n- ")}`,
+		`Could not load AI helper module. Set AGENT_AI_MODULE_PATH or legacy PI_AI_MODULE_PATH to @earendil-works/pi-ai dist/index.js.\nTried:\n- ${tried.join("\n- ")}`,
 	);
 }
 
-async function loadPiAiOAuth(piAi) {
-	if (typeof piAi?.getOAuthApiKey === "function") {
-		return { getOAuthApiKey: piAi.getOAuthApiKey.bind(piAi) };
+async function loadAgentAiOAuth(agentAi) {
+	if (typeof agentAi?.getOAuthApiKey === "function") {
+		return { getOAuthApiKey: agentAi.getOAuthApiKey.bind(agentAi) };
 	}
 
 	const tried = [];
@@ -248,7 +251,7 @@ async function loadPiAiOAuth(piAi) {
 		tried.push(`@earendil-works/pi-ai/oauth (${err?.code || err?.message || "not found"})`);
 	}
 
-	for (const candidate of collectModuleCandidates("oauth.js", "PI_AI_OAUTH_MODULE_PATH")) {
+	for (const candidate of collectModuleCandidates("oauth.js", "AGENT_AI_OAUTH_MODULE_PATH", "PI_AI_OAUTH_MODULE_PATH")) {
 		if (!existsSync(candidate)) continue;
 		try {
 			const oauth = await import(pathToFileURL(candidate).href);
@@ -263,7 +266,7 @@ async function loadPiAiOAuth(piAi) {
 
 	return {
 		getOAuthApiKey: undefined,
-		error: `Could not load getOAuthApiKey. Set PI_AI_OAUTH_MODULE_PATH to pi-ai dist/oauth.js.\nTried:\n- ${tried.join("\n- ")}`,
+		error: `Could not load getOAuthApiKey. Set AGENT_AI_OAUTH_MODULE_PATH or legacy PI_AI_OAUTH_MODULE_PATH to pi-ai dist/oauth.js.\nTried:\n- ${tried.join("\n- ")}`,
 	};
 }
 
@@ -306,8 +309,8 @@ function getCachedOAuthAccess(entry, now = Date.now()) {
 	};
 }
 
-function pickFastModel(provider, requestedModel, piAi) {
-	const models = typeof piAi.getModels === "function" ? piAi.getModels(provider) : [];
+function pickFastModel(provider, requestedModel, agentAi) {
+	const models = typeof agentAi?.getModels === "function" ? agentAi.getModels(provider) : [];
 	if (!Array.isArray(models) || models.length === 0) {
 		if (requestedModel) return { id: requestedModel, baseUrl: undefined };
 		if (provider === "openai") return { id: "gpt-5.4-mini", baseUrl: "https://api.openai.com/v1" };
@@ -337,7 +340,7 @@ function pickFastModel(provider, requestedModel, piAi) {
 	return heuristic || models[0];
 }
 
-async function resolveApiKey(provider, auth, authPath, piAi) {
+async function resolveApiKey(provider, auth, authPath, agentAi) {
 	const entry = auth?.[provider];
 	if (!entry) {
 		throw new Error(`No credentials for provider '${provider}' in ${authPath}`);
@@ -356,11 +359,12 @@ async function resolveApiKey(provider, auth, authPath, piAi) {
 	}
 
 	const fallbackToken = getCachedOAuthAccess(entry);
-	const oauth = await loadPiAiOAuth(piAi);
+	const helper = agentAi || (await loadAgentAi({ required: false }));
+	const oauth = await loadAgentAiOAuth(helper);
 
 	if (typeof oauth.getOAuthApiKey !== "function") {
 		if (fallbackToken) return fallbackToken;
-		throw new Error(oauth.error || "Loaded pi-ai module does not export getOAuthApiKey");
+		throw new Error(oauth.error || "Loaded AI helper module does not export getOAuthApiKey");
 	}
 
 	const oauthCreds = {};
@@ -509,7 +513,7 @@ async function runCodexSearch({ model, apiKey, accountId, query, purpose, timeou
 			"content-type": "application/json",
 			accept: "text/event-stream",
 			"OpenAI-Beta": "responses=experimental",
-			originator: "pi-native-web-search-skill",
+			originator: "agent-native-web-search-skill",
 		},
 		body: JSON.stringify(body),
 		signal,
@@ -660,9 +664,9 @@ async function main() {
 	const settings = readJson(settingsPath, {});
 
 	const provider = pickProvider(args.provider, settings, auth);
-	const piAi = await loadPiAi();
-	const model = pickFastModel(provider, args.model, piAi);
-	const { apiKey, accountId } = await resolveApiKey(provider, auth, authPath, piAi);
+	const agentAi = await loadAgentAi({ required: false });
+	const model = pickFastModel(provider, args.model, agentAi);
+	const { apiKey, accountId } = await resolveApiKey(provider, auth, authPath, agentAi);
 
 	const text =
 		provider === "openai"

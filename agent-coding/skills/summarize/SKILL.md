@@ -1,9 +1,9 @@
 ---
 name: summarize
-description: "Fetch a URL or convert a local file (PDF/DOCX/HTML/etc.) into Markdown using `uvx markitdown`, optionally it can summarize"
+description: "Convert URLs/files to Markdown with `uvx markitdown`, save inspectable output, and optionally summarize with a configured agent CLI."
 ---
 
-Turn “things” (URLs, PDFs, Word docs, PowerPoints, HTML pages, text files, etc.) into **Markdown** so they can be inspected/quoted/processed like normal text.
+Turn URLs, PDFs, Office files, HTML pages, data files, images, audio, ZIPs, and other documents into Markdown so they can be inspected, quoted, or summarized like normal text.
 
 `markitdown` can fetch URLs by itself; this skill mainly wraps it to make saving + summarizing convenient.
 For PDF inputs, use the `markitdown[pdf]` extra (or the wrapper below, which now does this automatically).
@@ -14,6 +14,7 @@ Use this skill when you need to:
 - pull down a web page as a document-like Markdown representation
 - convert binary docs (PDF/DOCX/PPTX) into Markdown for analysis
 - quickly produce a short summary of a long document before deeper work
+- preserve a full converted Markdown artifact before extracting key points
 
 ## Quick usage
 
@@ -24,6 +25,14 @@ Run from **this skill folder** (the agent should `cd` here first):
 ```bash
 uvx --from 'markitdown[pdf]' markitdown <url-or-path>
 ```
+
+Common formats:
+
+- Documents: PDF, Word, PowerPoint, Excel, EPub
+- Web/data: URL, HTML, CSV, JSON, XML
+- Media: image EXIF/OCR, audio metadata/transcription where supported
+- Archives: ZIP contents
+- Video: YouTube URLs where supported by `markitdown`
 
 To write Markdown to a temp file (prints the path) use the wrapper:
 
@@ -39,9 +48,33 @@ Write Markdown to a specific file:
 uvx --from 'markitdown[pdf]' markitdown <url-or-path> > /tmp/doc.md
 ```
 
-### Convert + summarize with haiku-4-5 (pass context!)
+Useful direct `markitdown` flags:
+
+```bash
+uvx --from 'markitdown[pdf]' markitdown input.docx -o output.md
+uvx --from 'markitdown[pdf]' markitdown -x .pdf < input > output.md
+uvx --from 'markitdown[pdf]' markitdown -m application/pdf input > output.md
+uvx --from 'markitdown[pdf]' markitdown --list-plugins
+```
+
+For difficult scanned PDFs, consider Azure Document Intelligence only when configured:
+
+```bash
+uvx --from 'markitdown[pdf]' markitdown scan.pdf -d -e "https://<resource>.cognitiveservices.azure.com/"
+```
+
+### Convert + summarize (pass context!)
 
 Summaries are only useful when you provide **what you want extracted** and the **audience/purpose**.
+
+By default, summary mode auto-picks the first available CLI from `agent`, `pi`, then `claude`.
+
+Set `AGENT_SUMMARIZER_CMD` to choose a harness-specific command. Examples:
+
+```bash
+AGENT_SUMMARIZER_CMD="pi --provider anthropic --model claude-haiku-4-5 --no-tools --no-session -p"
+AGENT_SUMMARIZER_CMD="claude -p"
+```
 
 ```bash
 node to-markdown.mjs <url-or-path> --summary --prompt "Summarize focusing on X, for audience Y. Extract Z."
@@ -56,4 +89,10 @@ node to-markdown.mjs <url-or-path> --summary --prompt "Focus on security implica
 This will:
 1) convert to Markdown via `uvx --from 'markitdown[pdf]' markitdown`
 2) write the full Markdown to a temp `.md` file and print its path as a "Hint" line
-3) run `pi --model claude-haiku-4-5` (no-tools, no-session) to summarize using your extra prompt
+3) run the configured summarizer command using your extra prompt
+
+## Notes
+
+- First `uvx` run may cache dependencies.
+- Prefer inspecting the saved Markdown when quoting exact wording.
+- If extraction quality is poor, try direct `markitdown` flags before summarizing.

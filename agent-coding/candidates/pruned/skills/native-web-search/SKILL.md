@@ -45,8 +45,10 @@ The script instructs the model to:
 ## Notes
 
 - No extra npm install is required.
-- If module resolution fails, set `PI_AI_MODULE_PATH` to `@earendil-works/pi-ai`'s `dist/index.js` path.
-- If OAuth helper resolution fails, set `PI_AI_OAUTH_MODULE_PATH` to `@earendil-works/pi-ai`'s `dist/oauth.js` path.
+- API-key auth works without a harness-specific helper module.
+- OAuth token refresh currently uses the Pi AI helper when needed. Set `AGENT_AI_MODULE_PATH` or legacy `PI_AI_MODULE_PATH` to its `dist/index.js` path if module resolution fails.
+- If OAuth helper resolution fails, set `AGENT_AI_OAUTH_MODULE_PATH` or legacy `PI_AI_OAUTH_MODULE_PATH` to the helper's `dist/oauth.js` path.
 - `openai` uses the OpenAI Responses API (`https://api.openai.com/v1/responses`) with the native `web_search` tool.
 - `openai-codex` is only for explicit ChatGPT/Codex subscription OAuth usage.
-- For OAuth providers, the script can fall back to a still-valid cached `access` token from `~/.pi/agent/auth.json`.
+- The auth directory defaults to `AGENT_AUTH_DIR`, then legacy `PI_CODING_AGENT_DIR`, then `~/.pi/agent`.
+- For OAuth providers, the script can fall back to a still-valid cached `access` token from the selected `auth.json`.

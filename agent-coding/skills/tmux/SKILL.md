@@ -1,7 +1,6 @@
 ---
 name: tmux
 description: "Run long-running jobs and remote-control interactive CLIs/debuggers in detached private tmux sessions. Use for background tests/builds/dev servers/watchers, REPLs, lldb/gdb, and other persistent terminal work."
-license: Vibecoded
 ---
 
 # tmux Skill
@@ -24,15 +23,15 @@ Do not use tmux for quick commands that can run directly and finish promptly.
 ## Socket convention
 
 ```bash
-SOCKET_DIR="${PI_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/pi-tmux-sockets}"
+SOCKET_DIR="${AGENT_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/agent-tmux-sockets}"
 mkdir -p "$SOCKET_DIR"
-SOCKET="$SOCKET_DIR/pi.sock"
-SESSION="pi-<short-task-name>"
+SOCKET="$SOCKET_DIR/agent.sock"
+SESSION="agent-<short-task-name>"
 ```
 
 Rules:
 - Always use `tmux -S "$SOCKET"` with the private socket path.
-- Keep session names short and slug-like: `pi-tests`, `pi-dev`, `pi-lldb`.
+- Keep session names short and slug-like: `agent-tests`, `agent-dev`, `agent-lldb`.
 - Target panes as `{session}:{window}.{pane}`; default pane is usually `$SESSION:0.0`.
 - Inspect sessions with `tmux -S "$SOCKET" list-sessions` and panes with `tmux -S "$SOCKET" list-panes -a`.
 
@@ -55,14 +54,14 @@ This is required. The user should be able to copy/paste without reconstructing s
 Use this for tests/builds/checks where the pane should stay open after completion and expose the exit code:
 
 ```bash
-SOCKET_DIR="${PI_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/pi-tmux-sockets}"
+SOCKET_DIR="${AGENT_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/agent-tmux-sockets}"
 mkdir -p "$SOCKET_DIR"
-SOCKET="$SOCKET_DIR/pi.sock"
-SESSION="pi-tests-$(date +%H%M%S)"
+SOCKET="$SOCKET_DIR/agent.sock"
+SESSION="agent-tests-$(date +%H%M%S)"
 CMD='pnpm test'
 
 tmux -S "$SOCKET" new-session -d -s "$SESSION" -n run \
-  "bash -lc 'set -o pipefail; $CMD 2>&1; code=\$?; echo; echo __PI_EXIT__:\$code; exec bash -i'"
+  "bash -lc 'set -o pipefail; $CMD 2>&1; code=\$?; echo; echo __AGENT_EXIT__:\$code; exec bash -i'"
 
 echo "To monitor: tmux -S '$SOCKET' attach -t '$SESSION'"
 echo "To capture: tmux -S '$SOCKET' capture-pane -p -J -t '$SESSION':0.0 -S -200"
@@ -74,17 +73,17 @@ Later, inspect output:
 tmux -S "$SOCKET" capture-pane -p -J -t "$SESSION":0.0 -S -300
 ```
 
-Look for `__PI_EXIT__:0` or a non-zero exit marker. If the marker is absent, the job is still running or did not reach the wrapper tail.
+Look for `__AGENT_EXIT__:0` or a non-zero exit marker. If the marker is absent, the job is still running or did not reach the wrapper tail.
 
 ## Dev server / watcher
 
 Use this for persistent processes:
 
 ```bash
-SOCKET_DIR="${PI_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/pi-tmux-sockets}"
+SOCKET_DIR="${AGENT_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/agent-tmux-sockets}"
 mkdir -p "$SOCKET_DIR"
-SOCKET="$SOCKET_DIR/pi.sock"
-SESSION="pi-dev-$(date +%H%M%S)"
+SOCKET="$SOCKET_DIR/agent.sock"
+SESSION="agent-dev-$(date +%H%M%S)"
 
 tmux -S "$SOCKET" new-session -d -s "$SESSION" -n server \
   "bash -lc 'pnpm dev'"
@@ -130,7 +129,7 @@ From this skill directory:
 ./scripts/find-sessions.sh --all
 ```
 
-`--all` scans sockets under `${PI_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/pi-tmux-sockets}`.
+`--all` scans sockets under `${AGENT_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/agent-tmux-sockets}`.
 
 ## Synchronizing / waiting for prompts
 
