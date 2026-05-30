@@ -273,7 +273,8 @@ function skillRootScope(root: string): string {
   const normalized = root.split(path.sep).join("/");
   if (normalized.includes("/.codex/plugins/cache")) return "codex-plugin";
   if (normalized.includes("/.codex/skills")) return "codex";
-  if (normalized.includes("/agent-coding/skills")) return "shared";
+  if (normalized.includes("/dot_agents/skills")) return "shared-source";
+  if (normalized === `${home}/.agents/skills` || normalized.startsWith(`${home}/.agents/skills/`)) return "shared";
   if (normalized.includes("/.agents/skills")) return "repo";
   if (normalized.includes("/Dropbox/")) return "dropbox";
   return "extra";
@@ -284,7 +285,8 @@ function deletePriority(skill: Skill): number {
   if (skill.path.includes("/.codex/skills/")) return 1;
   if (skill.path.includes("/.codex/plugins/cache/") && !skill.path.includes("/plugin-install-")) return 2;
   if (skill.path.includes("/.codex/plugins/cache/")) return 3;
-  if (skill.realPath.includes("/agent-coding/skills/")) return 4;
+  if (skill.realPath.includes("/dot_agents/skills/")) return 4;
+  if (skill.realPath.includes(`${home}/.agents/skills/`)) return 4;
   if (skill.realPath.includes("/.agents/skills/")) return 5;
   return 6;
 }
@@ -364,10 +366,10 @@ function configState(): { disabledPaths: Set<string>; disabledPlugins: Set<strin
 function discoverRoots(): string[] {
   const rootsByRealPath = new Map<string, string>();
   [
+    path.join(home, ".agents/skills"),
     path.join(home, ".codex/skills"),
     path.join(home, ".codex/plugins/cache"),
-    path.join(home, "agent-coding/skills"),
-    path.join(home, "code/dotfiles/agent-coding/skills"),
+    path.join(home, "code/dotfiles/dot_agents/skills"),
     ...extraRoots.map(expandHome),
   ].forEach((root) => {
     if (!exists(root)) return;

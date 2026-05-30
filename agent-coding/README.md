@@ -8,8 +8,8 @@ Managed by chezmoi as part of `~/code/dotfiles/`.
 
 - **Source of truth:** `~/code/dotfiles/agent-coding/`
 - **Deployed to:** `~/agent-coding/` via `chezmoi apply`
-- **Shared skills:** source `~/code/dotfiles/agent-coding/skills/`, deployed to `~/agent-coding/skills/`
-- **Harness adapters:** Codex, Pi, Claude Code, and OpenCode load this shared layer through thin per-tool config files.
+- **Shared skills:** source `~/code/dotfiles/dot_agents/skills/`, deployed to `~/.agents/skills/`
+- **Harness adapters:** Codex discovers `~/.agents/skills` natively; Pi points at the same root; Claude Code and OpenCode use AGENTS routing.
 - **Pi extensions:** source `~/code/dotfiles/dot_pi/agent/extensions/`, deployed to `~/.pi/agent/extensions/`
 - **Sync:** Edit in chezmoi source, then `dotsync`
 
@@ -18,6 +18,7 @@ Managed by chezmoi as part of `~/code/dotfiles/`.
 1. **Global** `~/AGENTS.md` -- universal behavior and config routing
 2. **Coding** `~/agent-coding/AGENTS.md` -- coding-specific workflow + skill triggers
 3. **Repo-local** `<repo>/AGENTS.md` -- project-specific rules
+4. **Shared skills** `~/.agents/skills/` -- native skill root for reusable workflows
 
 Every coding repo's `AGENTS.md` should start with:
 
@@ -38,7 +39,7 @@ Shared files should stay provider-agnostic:
 
 ## Shared Skills
 
-Shared skills live in `skills/` and are usable by Codex, Pi, Claude Code, OpenCode, and other agents that read skill files.
+Shared skills live in `../dot_agents/skills/` and deploy to `~/.agents/skills/`.
 
 - `commit/` -- commit workflow and Conventional Commit formatting.
 - `create-cli/` -- CLI UX, flags, output contracts, and command trees.
@@ -55,8 +56,8 @@ Shared skills live in `skills/` and are usable by Codex, Pi, Claude Code, OpenCo
 - `uv/` -- Python scripts, deps, and builds with `uv`.
 - `web-browser/` -- Chrome/CDP browser inspection, screenshots, and logs.
 
-Notes-vault-specific skills stay in the notes `.agents/skills` directory.
+Notes-vault-specific skills stay in the notes vault's repo-local `.agents/skills` directory.
 
 ## Upstream reference
 
-`~/code/oss/agent-stuff/` is an upstream/reference clone only. Runtime config is owned in this dotfiles repo; copy/update selected skills or harness extensions intentionally.
+`~/code/agent-scripts/` is an upstream/reference clone only. Runtime config is owned in this dotfiles repo; copy/update selected skills or harness extensions intentionally.

@@ -3,8 +3,9 @@
 
 require "yaml"
 
-agent_root = File.expand_path("..", __dir__)
-Dir.chdir(agent_root)
+repo_root = File.expand_path("../..", __dir__)
+Dir.chdir(repo_root)
+skill_root = ARGV[0] || "dot_agents/skills"
 
 def load_front_matter(path, text)
   match = text.match(/\A---\r?\n(.*?)\r?\n---[ \t]*(?:\r?\n|\z)/m)
@@ -32,7 +33,7 @@ rescue StandardError => e
   [nil, "YAML: #{e.message}"]
 end
 
-skill_files = Dir.glob("skills/*/SKILL.md").sort
+skill_files = Dir.glob("#{skill_root}/*/SKILL.md").sort
 errors = []
 names = {}
 
@@ -67,7 +68,7 @@ skill_files.each do |path|
 end
 
 if skill_files.empty?
-  warn "No skills/*/SKILL.md files found."
+  warn "No #{skill_root}/*/SKILL.md files found."
   exit 0
 end
 
