@@ -43,9 +43,11 @@ Gated off on non-darwin via `.chezmoiignore`.
 
 | Target | Source in dotfiles | Notes |
 |---|---|---|
-| `~/AGENTS.md` | `AGENTS.md` | Global agent directives + setup map |
-| `~/agent-coding/` | `agent-coding/` | Coding guardrails + shared skills |
+| `~/AGENTS.md` | `AGENTS.md` | Pointer to `~/agent-coding/AGENTS.md` |
+| `~/agent-coding/` | `agent-coding/` | Canonical shared/coding rules, scripts, and skills |
+| `~/.agents/skills` | `dot_agents/skills` | Symlink to `~/agent-coding/skills` for native skill discovery |
 | `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex global instruction bootstrap |
+| `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md.tmpl` | Claude Code instruction bootstrap |
 | `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config + AGENTS bootstrap + plugins |
 | `~/.pi/agent/settings.json` | `dot_pi/agent/settings.json.tmpl` | Pi settings |
 | `~/.pi/agent/keybindings.json` | `dot_pi/agent/keybindings.json` | Pi keybindings |

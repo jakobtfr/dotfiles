@@ -26,7 +26,9 @@ Daily usage: `dotapply`, `dotsync "chore(dotfiles): tweak shell"`, `dotpull`.
 - Terminals: `.config/ghostty/`, `.config/wezterm/` (macOS only)
 - Window manager: `.config/aerospace/` (macOS only)
 - Agents:
-  - Global: `~/AGENTS.md`, `~/agent-coding/` (rules + shared skills)
+  - Global: `~/AGENTS.md` pointer, `~/agent-coding/` canonical rules + shared skills
+  - Native skills: `~/.agents/skills -> ~/agent-coding/skills`
   - Codex: `~/.codex/AGENTS.md`
+  - Claude Code: `~/.claude/CLAUDE.md`
   - OpenCode: `~/.config/opencode/`
   - Pi: `~/.pi/agent/{settings.json,keybindings.json,extensions/,themes/}`
