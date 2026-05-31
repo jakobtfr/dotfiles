@@ -1,5 +1,6 @@
 [packages]
 nvim
+tree-sitter-cli
 tmux
 chezmoi
 node
