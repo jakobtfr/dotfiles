@@ -24,7 +24,6 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 - Bugs: add regression test when it fits.
 - Fixes/refactors: delete old paths by default. Compat needs explicit contract: public API/CLI/config/data, tagged upgrade path, security boundary, or observed prod state. If unsure, ask before keeping aliases/shims/fallbacks. Tests alone are not contracts.
 - Use repo package manager/runtime; no swaps without approval.
-- TypeScript: use repo PM; keep files cohesive; follow existing patterns.
 - Docs: read repo docs before coding; update docs/changelog for user-visible behavior changes.
 - Inline code comments: brief notes for tricky, bug-prone, or previously buggy logic.
 - New deps: quick health check for recent releases/commits/adoption.
