@@ -11,6 +11,7 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 ## Routing
 
 - **Coding:** this file is the canonical coding/shared rules file.
+- **Work:** if `~/agent-coding/work.md` exists, read it for Amazon-internal tooling/conventions. Absent on personal-only hosts; do not error.
 - **Notes:** read the vault's `AGENTS.md` when working in the notes vault.
 - **Skills:** use `~/.agents/skills/<name>/SKILL.md` when relevant.
 - Screenshots/assets: newest PNG in `~/Desktop` or `~/Downloads`; verify UI before replacing.
