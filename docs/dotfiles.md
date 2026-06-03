@@ -43,9 +43,9 @@ Gated off on non-darwin via `.chezmoiignore`.
 
 | Target | Source in dotfiles | Notes |
 |---|---|---|
-| `~/AGENTS.md` | `AGENTS.md` | Pointer to `~/agent-coding/AGENTS.md` |
-| `~/agent-coding/` | `agent-coding/` | Canonical shared/coding rules, scripts, and skills |
-| `~/.agents/skills` | `dot_agents/skills` | Symlink to `~/agent-coding/skills` for native skill discovery |
+| `~/AGENTS.md` | `AGENTS.md` | Pointer to `~/code/dotfiles/agent-coding/AGENTS.md` |
+| `~/code/dotfiles/agent-coding/` | `agent-coding/` | Canonical shared/coding rules, scripts, and skills (read in place; `.chezmoiignore`d, not deployed) |
+| `~/.agents/skills` | `dot_agents/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
 | `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex global instruction bootstrap |
 | `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md.tmpl` | Claude Code instruction bootstrap |
 | `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config + AGENTS bootstrap + plugins |

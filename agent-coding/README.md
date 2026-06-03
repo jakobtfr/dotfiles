@@ -4,27 +4,27 @@ Coding-specific guardrails plus shared, agent-agnostic skills.
 
 ## Setup
 
-Managed by chezmoi as part of `~/code/dotfiles/`.
+Part of `~/code/dotfiles/`, but **read in place** -- not deployed by chezmoi (it is listed in `.chezmoiignore`). There is no `~/agent-coding/` copy; every reference points at this repo path directly.
 
-- **Source of truth:** `~/code/dotfiles/agent-coding/`
-- **Deployed to:** `~/agent-coding/` via `chezmoi apply`
-- **Shared skills:** source `~/code/dotfiles/agent-coding/skills/`, deployed to `~/agent-coding/skills/`
-- **Codex-native skills:** `dot_agents/skills` is a relative symlink source, deployed as `~/.agents/skills -> ~/agent-coding/skills`
+- **Single source/runtime path:** `~/code/dotfiles/agent-coding/`
+- **Shared skills:** `~/code/dotfiles/agent-coding/skills/`, symlinked as `~/.agents/skills` and `~/.claude/skills`
+- **Codex-native skills:** `dot_agents/skills` is a relative symlink source, deployed as `~/.agents/skills -> ~/code/dotfiles/agent-coding/skills`
 - **Harness adapters:** Codex discovers `~/.agents/skills` natively; Pi points at the same root; Claude Code and OpenCode use AGENTS routing.
+- **Local-only work rules:** `work.md` holds Amazon-internal rules; gitignored, never pushed. Auto-loaded on Claude via `~/.claude/rules/work.md`.
 - **Pi extensions:** source `~/code/dotfiles/dot_pi/agent/extensions/`, deployed to `~/.pi/agent/extensions/`
-- **Sync:** Edit in chezmoi source, then `dotsync`
+- **Sync:** Edit here, then `dotsync` (skills npm deps reinstall via `run_after`).
 
 ## Config Chain
 
-1. **Global** `~/AGENTS.md` -- pointer to `~/agent-coding/AGENTS.md`
-2. **Coding** `~/agent-coding/AGENTS.md` -- canonical shared hard rules + coding workflow
+1. **Global** `~/AGENTS.md` -- pointer to `~/code/dotfiles/agent-coding/AGENTS.md`
+2. **Coding** `~/code/dotfiles/agent-coding/AGENTS.md` -- canonical shared hard rules + coding workflow
 3. **Repo-local** `<repo>/AGENTS.md` -- project-specific rules
 4. **Shared skills** `~/.agents/skills/` -- native skill root for reusable workflows
 
 Root and downstream repo `AGENTS.md` files should be pointer-style:
 
 ```md
-READ ~/agent-coding/AGENTS.md BEFORE ANYTHING (skip if missing).
+READ ~/code/dotfiles/agent-coding/AGENTS.md BEFORE ANYTHING (skip if missing).
 ```
 
 Repo-specific rules go below that pointer.
@@ -40,7 +40,7 @@ Shared files should stay provider-agnostic:
 
 ## Shared Skills
 
-Shared skills live in `skills/` and deploy to `~/agent-coding/skills/`.
+Shared skills live in `skills/` and are read from `~/code/dotfiles/agent-coding/skills/`.
 
 - `commit/` -- commit workflow and Conventional Commit formatting.
 - `create-cli/` -- CLI UX, flags, output contracts, and command trees.

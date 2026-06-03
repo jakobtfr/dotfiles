@@ -5,19 +5,20 @@ tags: [config, agents, workflow]
 
 # Agent Setup
 
-The canonical agent setup lives in `~/agent-coding/` (source:
-`~/code/dotfiles/agent-coding/`).
+The canonical agent setup lives in `~/code/dotfiles/agent-coding/` and is read in
+place -- it is `.chezmoiignore`d, so there is no deployed `~/agent-coding/` copy.
 
 ## Layout
 
 | Runtime path | Source path | Purpose |
 |---|---|---|
-| `~/AGENTS.md` | `AGENTS.md` | Pointer only: `READ ~/agent-coding/AGENTS.md BEFORE ANYTHING` |
-| `~/agent-coding/AGENTS.md` | `agent-coding/AGENTS.md` | Canonical shared/coding rules |
-| `~/agent-coding/skills/` | `agent-coding/skills/` | Shared skill source |
-| `~/.agents/skills` | `dot_agents/skills` | Symlink to `~/agent-coding/skills` for native Codex skill discovery |
+| `~/AGENTS.md` | `AGENTS.md` | Pointer only: `READ ~/code/dotfiles/agent-coding/AGENTS.md BEFORE ANYTHING` |
+| `~/code/dotfiles/agent-coding/AGENTS.md` | `agent-coding/AGENTS.md` | Canonical shared/coding rules (read in place) |
+| `~/code/dotfiles/agent-coding/work.md` | (untracked) | Amazon-internal rules; gitignored, auto-loaded on Claude via `~/.claude/rules/work.md` |
+| `~/code/dotfiles/agent-coding/skills/` | `agent-coding/skills/` | Shared skill source |
+| `~/.agents/skills` | `dot_agents/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native Codex skill discovery |
 | `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex bootstrap, same pointer as `~/AGENTS.md` |
-| `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md.tmpl` | Claude Code bootstrap pointing to `~/agent-coding/AGENTS.md` |
+| `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md.tmpl` | Claude Code bootstrap pointing to `~/code/dotfiles/agent-coding/AGENTS.md` |
 | `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config and AGENTS bootstrap |
 | `~/.pi/agent/settings.json` | `dot_pi/agent/settings.json.tmpl` | Pi settings, including `~/.agents/skills` skill root |
 

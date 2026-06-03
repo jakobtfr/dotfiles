@@ -1,1 +1,1 @@
-READ ~/agent-coding/AGENTS.md BEFORE ANYTHING (skip if missing).
+READ ~/code/dotfiles/agent-coding/AGENTS.md BEFORE ANYTHING (skip if missing).

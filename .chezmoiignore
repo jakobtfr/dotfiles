@@ -18,6 +18,10 @@ docs
 install.sh
 packages.txt
 
+# Agent rules + shared skills are read in place from ~/code/dotfiles/agent-coding/;
+# not deployed to ~/agent-coding (all references point at the repo path directly).
+agent-coding
+
 {{ if ne .chezmoi.os "darwin" }}
 .config/aerospace
 .config/wezterm

@@ -369,7 +369,6 @@ function discoverRoots(): string[] {
     path.join(home, ".agents/skills"),
     path.join(home, ".codex/skills"),
     path.join(home, ".codex/plugins/cache"),
-    path.join(home, "agent-coding/skills"),
     path.join(home, "code/dotfiles/agent-coding/skills"),
     ...extraRoots.map(expandHome),
   ].forEach((root) => {

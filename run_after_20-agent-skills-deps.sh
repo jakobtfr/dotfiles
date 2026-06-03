@@ -19,7 +19,7 @@ case "$(hostname)" in
   50f265e89d43)
     ;;
   *)
-    install_if_needed "$HOME/agent-coding/skills/web-browser/scripts" "agent-coding web-browser skill"
-    install_if_needed "$HOME/agent-coding/skills/google-workspace" "agent-coding google-workspace skill"
+    install_if_needed "$HOME/code/dotfiles/agent-coding/skills/web-browser/scripts" "agent-coding web-browser skill"
+    install_if_needed "$HOME/code/dotfiles/agent-coding/skills/google-workspace" "agent-coding google-workspace skill"
     ;;
 esac
