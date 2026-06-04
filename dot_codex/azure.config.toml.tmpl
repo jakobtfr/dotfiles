@@ -2,9 +2,12 @@
 # Start with `codex --profile azure`.
 model_provider = "azure"
 model = "gpt-5.5"
+model_reasoning_effort = "medium"
 model_catalog_json = "{{ .chezmoi.homeDir }}/.codex/azure-models.json"
-model_context_window = 90000
-model_auto_compact_token_limit = 70000
+# Keep the reported context below the deployment's 100k TPM quota. Azure rate
+# limiting is based on estimated processed tokens, not only billable tokens.
+model_context_window = 50000
+model_auto_compact_token_limit = 30000
 
 [model_providers.azure]
 name = "Azure OpenAI"
