@@ -59,8 +59,3 @@ Shared skills live in `skills/` and are read from `~/code/dotfiles/agent-coding/
 - `uv/` -- Python scripts, deps, and builds with `uv`.
 - `web-browser/` -- Chrome/CDP browser inspection, screenshots, and logs.
 
-Notes-vault-specific skills stay in the notes vault's repo-local `.agents/skills` directory.
-
-## Upstream reference
-
-`~/code/agent-scripts/` is an upstream/reference clone only. Runtime config is owned in this dotfiles repo; copy/update selected skills or harness extensions intentionally.
