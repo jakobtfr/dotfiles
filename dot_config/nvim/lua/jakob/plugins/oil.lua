@@ -12,6 +12,14 @@ return {
 				["<C-l>"] = false,
 				["<C-t>"] = false,
 				["<C-c>"] = false,
+				["<C-p>"] = function()
+					local oil_win = vim.api.nvim_get_current_win()
+					require("oil").open_preview({ vertical = true, split = "belowright" }, function()
+						if vim.api.nvim_win_is_valid(oil_win) then
+							vim.api.nvim_win_set_width(oil_win, math.max(24, math.floor(vim.o.columns * 0.2)))
+						end
+					end)
+				end,
 			},
 			float = {
 				preview_split = "right",
