@@ -25,8 +25,8 @@ vim.opt.tw = 80
 vim.opt.colorcolumn = "+1"
 
 vim.diagnostic.config({
-	virtual_text = false,
-	virtual_lines = false,
+	virtual_text = true,
+	virtual_lines = true,
 })
 
 vim.o.winborder = "rounded"
