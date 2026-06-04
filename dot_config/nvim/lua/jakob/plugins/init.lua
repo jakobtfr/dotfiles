@@ -4,6 +4,7 @@ return {
 	"jakob.plugins.conform",
 	"jakob.plugins.fugitive",
 	"jakob.plugins.lspconfig",
+	"jakob.plugins.oil",
 	"jakob.plugins.telescope",
 	"jakob.plugins.tmux-navigator",
 	"jakob.plugins.treesitter",

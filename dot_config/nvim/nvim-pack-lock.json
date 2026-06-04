@@ -18,6 +18,10 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
+    "oil.nvim": {
+      "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
+      "src": "https://github.com/stevearc/oil.nvim"
+    },
     "plenary.nvim": {
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
@@ -27,9 +31,8 @@
       "src": "https://github.com/rose-pine/neovim"
     },
     "telescope.nvim": {
-      "rev": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026",
-      "src": "https://github.com/nvim-telescope/telescope.nvim",
-      "version": "'0.1.8'"
+      "rev": "7d324792b7943e4aa16ad007212e6acc6f9fe335",
+      "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
     "vim-fugitive": {
       "rev": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0",

@@ -1,7 +1,7 @@
 return {
 	specs = {
 		{ src = "https://github.com/nvim-lua/plenary.nvim" },
-		{ src = "https://github.com/nvim-telescope/telescope.nvim", version = "0.1.8" },
+		{ src = "https://github.com/nvim-telescope/telescope.nvim" },
 	},
 	setup = function()
 		local telescope = require("telescope")
