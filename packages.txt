@@ -1,10 +1,12 @@
 [packages]
 nvim
 tree-sitter-cli
+stylua
 tmux
 chezmoi
 node
 python
+biome
 tmuxp
 powerlevel10k
 zsh-autosuggestions
