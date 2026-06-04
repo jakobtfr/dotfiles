@@ -12,6 +12,7 @@ return {
 				["<C-l>"] = false,
 				["<C-t>"] = false,
 				["<C-c>"] = false,
+				["gy"] = { "actions.yank_entry", opts = { modify = ":p" }, mode = "n" },
 				["<C-p>"] = function()
 					local oil_win = vim.api.nvim_get_current_win()
 					local entry = require("oil").get_cursor_entry()
