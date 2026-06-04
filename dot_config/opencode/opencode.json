@@ -3,6 +3,11 @@
   "instructions": [
     "~/code/dotfiles/agent-coding/AGENTS.md"
   ],
+  "permission": {
+    "skill": {
+      "*": "allow"
+    }
+  },
   "provider": {
     "azure": {
       "name": "Azure OpenAI",
@@ -19,7 +24,7 @@
           "temperature": false,
           "tool_call": true,
           "limit": {
-            "context": 272000,
+            "context": 90000,
             "output": 10000
           },
           "modalities": {

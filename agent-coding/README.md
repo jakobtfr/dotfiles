@@ -7,9 +7,11 @@ Coding-specific guardrails plus shared, agent-agnostic skills.
 Part of `~/code/dotfiles/`, but **read in place** -- not deployed by chezmoi (it is listed in `.chezmoiignore`). There is no `~/agent-coding/` copy; every reference points at this repo path directly.
 
 - **Single source/runtime path:** `~/code/dotfiles/agent-coding/`
-- **Shared skills:** `~/code/dotfiles/agent-coding/skills/`, symlinked as `~/.agents/skills` and `~/.claude/skills`
-- **Codex-native skills:** `dot_agents/skills` is a relative symlink source, deployed as `~/.agents/skills -> ~/code/dotfiles/agent-coding/skills`
-- **Harness adapters:** Codex discovers `~/.agents/skills` natively; Pi points at the same root; Claude Code and OpenCode use AGENTS routing.
+- **Shared skills:** `~/code/dotfiles/agent-coding/skills/`, symlinked as `~/.agents/skills`, `~/.claude/skills`, and `~/.config/opencode/skills`
+- **Codex-native skills:** `dot_agents/skills` is a symlink source, deployed as `~/.agents/skills -> ~/code/dotfiles/agent-coding/skills`
+- **Claude Code-native skills:** `dot_claude/skills` is a symlink source, deployed as `~/.claude/skills -> ~/code/dotfiles/agent-coding/skills`
+- **OpenCode-native skills:** `dot_config/opencode/skills` is a symlink source, deployed as `~/.config/opencode/skills -> ~/code/dotfiles/agent-coding/skills`
+- **Harness adapters:** Codex, Claude Code, and OpenCode discover symlinked shared skills natively; Pi points at the same root.
 - **Local-only work rules:** `work.md` holds Amazon-internal rules; gitignored, never pushed. Auto-loaded on Claude via `~/.claude/rules/work.md`.
 - **Pi extensions:** source `~/code/dotfiles/dot_pi/agent/extensions/`, deployed to `~/.pi/agent/extensions/`
 - **Sync:** Edit here, then `dotsync` (skills npm deps reinstall via `run_after`).
@@ -19,7 +21,7 @@ Part of `~/code/dotfiles/`, but **read in place** -- not deployed by chezmoi (it
 1. **Global** `~/AGENTS.md` -- pointer to `~/code/dotfiles/agent-coding/AGENTS.md`
 2. **Coding** `~/code/dotfiles/agent-coding/AGENTS.md` -- canonical shared hard rules + coding workflow
 3. **Repo-local** `<repo>/AGENTS.md` -- project-specific rules
-4. **Shared skills** `~/.agents/skills/` -- native skill root for reusable workflows
+4. **Shared skills** native symlinks under `~/.agents/skills/`, `~/.claude/skills/`, and `~/.config/opencode/skills/`
 
 Root and downstream repo `AGENTS.md` files should be pointer-style:
 

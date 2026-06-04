@@ -26,7 +26,7 @@ tags: [config, dotfiles, chezmoi]
 | Target | Source in dotfiles | Notes |
 |---|---|---|
 | `~/.config/nvim/` | `dot_config/nvim/` | Neovim config (uses `vim.pack`) |
-| `~/.tmux.conf` | `dot_tmux.conf` | tmux config (CSI u extended keys) |
+| `~/.tmux.conf` | `dot_tmux.conf` | tmux config |
 | `~/.config/tmuxp/` | `dot_config/tmuxp/` | tmux session configs |
 
 ### Terminal + window manager (macOS-only)
@@ -46,9 +46,11 @@ Gated off on non-darwin via `.chezmoiignore`.
 | `~/AGENTS.md` | `AGENTS.md` | Pointer to `~/code/dotfiles/agent-coding/AGENTS.md` |
 | `~/code/dotfiles/agent-coding/` | `agent-coding/` | Canonical shared/coding rules, scripts, and skills (read in place; `.chezmoiignore`d, not deployed) |
 | `~/.agents/skills` | `dot_agents/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
+| `~/.claude/skills` | `dot_claude/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
+| `~/.config/opencode/skills` | `dot_config/opencode/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
 | `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex global instruction bootstrap |
 | `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md.tmpl` | Claude Code instruction bootstrap |
-| `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config + AGENTS bootstrap + plugins |
+| `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config + rules bootstrap + native skills |
 | `~/.pi/agent/settings.json` | `dot_pi/agent/settings.json.tmpl` | Pi settings |
 | `~/.pi/agent/keybindings.json` | `dot_pi/agent/keybindings.json` | Pi keybindings |
 | `~/.pi/agent/extensions/` | `dot_pi/agent/extensions/` | Pi extensions (TS) |
@@ -88,4 +90,10 @@ Inside Neovim:
 
 ```vim
 :lua vim.pack.update()
+```
+
+Or use the local alias:
+
+```vim
+:PackUpdate
 ```

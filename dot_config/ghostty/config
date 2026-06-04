@@ -35,3 +35,6 @@ cursor-style-blink = false
 
 macos-titlebar-style = hidden
 shell-integration-features = sudo,no-cursor
+
+# Prevent Ctrl-J from leaking as CSI-u (`[106;5u`) into shells/apps.
+keybind = ctrl+j=text:\x0a

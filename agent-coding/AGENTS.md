@@ -89,19 +89,3 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 - No amend unless asked.
 - Unrecognized changes: assume other agent; keep going; focus your changes. If it causes issues, stop + ask user.
 
-## Skills
-
-- `commit` -- before committing.
-- `create-cli` -- before designing CLI UX, flags, output contracts, or command trees.
-- `frontend-design` -- before creating/restyling UI.
-- `github` -- GitHub/PR/CI work.
-- `github-deep-review` -- deep GitHub issue/PR review: root cause, provenance, best fix, proof, risk.
-- `google-workspace` -- Google Workspace tasks across Gmail, Drive, Calendar, Docs, Sheets.
-- `librarian` -- referenced remote repos; use cached checkouts under `~/.cache/checkouts` instead of ad hoc clones.
-- `mermaid` -- before creating/editing Mermaid diagrams.
-- `skill-cleaner` -- audit skill budget, duplicates, usage, and stale skills.
-- `summarize` -- convert URLs/docs/PDFs to Markdown.
-- `tmux` -- before background jobs or interactive CLIs/debuggers.
-- `update-changelog` -- before changelog edits.
-- `uv` -- before Python deps/scripts/builds.
-- `web-browser` -- live browser/UI inspection.

@@ -17,9 +17,11 @@ place -- it is `.chezmoiignore`d, so there is no deployed `~/agent-coding/` copy
 | `~/code/dotfiles/agent-coding/work.md` | (untracked) | Amazon-internal rules; gitignored, auto-loaded on Claude via `~/.claude/rules/work.md` |
 | `~/code/dotfiles/agent-coding/skills/` | `agent-coding/skills/` | Shared skill source |
 | `~/.agents/skills` | `dot_agents/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native Codex skill discovery |
+| `~/.claude/skills` | `dot_claude/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native Claude Code skill discovery |
+| `~/.config/opencode/skills` | `dot_config/opencode/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native OpenCode skill discovery |
 | `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex bootstrap, same pointer as `~/AGENTS.md` |
 | `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md.tmpl` | Claude Code bootstrap pointing to `~/code/dotfiles/agent-coding/AGENTS.md` |
-| `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config and AGENTS bootstrap |
+| `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config, rules bootstrap, and native skills |
 | `~/.pi/agent/settings.json` | `dot_pi/agent/settings.json.tmpl` | Pi settings, including `~/.agents/skills` skill root |
 
 ## Rules
