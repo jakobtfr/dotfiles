@@ -97,3 +97,8 @@ Or use the local alias:
 ```vim
 :PackUpdate
 ```
+
+LSP uses Neovim's native `vim.lsp.config()` / `vim.lsp.enable()` flow.
+`nvim-lspconfig` is kept for server config data, but no language servers are
+enabled by default; add servers to `dot_config/nvim/lua/jakob/lsp.lua` as they
+are needed.

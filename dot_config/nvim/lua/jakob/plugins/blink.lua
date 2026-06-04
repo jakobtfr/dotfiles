@@ -1,6 +1,5 @@
 return {
 	specs = {
-		{ src = "https://github.com/rafamadriz/friendly-snippets" },
 		{ src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1.0.0 - 2.0.0") },
 	},
 	setup = function()
@@ -17,7 +16,7 @@ return {
 				},
 			},
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
+				default = { "lsp", "path", "buffer" },
 			},
 			fuzzy = {
 				implementation = "prefer_rust_with_warning",
