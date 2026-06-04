@@ -19,5 +19,6 @@ return {
 		vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "find git files" })
 		vim.keymap.set("n", "<leader>fl", builtin.live_grep, { desc = "live grep" })
 		vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
+		vim.keymap.set("n", "<leader>ws", builtin.lsp_dynamic_workspace_symbols, { desc = "workspace symbols" })
 	end,
 }
