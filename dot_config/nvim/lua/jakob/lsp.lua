@@ -1,5 +1,6 @@
 local servers = {
 	"clangd",
+	"cmake",
 }
 
 if #servers > 0 then
