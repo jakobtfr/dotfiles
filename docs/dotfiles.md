@@ -56,7 +56,7 @@ Gated off on non-darwin via `.chezmoiignore`.
 | `~/.pi/agent/extensions/` | `dot_pi/agent/extensions/` | Pi extensions (TS) |
 | `~/.pi/agent/themes/` | `dot_pi/agent/themes/` | Pi themes |
 
-`~/.codex/config.toml` is intentionally not managed here because Codex writes project trust and other runtime state into that file. `~/.pi/agent/auth.json` and `~/.pi/agent/sessions/` are explicitly ignored (runtime state). Repo-meta files (`README.md`, `DOTFILES_POLICY.md`, `docs/`, `install.sh`, `packages.txt`) are excluded from deployment via `.chezmoiignore` and stay in `~/code/dotfiles/` only.
+`~/.codex/config.toml` is intentionally not managed here because Codex writes project trust and other runtime state into that file. `~/.codex/azure.config.toml` is create-once: chezmoi seeds the Azure profile on new machines, then leaves local Codex trust/project edits alone. `~/.pi/agent/auth.json` and `~/.pi/agent/sessions/` are explicitly ignored (runtime state). Repo-meta files (`README.md`, `DOTFILES_POLICY.md`, `docs/`, `install.sh`, `packages.txt`) are excluded from deployment via `.chezmoiignore` and stay in `~/code/dotfiles/` only.
 
 ## Templating
 

@@ -7,6 +7,7 @@
 ## Managed vs unmanaged
 - Managed: reproducible config you want across machines.
 - Never managed: secrets, machine-specific state, cache/log/session files, noisy generated files without reproducibility value.
+- Create-once: bootstrap config that apps mutate locally, e.g. Codex profile files with project trust state.
 
 ## Command standard
 - Managed existing file: `chezmoi edit <file>`
