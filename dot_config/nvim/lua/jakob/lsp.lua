@@ -2,6 +2,7 @@ local servers = {
 	"clangd",
 	"cmake",
 	"jdtls",
+	"rust_analyzer",
 }
 
 if #servers > 0 then
