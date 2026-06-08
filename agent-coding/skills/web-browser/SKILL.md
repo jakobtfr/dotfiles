@@ -1,11 +1,50 @@
 ---
 name: web-browser
-description: "Interact with web pages by clicking buttons, filling forms, navigating links, taking screenshots, and inspecting runtime state through the Chrome DevTools Protocol (CDP)."
+description: "Low-level fallback browser controls for raw Chrome DevTools Protocol work, manual element picking, cookie dialog dismissal, and local console/network logging. Prefer agent-browser for normal browser automation."
 ---
 
 # Web Browser Skill
 
-Minimal CDP tools for collaborative site exploration.
+Low-level CDP tools for browser debugging escape hatches.
+
+## Default: Use agent-browser
+
+For normal browser automation, use `agent-browser` instead of these scripts:
+
+```bash
+agent-browser skills get core
+agent-browser open https://example.com
+agent-browser snapshot -i
+agent-browser click @e3
+agent-browser fill @e4 "text"
+agent-browser wait --load networkidle
+agent-browser screenshot
+```
+
+`agent-browser` is the default for:
+- opening/navigating pages
+- clicking, filling, typing, selecting, hovering, scrolling, dragging, uploading
+- extracting text, HTML, attributes, values, counts, boxes, and styles
+- screenshots, PDFs, annotated screenshots, diffs, traces, profiling, and video
+- waits, tabs, frames, dialogs, cookies, storage, auth state, sessions, and network interception
+- React tree/render/vitals inspection
+- cloud/browser-provider workflows
+
+Run `agent-browser doctor` when the CLI/browser setup behaves unexpectedly.
+
+## Use These Scripts Only For
+
+- Cookie banners: `dismiss-cookies.js` has focused EU CMP heuristics.
+- Manual visual picking: `pick.js` lets a human select elements in the live page.
+- Raw CDP debugging: scripts are small and patchable when `agent-browser` abstracts too much.
+- Conservative profile copy behavior: `start.js --profile` copies the Chrome profile into cache and refuses unknown `:9222` instances.
+- Local JSONL console/network logging: `watch.js`, `logs-tail.js`, and `net-summary.js`.
+
+Start these commands from this skill directory:
+
+```bash
+cd ~/code/dotfiles/agent-coding/skills/web-browser
+```
 
 ## Start Chrome
 
@@ -35,7 +74,10 @@ Optional debug endpoint override:
 BROWSER_DEBUG_PORT=9333 ./scripts/start.js
 ```
 
-## Navigate
+Prefer `agent-browser open --headed <url>` unless you specifically need this
+local profile-copy/port behavior.
+
+## Navigate Fallback
 
 ```bash
 ./scripts/nav.js https://example.com
@@ -44,7 +86,17 @@ BROWSER_DEBUG_PORT=9333 ./scripts/start.js
 
 Navigate current tab or open new tab.
 
-## Device Emulation (Mobile)
+Prefer:
+
+```bash
+agent-browser open --device "iPhone 14" https://example.com
+agent-browser set viewport 390 844 3
+```
+
+Use this fallback when working with the local Chrome instance launched by
+`start.js`.
+
+## Device Emulation Fallback
 
 ```bash
 ./scripts/emulate.js --list
@@ -57,7 +109,17 @@ Set an active device emulation preference (viewport, DPR, touch, UA) for browser
 
 Commands like `nav.js`, `eval.js`, `pick.js`, `dismiss-cookies.js`, and `screenshot.js` automatically apply the active preference.
 
-## Evaluate JavaScript
+## Evaluate JavaScript Fallback
+
+Prefer:
+
+```bash
+cat <<'EOF' | agent-browser eval --stdin
+document.title
+EOF
+```
+
+Use the local script only for raw CDP work against the `start.js` browser.
 
 ```bash
 ./scripts/eval.js 'document.title'
@@ -67,7 +129,17 @@ Commands like `nav.js`, `eval.js`, `pick.js`, `dismiss-cookies.js`, and `screens
 
 Execute JavaScript in active tab (async context). Be careful with string escaping, best to use single quotes.
 
-## Screenshot
+## Screenshot Fallback
+
+Prefer:
+
+```bash
+agent-browser screenshot
+agent-browser screenshot --full
+agent-browser screenshot --annotate
+```
+
+Use the local script only for screenshots from the `start.js` browser.
 
 ```bash
 ./scripts/screenshot.js
@@ -90,6 +162,15 @@ Takes a screenshot and returns a temp file path.
 
 Interactive element picker. Click to select, Cmd/Ctrl+Click for multi-select, Enter to finish.
 
+Use this when a human needs to visually choose elements. For agent-only element
+selection, prefer:
+
+```bash
+agent-browser snapshot -i
+agent-browser screenshot --annotate
+agent-browser find role button click --name "Submit"
+```
+
 ## Dismiss Cookie Dialogs
 
 ```bash
@@ -104,7 +185,17 @@ Run after navigating to a page:
 ./scripts/nav.js https://example.com && ./scripts/dismiss-cookies.js
 ```
 
-## Quick Mobile Debug Flow
+For `agent-browser`, first try snapshot-driven dismissal:
+
+```bash
+agent-browser snapshot -i
+agent-browser click @e3
+```
+
+If cookie banners remain a frequent problem, start the local CDP browser and use
+this script.
+
+## Quick Local Mobile Debug Flow
 
 ```bash
 ./scripts/start.js
@@ -115,7 +206,19 @@ Run after navigating to a page:
 ./scripts/screenshot.js --full-page
 ```
 
-## Background Logging (Console + Errors + Network)
+Prefer this `agent-browser` flow unless the local JSONL logs are specifically
+useful:
+
+```bash
+agent-browser open --device "iPhone 14" https://example.com
+agent-browser wait --load networkidle
+agent-browser console
+agent-browser errors
+agent-browser network requests
+agent-browser screenshot --full
+```
+
+## Background Logging Fallback (Console + Errors + Network)
 
 Automatically started by `start.js` and writes JSONL logs to:
 
@@ -138,3 +241,6 @@ Summarize network responses:
 ```bash
 ./scripts/net-summary.js
 ```
+
+Prefer `agent-browser console`, `agent-browser errors`, `agent-browser network
+requests`, and `agent-browser network har start/stop` for normal work.
