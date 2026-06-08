@@ -3,6 +3,7 @@ local languages = {
 	"javascript",
 	"typescript",
 	"c",
+	"java",
 	"lua",
 	"vim",
 	"vimdoc",

@@ -1,6 +1,7 @@
 local servers = {
 	"clangd",
 	"cmake",
+	"jdtls",
 }
 
 if #servers > 0 then
