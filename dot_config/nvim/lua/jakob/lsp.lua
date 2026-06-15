@@ -7,6 +7,18 @@ local servers = {
 	"rust_analyzer",
 }
 
+-- "standard" matches pyright defaults; basedpyright's "recommended" default nags
+-- about missing annotations and Any/Unknown types.
+vim.lsp.config("basedpyright", {
+	settings = {
+		basedpyright = {
+			analysis = {
+				typeCheckingMode = "standard",
+			},
+		},
+	},
+})
+
 -- basedpyright owns hover/type info; ruff is diagnostics + formatting only.
 vim.lsp.config("ruff", {
 	on_attach = function(client)
