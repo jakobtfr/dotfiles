@@ -23,6 +23,8 @@ selection-foreground = #e0def4
 window-padding-x = 4
 window-padding-y = 4
 window-padding-color = background
+background-opacity = 0.95
+background-blur-radius = 20
 
 font-family = JetBrains Mono
 font-size = 15
