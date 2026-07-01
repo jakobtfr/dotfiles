@@ -6,10 +6,22 @@ function formatCost(cost: number): string {
 	return `$${cost.toFixed(3)}`;
 }
 
-function formatContextPercent(ctx: ExtensionContext): string {
+function formatTokenCount(tokens: number): string {
+	if (tokens >= 1_000_000) return `${(tokens / 1_000_000).toFixed(tokens >= 10_000_000 ? 0 : 2)}M`;
+	if (tokens >= 1_000) return `${(tokens / 1_000).toFixed(tokens >= 10_000 ? 0 : 1)}k`;
+	return `${tokens}`;
+}
+
+function formatContextUsage(ctx: ExtensionContext): string {
 	const usage = ctx.getContextUsage();
-	if (!usage || usage.percent === null) return "ctx ?";
-	return `ctx ${usage.percent.toFixed(1)}%`;
+	if (!usage) return "ctx ?";
+
+	const tokenText =
+		usage.tokens === null
+			? `?/${formatTokenCount(usage.contextWindow)}`
+			: `${formatTokenCount(usage.tokens)}/${formatTokenCount(usage.contextWindow)}`;
+	const percentText = usage.percent === null ? "?%" : `${usage.percent.toFixed(1)}%`;
+	return `ctx ${percentText} ${tokenText}`;
 }
 
 function formatModel(model: ExtensionContext["model"]): string {
@@ -50,7 +62,7 @@ export default function (pi: ExtensionAPI) {
 			return {
 				invalidate() {},
 				render(width: number): string[] {
-					const left = theme.fg("dim", [formatContextPercent(ctx), formatCost(getTotalCost(ctx))].join(" "));
+					const left = theme.fg("dim", [formatContextUsage(ctx), formatCost(getTotalCost(ctx))].join(" "));
 					const right = theme.fg("dim", [modelText, effortText].join(" "));
 
 					const rightWidth = visibleWidth(right);

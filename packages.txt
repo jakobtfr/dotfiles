@@ -1,5 +1,6 @@
 [packages]
 nvim
+typescript-language-server
 tree-sitter-cli
 stylua
 tmux

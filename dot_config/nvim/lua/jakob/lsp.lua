@@ -5,6 +5,7 @@ local servers = {
 	"jdtls",
 	"ruff",
 	"rust_analyzer",
+	"ts_ls",
 }
 
 -- "standard" matches pyright defaults; basedpyright's "recommended" default nags
