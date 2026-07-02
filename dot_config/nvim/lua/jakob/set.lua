@@ -7,7 +7,9 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
-vim.opt.wrap = false
+vim.opt.wrap = true
+vim.opt.linebreak = true -- wrap at word boundaries, not mid-word
+vim.opt.breakindent = true -- wrapped lines keep the line's indent
 
 vim.opt.swapfile = false
 vim.opt.undofile = true
