@@ -4,6 +4,10 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias python="python3"
 alias pip="pip3"
 
+{{ if .has_brazil -}}
+alias bb="brazil-build"
+{{ end -}}
+
 {{ if ne .chezmoi.os "darwin" -}}
 alias trash="trash-put"
 {{ end -}}
