@@ -1,4 +1,4 @@
-session_name: TUM-ai
+session_name: TUM.ai Website
 start_directory: ~/code/tumai/website_new
 windows:
   - window_name: Dev 
@@ -6,8 +6,8 @@ windows:
       - shell_command:
         - nvim .
   - window_name: sh
-  - window_name: agent
   - window_name: Server
     panes:
       - shell_command:
           - npm run dev
+  - window_name: agent
