@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+import json, sys
+
+try:
+    current = json.load(sys.stdin)
+except Exception:
+    current = {}
+
+desired = {
+    "lastChangelogVersion": current.get("lastChangelogVersion", "0.75.4"),
+    "defaultProvider": "azure-openai-responses",
+    "defaultModel": "gpt-5.5",
+    "defaultThinkingLevel": "high",
+    "theme": "dark",
+    "skills": [
+        "{{ .chezmoi.homeDir }}/.agents/skills"
+    ],
+    "enabledModels": [],
+    "enableSkillCommands": False,
+    "packages": []
+}
+
+json.dump(desired, sys.stdout, indent=2)
+sys.stdout.write("\n")
