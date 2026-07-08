@@ -22,7 +22,7 @@ Daily usage: `dotapply`, `dotsync "chore(dotfiles): tweak shell"`, `dotpull`.
 - Shell: `.zshrc`, `.p10k.zsh`, `.config/shell/{aliases,env}.zsh`
 - Prompt: `.config/starship.toml`
 - Editor: `.config/nvim/`
-- Multiplexer: `.tmux.conf`, `.config/tmuxp/`
+- Multiplexer: `.tmux.conf`, `.config/tmuxp/`, `.config/herdr/`
 - Terminals: `.config/ghostty/`, `.config/wezterm/` (macOS only)
 - Window manager: `.config/aerospace/` (macOS only)
 - Agents:

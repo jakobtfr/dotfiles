@@ -28,6 +28,7 @@ tags: [config, dotfiles, chezmoi]
 | `~/.config/nvim/` | `dot_config/nvim/` | Neovim config (uses `vim.pack`) |
 | `~/.tmux.conf` | `dot_tmux.conf` | tmux config |
 | `~/.config/tmuxp/` | `dot_config/tmuxp/` | tmux session configs |
+| `~/.config/herdr/` | `dot_config/herdr/` | Herdr config with tmux-style keybindings |
 
 ### Terminal + window manager (macOS-only)
 
