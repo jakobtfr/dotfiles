@@ -1,17 +1,17 @@
 {
   "providers": {
     "azure-openai-responses": {
-      "baseUrl": "https://oai-coding-4890.openai.azure.com",
+      "baseUrl": "https://oai-coding-56s-4890.openai.azure.com",
       "apiKey": "!security find-generic-password -s 'azure-openai-api-key' -w",
       "modelOverrides": {
-        "gpt-5.5": {
+        "gpt-5.6-sol": {
           "contextWindow": 90000
         }
       }
     },
     "openai": {
       "modelOverrides": {
-        "gpt-5.5": {
+        "gpt-5.6-sol": {
           "contextWindow": 1050000
         }
       }

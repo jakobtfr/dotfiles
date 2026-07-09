@@ -1,17 +1,17 @@
 # Azure OpenAI profile for Codex.
 # Start with `codex --profile azure`.
 model_provider = "azure"
-model = "gpt-5.5"
+model = "gpt-5.6-sol"
 model_reasoning_effort = "medium"
 model_catalog_json = "{{ .chezmoi.homeDir }}/.codex/azure-models.json"
 # The deployment is scaled to 2M TPM; keep Codex aligned with Azure's
-# documented gpt-5.5 context while compacting before the hard limit.
+# documented GPT-5.6 context while compacting before the hard limit.
 model_context_window = 1050000
 model_auto_compact_token_limit = 700000
 
 [model_providers.azure]
 name = "Azure OpenAI"
-base_url = "https://oai-coding-4890.openai.azure.com/openai"
+base_url = "https://oai-coding-56s-4890.openai.azure.com/openai"
 query_params = { api-version = "2025-04-01-preview" }
 wire_api = "responses"
 request_max_retries = 4
