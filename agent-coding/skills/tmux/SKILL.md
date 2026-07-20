@@ -1,203 +1,95 @@
 ---
 name: tmux
-description: "Run long-running jobs and remote-control interactive CLIs/debuggers in detached private tmux sessions. Use for background tests/builds/dev servers/watchers, REPLs, lldb/gdb, and other persistent terminal work."
+description: "Persistent user-attachable terminal sessions for long jobs, servers, watchers, REPLs, and debuggers."
 ---
 
-# tmux Skill
+# tmux
 
-Use tmux when a command should keep running while the agent continues working, or when a process needs an interactive TTY. Works on Linux and macOS with stock tmux.
+Prefer the harness's native persistent process or PTY session for routine long-running commands and interactive input.
 
-Do **not** use the user's normal tmux server. Use a private socket path with `tmux -S "$SOCKET"`.
+Use tmux when:
 
-## When to use
+- the process must survive harness calls, reconnects, or turn boundaries
+- the user needs an independent attachable terminal
+- multiple agents or runtimes need the same terminal
+- persistent pane history or multiple panes materially help
+- the harness has no suitable persistent process session
 
-Use tmux for:
-- long-running tests/builds/checks that may exceed normal tool timeouts
-- dev servers and file watchers
-- background logs/tails
-- REPLs, shells, database consoles, debuggers
-- any interactive process that needs repeated input/output inspection
+Do not use tmux for quick commands or when a native session provides the needed lifetime and interaction.
 
-Do not use tmux for quick commands that can run directly and finish promptly.
+## Private Socket
 
-## Socket convention
-
-```bash
-SOCKET_DIR="${AGENT_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/agent-tmux-sockets}"
-mkdir -p "$SOCKET_DIR"
-SOCKET="$SOCKET_DIR/agent.sock"
-SESSION="agent-<short-task-name>"
-```
-
-Rules:
-- Always use `tmux -S "$SOCKET"` with the private socket path.
-- Keep session names short and slug-like: `agent-tests`, `agent-dev`, `agent-lldb`.
-- Target panes as `{session}:{window}.{pane}`; default pane is usually `$SESSION:0.0`.
-- Inspect sessions with `tmux -S "$SOCKET" list-sessions` and panes with `tmux -S "$SOCKET" list-panes -a`.
-
-## Always print monitor commands
-
-After starting a session, immediately tell the user how to monitor it. Repeat the commands again in the final response if the session is still running.
-
-```text
-To monitor:
-  tmux -S "$SOCKET" attach -t "$SESSION"
-
-To capture output once:
-  tmux -S "$SOCKET" capture-pane -p -J -t "$SESSION":0.0 -S -200
-```
-
-This is required. The user should be able to copy/paste without reconstructing state.
-
-## Long-running non-interactive command
-
-Use this for tests/builds/checks where the pane should stay open after completion and expose the exit code:
+Never use the user's normal tmux server.
 
 ```bash
 SOCKET_DIR="${AGENT_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/agent-tmux-sockets}"
 mkdir -p "$SOCKET_DIR"
 SOCKET="$SOCKET_DIR/agent.sock"
-SESSION="agent-tests-$(date +%H%M%S)"
+SESSION="agent-task-$(date +%H%M%S)"
+```
+
+Always pass `-S "$SOCKET"`. Keep session names short and task-specific.
+
+## Start
+
+For a command that should expose its exit status and leave the pane available:
+
+```sh
 CMD='pnpm test'
-
 tmux -S "$SOCKET" new-session -d -s "$SESSION" -n run \
   "bash -lc 'set -o pipefail; $CMD 2>&1; code=\$?; echo; echo __AGENT_EXIT__:\$code; exec bash -i'"
-
-echo "To monitor: tmux -S '$SOCKET' attach -t '$SESSION'"
-echo "To capture: tmux -S '$SOCKET' capture-pane -p -J -t '$SESSION':0.0 -S -200"
 ```
 
-Later, inspect output:
+For a persistent server or watcher:
 
-```bash
-tmux -S "$SOCKET" capture-pane -p -J -t "$SESSION":0.0 -S -300
-```
-
-Look for `__AGENT_EXIT__:0` or a non-zero exit marker. If the marker is absent, the job is still running or did not reach the wrapper tail.
-
-## Dev server / watcher
-
-Use this for persistent processes:
-
-```bash
-SOCKET_DIR="${AGENT_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/agent-tmux-sockets}"
-mkdir -p "$SOCKET_DIR"
-SOCKET="$SOCKET_DIR/agent.sock"
-SESSION="agent-dev-$(date +%H%M%S)"
-
+```sh
+CMD='pnpm dev'
 tmux -S "$SOCKET" new-session -d -s "$SESSION" -n server \
-  "bash -lc 'pnpm dev'"
-
-echo "To monitor: tmux -S '$SOCKET' attach -t '$SESSION'"
-echo "To capture: tmux -S '$SOCKET' capture-pane -p -J -t '$SESSION':0.0 -S -200"
+  "bash -lc '$CMD'"
 ```
 
-Poll readiness with `capture-pane`, `rg`, `curl`, or the app's health check.
+Set `CMD` only from trusted task commands. For complex quoting, put the command in a project script and invoke that script.
 
-## Sending input safely
+## Report and Monitor
 
-Prefer literal sends to avoid shell splitting:
+Immediately print exact monitor commands. Repeat them in the final response if the session remains active.
 
-```bash
-tmux -S "$SOCKET" send-keys -t "$SESSION":0.0 -l -- "$cmd"
-tmux -S "$SOCKET" send-keys -t "$SESSION":0.0 Enter
+```text
+To monitor: tmux -S '<socket>' attach -t '<session>'
+To capture: tmux -S '<socket>' capture-pane -p -J -t '<session>' -S -200
 ```
 
-Control keys:
+Poll output and readiness with:
 
-```bash
-tmux -S "$SOCKET" send-keys -t "$SESSION":0.0 C-c
-tmux -S "$SOCKET" send-keys -t "$SESSION":0.0 C-d
+```sh
+tmux -S "$SOCKET" capture-pane -p -J -t "$SESSION" -S -200
 ```
 
-## Watching output
+For prompt synchronization, run from this skill directory:
 
-Capture recent history, joined to avoid wrapping artifacts:
-
-```bash
-tmux -S "$SOCKET" capture-pane -p -J -t "$SESSION":0.0 -S -200
+```sh
+./scripts/wait-for-text.sh -S "$SOCKET" -t "$SESSION" -p '^>>>' -T 15 -l 4000
 ```
 
-For continuous monitoring, poll with `capture-pane` or use the helper script below. Do not use `tmux wait-for` for pane text; it does not watch output.
+Send literal input separately from Enter:
 
-## Finding sessions
-
-From this skill directory:
-
-```bash
-./scripts/find-sessions.sh -S "$SOCKET"
-./scripts/find-sessions.sh --all
-```
-
-`--all` scans sockets under `${AGENT_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/agent-tmux-sockets}`.
-
-## Synchronizing / waiting for prompts
-
-Use timed polling to avoid races with interactive tools. From this skill directory:
-
-```bash
-./scripts/wait-for-text.sh -S "$SOCKET" -t "$SESSION":0.0 -p '^>>>' -T 15 -l 4000
-```
-
-If the helper in this checkout does not support `-S`, pass the socket through `TMUX`-compatible environment or fall back to a short `while` loop around `tmux -S "$SOCKET" capture-pane`.
-
-## Interactive recipes
-
-### Python REPL
-
-Use the basic REPL so send-keys works predictably:
-
-```bash
-tmux -S "$SOCKET" new-session -d -s "$SESSION" -n py \
-  "bash -lc 'PYTHON_BASIC_REPL=1 python3 -q'"
-./scripts/wait-for-text.sh -t "$SESSION":0.0 -p '^>>>' -T 15 -l 4000
-```
-
-Then send code literally with `send-keys -l` and press Enter.
-
-### lldb / gdb
-
-Prefer `lldb` on macOS unless the project expects `gdb`.
-
-```bash
-tmux -S "$SOCKET" new-session -d -s "$SESSION" -n debug \
-  "bash -lc 'lldb -- ./target/debug/app'"
-```
-
-For gdb, disable paging after startup:
-
-```bash
-tmux -S "$SOCKET" send-keys -t "$SESSION":0.0 -l -- 'set pagination off'
-tmux -S "$SOCKET" send-keys -t "$SESSION":0.0 Enter
+```sh
+tmux -S "$SOCKET" send-keys -t "$SESSION" -l -- "$input"
+tmux -S "$SOCKET" send-keys -t "$SESSION" Enter
+tmux -S "$SOCKET" send-keys -t "$SESSION" C-c
 ```
 
 ## Cleanup
 
-When done, clean up sessions you started:
+Kill sessions when their task is finished:
 
-```bash
+```sh
 tmux -S "$SOCKET" kill-session -t "$SESSION"
 ```
 
-Kill all sessions on the private socket only when appropriate:
+Find sessions left on agent sockets:
 
-```bash
-tmux -S "$SOCKET" kill-server
+```sh
+./scripts/find-sessions.sh -S "$SOCKET"
+./scripts/find-sessions.sh --all
 ```
-
-Do not kill the user's normal tmux server.
-
-## Helper: wait-for-text.sh
-
-`./scripts/wait-for-text.sh` polls a pane for a regex or fixed string.
-
-```bash
-./scripts/wait-for-text.sh -t session:0.0 -p 'pattern' [-F] [-T 20] [-i 0.5] [-l 2000]
-```
-
-- `-t`/`--target` pane target (required)
-- `-p`/`--pattern` regex to match (required); add `-F` for fixed string
-- `-T` timeout seconds (integer, default 15)
-- `-i` poll interval seconds (default 0.5)
-- `-l` history lines to search from the pane (integer, default 1000)
-- exits 0 on first match, 1 on timeout; on failure prints captured text to stderr

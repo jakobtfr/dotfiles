@@ -46,7 +46,6 @@ Shared skills live in `skills/` and are read from `~/code/dotfiles/agent-coding/
 
 - `commit/` -- commit workflow and Conventional Commit formatting.
 - `create-cli/` -- CLI UX, flags, output contracts, and command trees.
-- `frontend-design/` -- distinctive production frontend design.
 - `github/` -- GitHub PRs, issues, CI, and `gh api` workflows.
 - `github-deep-review/` -- deep issue/PR review: cause, provenance, best fix, proof, risk.
 - `google-workspace/` -- Google Workspace API workflows across Gmail, Drive, Calendar, Docs, and Sheets.
@@ -55,7 +54,7 @@ Shared skills live in `skills/` and are read from `~/code/dotfiles/agent-coding/
 - `review-loop/` -- run subagent `/review` until requested changes are resolved.
 - `skill-cleaner/` -- audit skill budget, duplicates, usage, and stale skills.
 - `summarize/` -- convert URLs/files to Markdown and optionally summarize.
-- `tmux/` -- private-socket workflow for background jobs, interactive CLIs, and debuggers.
+- `tmux/` -- persistent, user-attachable terminals when native sessions are insufficient.
 - `update-changelog/` -- update changelogs from release/tag history.
 - `uv/` -- Python scripts, deps, and builds with `uv`.
-- `web-browser/` -- Chrome/CDP browser inspection, screenshots, and logs.
+- `web-browser/` -- `agent-browser` workflow plus local Chrome/CDP fallbacks.

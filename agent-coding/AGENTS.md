@@ -15,7 +15,7 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 - **Notes:** read the vault's `AGENTS.md` when working in the notes vault.
 - **Skills:** use `~/.agents/skills/<name>/SKILL.md` when relevant.
 - Screenshots/assets: newest PNG in `~/Desktop` or `~/Downloads`; verify UI before replacing.
-- Screenshot/live UI bugs: verify with `web-browser` against the existing Chrome profile. `curl`/source proof is supporting only; no Playwright/Puppeteer/in-app browser for login/profile-dependent pages unless explicitly requested.
+- Screenshot/live UI bugs: read `web-browser`; verify with `agent-browser` or its existing-profile fallback. `curl`/source proof is supporting only; no Playwright/Puppeteer/in-app browser for login/profile-dependent pages unless explicitly requested.
 - Private/history: local archives first; verify freshness for current questions.
 
 ## Project Defaults
@@ -35,7 +35,7 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 - Before handoff: run the narrowest meaningful gate. Run full lint/typecheck/tests/docs for broad or risky changes, or before commit/PR when practical.
 - Keep work observable: logs, panes, tails, MCP/browser tools.
 - Short checks: run directly.
-- Long-running jobs, dev servers, watchers, REPLs, and debuggers: read `tmux`; run detached on a private socket; print attach/capture commands; poll output; clean up when done.
+- Long-running jobs: use the harness's persistent process/PTY session when sufficient. Read `tmux` when the process must survive harness interruptions, the user needs to attach, or no persistent session exists; use a private socket and clean up.
 - CI red: use `gh run list/view`; fix locally. Rerun/push only when requested or already covered by user intent.
 
 ## PR / CI
@@ -88,4 +88,3 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 - If user types a command ("pull and push"), that's consent for that command.
 - No amend unless asked.
 - Unrecognized changes: assume other agent; keep going; focus your changes. If it causes issues, stop + ask user.
-

@@ -1,4 +1,5 @@
 #!/usr/bin/env -S node --experimental-strip-types
+import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -506,18 +507,20 @@ function scanUsage(skills: Skill[], logFiles: string[]): Map<string, Usage> {
     } catch {
       continue;
     }
+    const evidence = extractUsageEvidence(text);
     const dollarCounts = countTokens(
-      [...text.matchAll(/\$([A-Za-z][A-Za-z0-9_.:-]{1,80})/g)].map((m) => (m[1] ?? "").toLowerCase()),
+      [...evidence.userText.matchAll(/\$([A-Za-z][A-Za-z0-9_.:-]{1,80})/g)].map((m) =>
+        (m[1] ?? "").toLowerCase()
+      ),
     );
     const pathCounts = countTokens(
-      [...text.matchAll(/(?:^|[/"'`\\])(?:\.agents\/)?skills\/([^/"'`\\\s]+)\/SKILL\.md/g)].map((m) =>
-        (m[1] ?? "").toLowerCase()
-      ),
+      [...evidence.toolText.matchAll(/(?:^|[/"'`\\])(?:\.agents\/)?skills\/([^/"'`\\\s]+)\/SKILL\.md/g)]
+        .map((m) => (m[1] ?? "").toLowerCase()),
     );
     const textCounts = countTokens(
-      [...text.matchAll(/\b(?:use|using|load|read)\s+`?\$?([A-Za-z][A-Za-z0-9_.:-]{1,80})`?/gi)].map((m) =>
-        (m[1] ?? "").toLowerCase()
-      ),
+      [...evidence.userText.matchAll(
+        /\b(?:use|using|load|read)\s+`?\$?([A-Za-z][A-Za-z0-9_.:-]{1,80})`?/gi,
+      )].map((m) => (m[1] ?? "").toLowerCase()),
     );
     for (const [name, names] of aliases) {
       const item = usage.get(name);
@@ -530,6 +533,191 @@ function scanUsage(skills: Skill[], logFiles: string[]): Map<string, Usage> {
     }
   }
   return usage;
+}
+
+function extractUsageEvidence(text: string): { userText: string; toolText: string } {
+  const userParts: string[] = [];
+  const toolParts: string[] = [];
+
+  for (const line of text.split(/\r?\n/)) {
+    if (!line.trim()) continue;
+    let record: unknown;
+    try {
+      record = JSON.parse(line);
+    } catch {
+      continue;
+    }
+    if (!record || typeof record !== "object") continue;
+    const item = record as Record<string, unknown>;
+
+    // history.jsonl records user prompts directly.
+    if (typeof item.text === "string" && typeof item.session_id === "string") {
+      userParts.push(item.text);
+    }
+
+    if (item.type !== "response_item" || !item.payload || typeof item.payload !== "object") continue;
+    const payload = item.payload as Record<string, unknown>;
+    if (payload.type === "function_call" && typeof payload.arguments === "string") {
+      toolParts.push(...toolReadStrings(typeof payload.name === "string" ? payload.name : "", payload.arguments));
+      continue;
+    }
+    if (payload.type === "message" && payload.role === "user" && Array.isArray(payload.content)) {
+      for (const content of payload.content) {
+        if (!content || typeof content !== "object") continue;
+        const message = content as Record<string, unknown>;
+        if (typeof message.text === "string") userParts.push(message.text);
+      }
+    }
+  }
+
+  return { userText: userParts.join("\n"), toolText: toolParts.join("\n") };
+}
+
+function toolReadStrings(toolName: string, raw: string): string[] {
+  try {
+    return collectToolReadStrings(toolName, JSON.parse(raw));
+  } catch {
+    return [];
+  }
+}
+
+function collectToolReadStrings(toolName: string, value: unknown): string[] {
+  if (!value || typeof value !== "object") return [];
+  const record = value as Record<string, unknown>;
+  const shortName = toolName.split(".").at(-1) ?? toolName;
+
+  if (shortName === "parallel" && Array.isArray(record.tool_uses)) {
+    return record.tool_uses.flatMap((toolUse) => {
+      if (!toolUse || typeof toolUse !== "object") return [];
+      const tool = toolUse as Record<string, unknown>;
+      if (typeof tool.recipient_name !== "string") return [];
+      return collectToolReadStrings(tool.recipient_name, tool.parameters);
+    });
+  }
+
+  if (shortName === "exec_command") {
+    if (typeof record.cmd !== "string") return [];
+    const readSegments = skillReadSegments(record.cmd);
+    if (readSegments.length === 0) return [];
+    if (
+      typeof record.workdir === "string" &&
+      readSegments.some((segment) => /(?:^|[\s"'`])SKILL\.md(?:$|[\s"'`])/.test(segment))
+    ) {
+      readSegments.push(path.join(expandHome(record.workdir), "SKILL.md"));
+    }
+    return readSegments;
+  }
+
+  if (["read_file", "read_text_file"].includes(shortName)) return collectToolStrings(record);
+  return [];
+}
+
+function skillReadSegments(command: string): string[] {
+  return command.split(/&&|\|\||[;|\n]/).filter((segment) => {
+    if (!segment.includes("SKILL.md") || segment.includes(">")) return false;
+    const commandMatch =
+      /^\s*(?:[A-Za-z_][A-Za-z0-9_]*=\S+\s+)*(?:command\s+)?(awk|bat|cat|head|less|more|nl|sed|tail)\b/
+        .exec(segment);
+    if (!commandMatch) return false;
+    return commandMatch[1] !== "sed" || !/\bsed\s+(?:--in-place\b|-[A-Za-z]*i[A-Za-z]*\b)/.test(segment);
+  });
+}
+
+function collectToolStrings(value: unknown): string[] {
+  if (typeof value === "string") return [value];
+  if (Array.isArray(value)) return value.flatMap(collectToolStrings);
+  if (!value || typeof value !== "object") return [];
+
+  const record = value as Record<string, unknown>;
+  const strings = Object.values(record).flatMap(collectToolStrings);
+  if (
+    typeof record.workdir === "string" &&
+    strings.some((item) => /(?:^|[/\s])SKILL\.md(?:$|[\s"'`])/.test(item))
+  ) {
+    strings.push(path.join(expandHome(record.workdir), "SKILL.md"));
+  }
+  return strings;
+}
+
+function runUsageEvidenceSelfTest(): void {
+  const injectedCatalog = JSON.stringify({
+    type: "response_item",
+    payload: {
+      type: "message",
+      role: "developer",
+      content: [{ type: "input_text", text: "- tmux: .../skills/tmux/SKILL.md" }],
+    },
+  });
+  assert.deepEqual(extractUsageEvidence(injectedCatalog), { userText: "", toolText: "" });
+
+  const explicitPrompt = JSON.stringify({ session_id: "session", text: "Use $tmux for this.", ts: 1 });
+  assert.equal(extractUsageEvidence(explicitPrompt).userText, "Use $tmux for this.");
+
+  const directRead = JSON.stringify({
+    type: "response_item",
+    payload: {
+      type: "function_call",
+      name: "exec_command",
+      arguments: JSON.stringify({
+        cmd: "sed -n '1,200p' SKILL.md",
+        workdir: "/tmp/skills/tmux",
+      }),
+    },
+  });
+  assert.match(extractUsageEvidence(directRead).toolText, /skills\/tmux\/SKILL\.md/);
+
+  const diffOnly = JSON.stringify({
+    type: "response_item",
+    payload: {
+      type: "function_call",
+      name: "exec_command",
+      arguments: JSON.stringify({ cmd: "git diff -- skills/tmux/SKILL.md", workdir: "/tmp" }),
+    },
+  });
+  assert.equal(extractUsageEvidence(diffOnly).toolText, "");
+
+  const writeOnly = JSON.stringify({
+    type: "response_item",
+    payload: {
+      type: "function_call",
+      name: "exec_command",
+      arguments: JSON.stringify({ cmd: "sed -i 's/old/new/' skills/tmux/SKILL.md", workdir: "/tmp" }),
+    },
+  });
+  assert.equal(extractUsageEvidence(writeOnly).toolText, "");
+
+  const mixedOperations = JSON.stringify({
+    type: "response_item",
+    payload: {
+      type: "function_call",
+      name: "exec_command",
+      arguments: JSON.stringify({
+        cmd: "cat skills/tmux/SKILL.md; git diff -- skills/web-browser/SKILL.md",
+        workdir: "/tmp",
+      }),
+    },
+  });
+  const mixedEvidence = extractUsageEvidence(mixedOperations).toolText;
+  assert.match(mixedEvidence, /skills\/tmux\/SKILL\.md/);
+  assert.doesNotMatch(mixedEvidence, /skills\/web-browser\/SKILL\.md/);
+
+  const parallelRead = JSON.stringify({
+    type: "response_item",
+    payload: {
+      type: "function_call",
+      name: "multi_tool_use.parallel",
+      arguments: JSON.stringify({
+        tool_uses: [{
+          recipient_name: "functions.exec_command",
+          parameters: {
+            cmd: "cat /tmp/skills/web-browser/SKILL.md",
+            workdir: "/tmp",
+          },
+        }],
+      }),
+    },
+  });
+  assert.match(extractUsageEvidence(parallelRead).toolText, /skills\/web-browser\/SKILL\.md/);
 }
 
 function countTokens(values: string[]): Map<string, number> {
@@ -832,7 +1020,7 @@ function render(skills: Skill[], usage: Map<string, Usage>, logFiles: string[]):
       const item = usage.get(skill.name);
       return !item || item.dollar + item.fileRead + item.text === 0;
     })
-    .filter((skill) => !["codex", "codex-plugin"].includes(skill.scope))
+    .filter((skill) => skill.scope !== "codex")
     .sort((a, b) => a.scope.localeCompare(b.scope) || a.name.localeCompare(b.name))
     .slice(0, 80);
   const totalLineChars = enabled.reduce((sum, skill) => sum + skill.lineChars, 0);
@@ -923,6 +1111,12 @@ function render(skills: Skill[], usage: Map<string, Usage>, logFiles: string[]):
     lines.push(`- ${root}: ${list.length} skills${disabled ? `, ${disabled} disabled` : ""}`);
   }
   return lines.join("\n");
+}
+
+if (args.has("--self-test")) {
+  runUsageEvidenceSelfTest();
+  console.log("skill-cleaner self-test passed");
+  process.exit(0);
 }
 
 const skills = discoverSkills();

@@ -15,6 +15,12 @@ Use this when trimming skill prompt budget, finding duplicate skills, auditing e
 node --experimental-strip-types scripts/skill-cleaner.ts --months 3
 ```
 
+After changing the analyzer:
+
+```bash
+node --experimental-strip-types scripts/skill-cleaner.ts --self-test
+```
+
 Useful variants:
 
 ```bash
@@ -46,8 +52,8 @@ node --experimental-strip-types scripts/skill-cleaner.ts --root ~/Dropbox/boxd/s
 - It scans normal Codex, plugin, shared, and repo-local skill roots by default. Extra folders such as Dropbox archives are included only with `--root <path>`.
 - It realpath-dedupes roots, so symlinked roots do not create false duplicates.
 - For duplicate names, it reports description/body similarity and suggests deletion candidates only when bodies are near copies. Keep priority defaults to direct Codex system skills, then direct Codex skills, then plugin skills, then personal/repo copies.
-- It scans `~/.codex/history.jsonl` and recent `~/.codex/sessions/**/*.jsonl` by default. Add `--deep-logs` for archived sessions and known agent log folders.
-- Usage evidence is heuristic: `$skill`, `Use $skill`, and paths like `skills/<name>/SKILL.md`.
+- It scans user prompts in `~/.codex/history.jsonl` and tool calls in recent `~/.codex/sessions/**/*.jsonl`. Add `--deep-logs` for archived sessions.
+- Usage evidence is heuristic: explicit `$skill`/`use <skill>` prompts and tool calls that read `skills/<name>/SKILL.md`. Injected developer skill catalogs are excluded.
 
 ## Output Policy
 
