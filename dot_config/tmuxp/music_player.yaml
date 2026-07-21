@@ -1,9 +1,9 @@
-session_name: Dotfiles
-start_directory: ~/code/dotfiles/
+session_name: music_player
+start_directory: ~/code/projects/cpp/music-player/
 windows:
   - window_name: editor
     panes:
       - shell_command:
-        - nvim .
+          - nvim .
   - window_name: sh
   - window_name: agent

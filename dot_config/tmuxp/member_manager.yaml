@@ -1,13 +1,13 @@
 session_name: MemberManager
 start_directory: ~/code/tumai/member-manager/
 windows:
-  - window_name: Dev 
+  - window_name: editor
     panes:
       - shell_command:
         - nvim .
   - window_name: sh
-  - window_name: agent
-  - window_name: Server
+  - window_name: server
     panes:
       - shell_command:
           - pnpm dev
+  - window_name: agent

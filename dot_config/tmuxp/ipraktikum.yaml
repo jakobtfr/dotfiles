@@ -1,0 +1,17 @@
+session_name: iPraktikum
+start_directory: ~/code/ipraktikum/tum
+windows:
+  - window_name: editor
+    panes:
+      - shell_command:
+          - nvim .
+  - window_name: sh
+  - window_name: server
+    panes:
+      - shell_command:
+          - cd server && pnpm dev
+  - window_name: agent
+  - window_name: vm
+    panes:
+      - shell_command:
+          - ssh go69fag@ios2526tum.aet.cit.tum.de.
