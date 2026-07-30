@@ -51,7 +51,7 @@ Shared skills live in `skills/` and are read from `~/code/dotfiles/agent-coding/
 - `google-workspace/` -- Google Workspace API workflows across Gmail, Drive, Calendar, Docs, and Sheets.
 - `librarian/` -- cache remote repos under `~/.cache/checkouts` for source inspection.
 - `mermaid/` -- create and validate Mermaid diagrams.
-- `review-loop/` -- run subagent `/review` until requested changes are resolved.
+- `review-fix/` -- run one subagent `/review` and resolve requested changes.
 - `skill-cleaner/` -- audit skill budget, duplicates, usage, and stale skills.
 - `summarize/` -- convert URLs/files to Markdown and optionally summarize.
 - `tmux/` -- persistent, user-attachable terminals when native sessions are insufficient.
