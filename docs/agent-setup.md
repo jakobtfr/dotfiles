@@ -14,7 +14,6 @@ place -- it is `.chezmoiignore`d, so there is no deployed `~/agent-coding/` copy
 |---|---|---|
 | `~/AGENTS.md` | `AGENTS.md` | Pointer only: `READ ~/code/dotfiles/agent-coding/AGENTS.md BEFORE ANYTHING` |
 | `~/code/dotfiles/agent-coding/AGENTS.md` | `agent-coding/AGENTS.md` | Canonical shared/coding rules (read in place) |
-| `~/code/dotfiles/agent-coding/work.md` | (untracked) | Amazon-internal rules; gitignored, auto-loaded on Claude via `~/.claude/rules/work.md` |
 | `~/code/dotfiles/agent-coding/skills/` | `agent-coding/skills/` | Shared skill source |
 | `~/.agents/skills` | `dot_agents/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native Codex skill discovery |
 | `~/.claude/skills` | `dot_claude/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native Claude Code skill discovery |

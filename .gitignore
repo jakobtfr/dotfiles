@@ -2,9 +2,6 @@ dot_pi/agent/auth.json
 dot_pi/agent/sessions/
 node_modules/
 
-# Amazon-internal coding rules. Local-only; never pushed.
-agent-coding/work.md
-
 # Amazon-internal infra detail (Cloud Desktop hostname). Local-only.
 dot_config/tmuxp/amazon.yaml
 

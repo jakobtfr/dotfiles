@@ -50,6 +50,7 @@ Gated off on non-darwin via `.chezmoiignore`.
 | `~/.claude/skills` | `dot_claude/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
 | `~/.config/opencode/skills` | `dot_config/opencode/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
 | `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex global instruction bootstrap |
+| `~/.codex/bedrock-models.json` | `dot_codex/bedrock-models.json` | Bedrock model catalog with the 1M context default |
 | `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md.tmpl` | Claude Code instruction bootstrap |
 | `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config + rules bootstrap + native skills |
 | `~/.pi/agent/settings.json` | `dot_pi/agent/settings.json.tmpl` | Pi settings |
@@ -57,7 +58,7 @@ Gated off on non-darwin via `.chezmoiignore`.
 | `~/.pi/agent/extensions/` | `dot_pi/agent/extensions/` | Pi extensions (TS) |
 | `~/.pi/agent/themes/` | `dot_pi/agent/themes/` | Pi themes |
 
-`~/.codex/config.toml` is intentionally not managed here because Codex writes project trust and other runtime state into that file. `~/.codex/azure.config.toml` is create-once: chezmoi seeds the Azure profile on new machines, then leaves local Codex trust/project edits alone. `~/.pi/agent/auth.json` and `~/.pi/agent/sessions/` are explicitly ignored (runtime state). Repo-meta files (`README.md`, `DOTFILES_POLICY.md`, `docs/`, `install.sh`, `packages.txt`) are excluded from deployment via `.chezmoiignore` and stay in `~/code/dotfiles/` only.
+`~/.codex/config.toml` is not continuously managed because Codex writes project trust and other runtime state into that file. Chezmoi seeds it once with stable defaults, including the Bedrock model catalog path. `~/.codex/azure.config.toml` is also create-once: chezmoi seeds the Azure profile on new machines, then leaves local Codex trust/project edits alone. `~/.pi/agent/auth.json` and `~/.pi/agent/sessions/` are explicitly ignored (runtime state). Repo-meta files (`README.md`, `DOTFILES_POLICY.md`, `docs/`, `install.sh`, `packages.txt`) are excluded from deployment via `.chezmoiignore` and stay in `~/code/dotfiles/` only.
 
 ## Templating
 

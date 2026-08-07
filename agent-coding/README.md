@@ -12,7 +12,6 @@ Part of `~/code/dotfiles/`, but **read in place** -- not deployed by chezmoi (it
 - **Claude Code-native skills:** `dot_claude/skills` is a symlink source, deployed as `~/.claude/skills -> ~/code/dotfiles/agent-coding/skills`
 - **OpenCode-native skills:** `dot_config/opencode/skills` is a symlink source, deployed as `~/.config/opencode/skills -> ~/code/dotfiles/agent-coding/skills`
 - **Harness adapters:** Codex, Claude Code, and OpenCode discover symlinked shared skills natively; Pi points at the same root.
-- **Local-only work rules:** `work.md` holds Amazon-internal rules; gitignored, never pushed. Auto-loaded on Claude via `~/.claude/rules/work.md`.
 - **Pi extensions:** source `~/code/dotfiles/dot_pi/agent/extensions/`, deployed to `~/.pi/agent/extensions/`
 - **Sync:** Edit here, then `dotsync` (skills npm deps reinstall via `run_after`).
 
