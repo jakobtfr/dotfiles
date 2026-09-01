@@ -1,21 +1,24 @@
 ---
 name: tmux
-description: "Persistent user-attachable terminal sessions for long jobs, servers, watchers, REPLs, and debuggers."
+description: "Fallback for persistent, user-attachable terminal sessions when a server, watcher, debugger, or long job must outlive the current agent session."
 ---
 
 # tmux
 
-Prefer the harness's native persistent process or PTY session for routine long-running commands and interactive input.
+Use the harness's native persistent process or PTY for routine commands,
+interactive input, and jobs that only need to survive individual tool calls.
+Use tmux only when the process needs an independent lifetime or the user needs
+to attach directly.
 
 Use tmux when:
 
-- the process must survive harness calls, reconnects, or turn boundaries
+- a server, watcher, or long job must survive the current agent/app session
 - the user needs an independent attachable terminal
 - multiple agents or runtimes need the same terminal
 - persistent pane history or multiple panes materially help
-- the harness has no suitable persistent process session
 
-Do not use tmux for quick commands or when a native session provides the needed lifetime and interaction.
+Do not use tmux for quick commands, ordinary tests, or background work that a
+native session can keep alive long enough.
 
 ## Private Socket
 
@@ -32,10 +35,11 @@ Always pass `-S "$SOCKET"`. Keep session names short and task-specific.
 
 ## Start
 
-For a command that should expose its exit status and leave the pane available:
+For a long batch job that must survive the current agent session, expose its
+exit status and leave the pane available:
 
 ```sh
-CMD='pnpm test'
+CMD='pnpm run benchmark'
 tmux -S "$SOCKET" new-session -d -s "$SESSION" -n run \
   "bash -lc 'set -o pipefail; $CMD 2>&1; code=\$?; echo; echo __AGENT_EXIT__:\$code; exec bash -i'"
 ```

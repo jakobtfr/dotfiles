@@ -40,7 +40,7 @@ Repo-specific rules go below that pointer.
 Shared files should stay provider-agnostic:
 
 - Use `AGENTS.md` and `SKILL.md` for canonical behavior and workflows.
-- Prefer neutral env vars such as `AGENT_TMUX_SOCKET_DIR`, `AGENT_AUTH_DIR`, and `AGENT_SUMMARIZER_CMD`.
+- Prefer neutral env vars such as `AGENT_TMUX_SOCKET_DIR`.
 - Keep unavoidable harness-specific config in adapter locations such as `dot_codex/`, `dot_claude/`, and `dot_config/opencode/`.
 - Keep compatibility fallbacks for existing local state when practical.
 
@@ -49,16 +49,11 @@ Shared files should stay provider-agnostic:
 Shared skills live in `skills/` and are read from `~/code/dotfiles/agent-coding/skills/`.
 
 - `commit/` -- commit workflow and Conventional Commit formatting.
-- `create-cli/` -- CLI UX, flags, output contracts, and command trees.
-- `github/` -- GitHub PRs, issues, CI, and `gh api` workflows.
 - `github-deep-review/` -- deep issue/PR review: cause, provenance, best fix, proof, risk.
-- `google-workspace/` -- Google Workspace API workflows across Gmail, Drive, Calendar, Docs, and Sheets.
 - `librarian/` -- cache remote repos under `~/.cache/checkouts` for source inspection.
-- `mermaid/` -- create and validate Mermaid diagrams.
 - `review-fix/` -- run one subagent `/review` and resolve requested changes.
 - `skill-cleaner/` -- audit skill budget, duplicates, usage, and stale skills.
 - `summarize/` -- convert URLs/files to Markdown and optionally summarize.
 - `tmux/` -- persistent, user-attachable terminals when native sessions are insufficient.
-- `update-changelog/` -- update changelogs from release/tag history.
 - `uv/` -- Python scripts, deps, and builds with `uv`.
-- `web-browser/` -- `agent-browser` workflow plus local Chrome/CDP fallbacks.
+- `agent-browser/` -- official Vercel Labs discovery skill; loads version-matched guidance from the installed CLI.

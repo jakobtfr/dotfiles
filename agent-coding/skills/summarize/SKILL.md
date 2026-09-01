@@ -1,98 +1,53 @@
 ---
 name: summarize
-description: "Convert URLs/files to Markdown with `uvx markitdown`, save inspectable output, and optionally summarize with a configured agent CLI."
+description: "Convert URLs and document files to inspectable Markdown with `markitdown` before analyzing or summarizing them in the current conversation."
 ---
 
-Turn URLs, PDFs, Office files, HTML pages, data files, images, audio, ZIPs, and other documents into Markdown so they can be inspected, quoted, or summarized like normal text.
+# Summarize
 
-`markitdown` can fetch URLs by itself; this skill mainly wraps it to make saving + summarizing convenient.
-For PDF inputs, use the `markitdown[pdf]` extra (or the wrapper below, which now does this automatically).
+Convert document-like inputs to Markdown, then inspect or summarize them in the
+current conversation. Do not launch another agent, select another model, or
+forward a generic summary prompt: keeping the work here preserves the user's
+actual request and conversation context.
 
-## When to use
+## Workflow
 
-Use this skill when you need to:
-- pull down a web page as a document-like Markdown representation
-- convert binary docs (PDF/DOCX/PPTX) into Markdown for analysis
-- quickly produce a short summary of a long document before deeper work
-- preserve a full converted Markdown artifact before extracting key points
+For a quick conversion:
 
-## Quick usage
-
-### Convert a URL or file to Markdown
-
-Run from **this skill folder** (the agent should `cd` here first):
-
-```bash
+```sh
 uvx --from 'markitdown[pdf]' markitdown <url-or-path>
 ```
 
-Common formats:
+For a long or binary input, save an inspectable temporary Markdown file:
 
-- Documents: PDF, Word, PowerPoint, Excel, EPub
-- Web/data: URL, HTML, CSV, JSON, XML
-- Media: image EXIF/OCR, audio metadata/transcription where supported
-- Archives: ZIP contents
-- Video: YouTube URLs where supported by `markitdown`
+Run these wrapper commands from this skill directory:
 
-To write Markdown to a temp file (prints the path) use the wrapper:
-
-```bash
+```sh
 node to-markdown.mjs <url-or-path> --tmp
 ```
 
-Tip: when summarizing, the script will **always** write the full converted Markdown to a temp `.md` file and will **always** print a final "Hint" line with the path (so you can open/inspect the full content).
+For a stable output path:
 
-Write Markdown to a specific file:
-
-```bash
-uvx --from 'markitdown[pdf]' markitdown <url-or-path> > /tmp/doc.md
+```sh
+node to-markdown.mjs <url-or-path> --out <file.md>
 ```
 
-Useful direct `markitdown` flags:
+Then read the relevant Markdown and answer the user's actual question. Preserve
+headings, names, quantities, and uncertainty when they matter. Use targeted
+searches or chunks for large documents instead of loading an entire conversion
+when only a small section is relevant.
 
-```bash
-uvx --from 'markitdown[pdf]' markitdown input.docx -o output.md
-uvx --from 'markitdown[pdf]' markitdown -x .pdf < input > output.md
-uvx --from 'markitdown[pdf]' markitdown -m application/pdf input > output.md
-uvx --from 'markitdown[pdf]' markitdown --list-plugins
-```
+## PDF boundary
 
-For difficult scanned PDFs, consider Azure Document Intelligence only when configured:
+- Use Markdown extraction for text-first reading, search, quotation, and
+  section-level analysis.
+- When layout, charts, handwriting, scans, or page geometry matter, inspect the
+  original PDF or rendered page images as well. Text extraction alone is not
+  evidence about visual layout.
+- MarkItDown does not guarantee page anchors. When page citations matter, use a
+  page-aware extractor or render pages separately, retain the page mapping, and
+  inspect the cited pages before making layout-sensitive claims.
 
-```bash
-uvx --from 'markitdown[pdf]' markitdown scan.pdf -d -e "https://<resource>.cognitiveservices.azure.com/"
-```
-
-### Convert + summarize (pass context!)
-
-Summaries are only useful when you provide **what you want extracted** and the **audience/purpose**.
-
-By default, summary mode auto-picks the first available CLI from `agent`, `pi`, then `claude`.
-
-Set `AGENT_SUMMARIZER_CMD` to choose a harness-specific command. Examples:
-
-```bash
-AGENT_SUMMARIZER_CMD="pi --provider anthropic --model claude-haiku-4-5 --no-tools --no-session -p"
-AGENT_SUMMARIZER_CMD="claude -p"
-```
-
-```bash
-node to-markdown.mjs <url-or-path> --summary --prompt "Summarize focusing on X, for audience Y. Extract Z."
-```
-
-Or:
-
-```bash
-node to-markdown.mjs <url-or-path> --summary --prompt "Focus on security implications and action items."
-```
-
-This will:
-1) convert to Markdown via `uvx --from 'markitdown[pdf]' markitdown`
-2) write the full Markdown to a temp `.md` file and print its path as a "Hint" line
-3) run the configured summarizer command using your extra prompt
-
-## Notes
-
-- First `uvx` run may cache dependencies.
-- Prefer inspecting the saved Markdown when quoting exact wording.
-- If extraction quality is poor, try direct `markitdown` flags before summarizing.
+`markitdown` supports common PDFs, Office documents, HTML, data files, images,
+audio, archives, and URLs. Conversion quality varies; inspect the source when
+exact wording or structure matters.

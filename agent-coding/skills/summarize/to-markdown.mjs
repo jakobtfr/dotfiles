@@ -1,21 +1,15 @@
 #!/usr/bin/env node
 /**
  * Convert a URL or local file to Markdown using `uvx markitdown`.
- * Optionally summarize the produced Markdown via a configured agent CLI.
- *
- * Note: `markitdown` can fetch URLs on its own; this script mainly adds:
- *   - optional writing to a temp file / specific output path
- *   - optional summarization via `AGENT_SUMMARIZER_CMD`
- *   - ability to add a *custom summary prompt/context* (highly recommended)
+ * The current agent can then inspect or summarize the Markdown without losing
+ * the user's conversation context to a separate summarizer process.
  *
  * Usage:
- *   node to-markdown.mjs <url-or-path> [--out <file>] [--tmp] [--summary [prompt]] [--prompt <prompt>]
+ *   node to-markdown.mjs <url-or-path> [--out <file> | --tmp]
  *
  * Examples:
  *   node to-markdown.mjs https://example.com
  *   node to-markdown.mjs ./spec.pdf --tmp
- *   node to-markdown.mjs ./spec.pdf --summary "Summarize focusing on security and compliance requirements."
- *   node to-markdown.mjs ./spec.pdf --summary --prompt "Extract API endpoints and auth details."
  */
 
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
@@ -27,7 +21,7 @@ const argv = process.argv.slice(2);
 
 function usageAndExit(code = 1) {
   const out = code === 0 ? console.log : console.error;
-  out('Usage: node to-markdown.mjs <url-or-path> [--out <file>] [--tmp] [--summary [prompt]] [--prompt <prompt>]');
+  out('Usage: node to-markdown.mjs <url-or-path> [--out <file> | --tmp]');
   process.exit(code);
 }
 
@@ -65,70 +59,10 @@ function makeTmpMdPath(input) {
   return join(dir, `${base}-${stamp}-${rand}.md`);
 }
 
-function splitCommand(command) {
-  const parts = [];
-  let current = '';
-  let quote = null;
-  let escaped = false;
-
-  for (const ch of command) {
-    if (escaped) {
-      current += ch;
-      escaped = false;
-      continue;
-    }
-    if (ch === '\\') {
-      escaped = true;
-      continue;
-    }
-    if (quote) {
-      if (ch === quote) quote = null;
-      else current += ch;
-      continue;
-    }
-    if (ch === '"' || ch === "'") {
-      quote = ch;
-      continue;
-    }
-    if (/\s/.test(ch)) {
-      if (current) {
-        parts.push(current);
-        current = '';
-      }
-      continue;
-    }
-    current += ch;
-  }
-
-  if (escaped) current += '\\';
-  if (quote) throw new Error(`Unclosed quote in command: ${command}`);
-  if (current) parts.push(current);
-  return parts;
-}
-
-function getSummarizerCommand() {
-  const configured = process.env.AGENT_SUMMARIZER_CMD;
-  if (configured) return splitCommand(configured);
-
-  if (commandExists('agent')) return ['agent', '--no-tools', '--no-session', '-p'];
-  if (commandExists('pi')) return ['pi', '--provider', 'anthropic', '--model', 'claude-haiku-4-5', '--no-tools', '--no-session', '-p'];
-  if (commandExists('claude')) return ['claude', '-p'];
-
-  return ['agent', '--no-tools', '--no-session', '-p'];
-}
-
-function commandExists(command) {
-  const lookup = process.platform === 'win32' ? 'where' : 'which';
-  const result = spawnSync(lookup, [command], { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'ignore'] });
-  return result.status === 0;
-}
-
 // --- args parsing ---
 let input = null;
 let outPath = null;
 let writeTmp = false;
-let doSummary = false;
-let summaryPrompt = null;
 
 for (let i = 0; i < argv.length; i++) {
   const a = argv[i];
@@ -152,28 +86,6 @@ for (let i = 0; i < argv.length; i++) {
     continue;
   }
 
-  if (a === '--prompt' || a === '--summary-prompt') {
-    summaryPrompt = argv[i + 1] ?? null;
-    if (!summaryPrompt || isFlag(summaryPrompt)) {
-      console.error(`Expected a value after ${a}`);
-      process.exit(1);
-    }
-    i++;
-    continue;
-  }
-
-  if (a === '--summary') {
-    doSummary = true;
-
-    // Allow: --summary "extra instructions" (only if next token isn't a flag and input is already known)
-    const next = argv[i + 1];
-    if (input && next && !isFlag(next) && summaryPrompt == null) {
-      summaryPrompt = next;
-      i++;
-    }
-    continue;
-  }
-
   if (isFlag(a)) {
     console.error(`Unknown flag: ${a}`);
     usageAndExit(1);
@@ -182,17 +94,16 @@ for (let i = 0; i < argv.length; i++) {
   if (!input) {
     input = a;
   } else {
-    // Extra bare arg. If summary is enabled and no prompt yet, treat as prompt for convenience.
-    if (doSummary && summaryPrompt == null) {
-      summaryPrompt = a;
-    } else {
-      console.error(`Unexpected argument: ${a}`);
-      usageAndExit(1);
-    }
+    console.error(`Unexpected argument: ${a}`);
+    usageAndExit(1);
   }
 }
 
 if (!input) usageAndExit(1);
+if (outPath && writeTmp) {
+  console.error('--out and --tmp are mutually exclusive');
+  usageAndExit(1);
+}
 
 function runMarkitdown(arg) {
   // Include PDF support by default because many document URLs (for example arXiv PDFs)
@@ -212,60 +123,6 @@ function runMarkitdown(arg) {
   return result.stdout;
 }
 
-function summarizeWithAgent(markdown, { mdPathForNote = null, extraPrompt = null } = {}) {
-  const MAX_CHARS = 140_000;
-  let truncated = false;
-  let body = markdown;
-  if (body.length > MAX_CHARS) {
-    // Keep start + end for better summaries.
-    const head = body.slice(0, 110_000);
-    const tail = body.slice(-20_000);
-    body = `${head}\n\n[...TRUNCATED ${body.length - (head.length + tail.length)} chars...]\n\n${tail}`;
-    truncated = true;
-  }
-
-  const note = mdPathForNote ? `\n\n(Generated markdown file: ${mdPathForNote})\n` : '';
-  const truncNote = truncated ? '\n\nNote: Input was truncated due to size.' : '';
-
-  const contextBlock = extraPrompt
-    ? `\n\nUser-provided context / instructions (follow these closely):\n${extraPrompt}\n`
-    : `\n\nNo extra context was provided. If the summary seems misaligned, ask the user for what to focus on (goals, audience, what to extract).\n`;
-
-  const prompt = `You are summarizing a document that has been converted to Markdown.${note}
-${contextBlock}
-Please produce:
-- A short 1-paragraph executive summary
-- 8-15 bullet points of key facts / decisions / requirements
-- A section "Open questions / missing info" (bullets)
-
-Be concise. Preserve important numbers, names, and constraints.
-${truncNote}
-
---- BEGIN DOCUMENT (Markdown) ---
-${body}
---- END DOCUMENT ---`;
-
-  const [command, ...args] = getSummarizerCommand();
-  if (!command) {
-    throw new Error('No summarizer command configured. Set AGENT_SUMMARIZER_CMD.');
-  }
-
-  const result = spawnSync(command, [...args, prompt], {
-    encoding: 'utf-8',
-    maxBuffer: 20 * 1024 * 1024,
-    timeout: 120_000
-  });
-
-  if (result.error) {
-    throw new Error(`Failed to run summarizer command '${command}': ${result.error.message}`);
-  }
-  if (result.status !== 0) {
-    const stderr = (result.stderr || '').trim();
-    throw new Error(`Summarizer command failed${stderr ? `\n${stderr}` : ''}`);
-  }
-  return (result.stdout || '').trim();
-}
-
 async function main() {
   if (!isUrl(input) && !existsSync(input)) {
     throw new Error(`File not found: ${input}`);
@@ -273,33 +130,16 @@ async function main() {
 
   const md = runMarkitdown(input);
 
-  // If the user requested an explicit output file, write it there.
   if (outPath) {
     writeFileSync(outPath, md, 'utf-8');
+    console.log(outPath);
+    return;
   }
 
-  // When summarizing we *always* write a temp markdown file and always return its path as a hint.
-  // When --tmp is passed, we write a temp file as well.
-  let tmpMdPath = null;
-  if (writeTmp || doSummary) {
-    tmpMdPath = makeTmpMdPath(input);
+  if (writeTmp) {
+    const tmpMdPath = makeTmpMdPath(input);
     writeFileSync(tmpMdPath, md, 'utf-8');
-  }
-
-  if (writeTmp && tmpMdPath) {
-    // When only asked for tmp path, print path and exit.
-    if (!doSummary && !outPath) {
-      console.log(tmpMdPath);
-      return;
-    }
-  }
-
-  if (doSummary) {
-    const summary = summarizeWithAgent(md, { mdPathForNote: tmpMdPath ?? outPath, extraPrompt: summaryPrompt });
-    process.stdout.write(summary);
-    if (tmpMdPath) {
-      process.stdout.write(`\n\n[Hint: Full document Markdown saved to: ${tmpMdPath}]\n`);
-    }
+    console.log(tmpMdPath);
     return;
   }
 
