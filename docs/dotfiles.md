@@ -1,5 +1,5 @@
 ---
-date: 2026-03-22
+date: 2026-09-01
 tags: [config, dotfiles, chezmoi]
 ---
 
@@ -46,19 +46,21 @@ Gated off on non-darwin via `.chezmoiignore`.
 |---|---|---|
 | `~/AGENTS.md` | `AGENTS.md` | Pointer to `~/code/dotfiles/agent-coding/AGENTS.md` |
 | `~/code/dotfiles/agent-coding/` | `agent-coding/` | Canonical shared/coding rules, scripts, and skills (read in place; `.chezmoiignore`d, not deployed) |
-| `~/.agents/skills` | `dot_agents/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
-| `~/.claude/skills` | `dot_claude/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
-| `~/.config/opencode/skills` | `dot_config/opencode/skills` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
+| `~/.agents/skills` | `dot_agents/symlink_skills.tmpl` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
+| `~/.claude/skills` | `dot_claude/symlink_skills.tmpl` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
+| `~/.config/opencode/skills` | `dot_config/opencode/symlink_skills.tmpl` | Symlink to `~/code/dotfiles/agent-coding/skills` for native skill discovery |
 | `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex global instruction bootstrap |
 | `~/.codex/bedrock-models.json` | `dot_codex/bedrock-models.json` | Bedrock model catalog with the 1M context default |
 | `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md.tmpl` | Claude Code instruction bootstrap |
 | `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config + rules bootstrap + native skills |
-| `~/.pi/agent/settings.json` | `dot_pi/agent/settings.json.tmpl` | Pi settings |
-| `~/.pi/agent/keybindings.json` | `dot_pi/agent/keybindings.json` | Pi keybindings |
-| `~/.pi/agent/extensions/` | `dot_pi/agent/extensions/` | Pi extensions (TS) |
-| `~/.pi/agent/themes/` | `dot_pi/agent/themes/` | Pi themes |
 
-`~/.codex/config.toml` is not continuously managed because Codex writes project trust and other runtime state into that file. Chezmoi seeds it once with stable defaults, including the Bedrock model catalog path. `~/.codex/azure.config.toml` is also create-once: chezmoi seeds the Azure profile on new machines, then leaves local Codex trust/project edits alone. `~/.pi/agent/auth.json` and `~/.pi/agent/sessions/` are explicitly ignored (runtime state). Repo-meta files (`README.md`, `DOTFILES_POLICY.md`, `docs/`, `install.sh`, `packages.txt`) are excluded from deployment via `.chezmoiignore` and stay in `~/code/dotfiles/` only.
+`~/.codex/config.toml` is not continuously managed because Codex writes project trust and other runtime state into that file. Chezmoi seeds it once with stable defaults, including the Bedrock model catalog path. `~/.codex/azure.config.toml` is also create-once: chezmoi seeds the Azure profile on new machines, then leaves local Codex trust/project edits alone. Optional Codex plugins are not managed and remain disabled locally.
+
+Pi is installed through `packages.txt` but otherwise left vanilla. Its settings,
+credentials, sessions, models, keybindings, extensions, themes, packages, and MCP
+configuration are app-owned and absent from the dotfiles source.
+
+Repo-meta files (`README.md`, `docs/`, `install.sh`, `packages.txt`) are excluded from deployment via `.chezmoiignore` and stay in `~/code/dotfiles/` only.
 
 ## Templating
 
@@ -85,8 +87,9 @@ chezmoi add FILE  # add a file to chezmoi management
 
 Neovim plugins use the native `vim.pack` manager, so Neovim must be 0.12 or
 newer. `dot_config/nvim/lua/jakob/pack_init.lua` loads the per-plugin specs and
-setup files from `dot_config/nvim/lua/jakob/plugins/`; the native lockfile is
-managed at `dot_config/nvim/nvim-pack-lock.json`.
+setup files from `dot_config/nvim/lua/jakob/plugins/`. The generated
+`~/.config/nvim/nvim-pack-lock.json` stays machine-local and is ignored by
+chezmoi.
 
 Inside Neovim:
 

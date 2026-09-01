@@ -1,6 +1,5 @@
 # dotfiles
 
-Policy and workflow: see `DOTFILES_POLICY.md`.
 Full inventory: see `docs/dotfiles.md`.
 Agent setup: see `docs/agent-setup.md`.
 
@@ -13,7 +12,7 @@ cd ~/code/dotfiles
 ./install.sh
 ```
 
-This installs Homebrew if needed, installs packages/casks from `packages.txt`, configures chezmoi to use this checkout as the source, applies dotfiles, and runs post-apply hooks for agent/Pi npm dependencies.
+This installs Homebrew if needed, installs packages/casks from `packages.txt`, configures chezmoi to use this checkout as the source, and applies the dotfiles.
 
 Daily usage: `dotapply`, `dotsync "chore(dotfiles): tweak shell"`, `dotpull`.
 
@@ -28,7 +27,7 @@ Daily usage: `dotapply`, `dotsync "chore(dotfiles): tweak shell"`, `dotpull`.
 - Agents:
   - Global: `~/AGENTS.md` pointer; `~/code/dotfiles/agent-coding/` is the canonical rules + shared skills (read in place, not deployed)
   - Native skills: `~/.agents/skills`, `~/.claude/skills`, and `~/.config/opencode/skills` symlink to `~/code/dotfiles/agent-coding/skills`
-  - Codex: `~/.codex/AGENTS.md`
+  - Codex: minimal bootstrap and model profiles; optional plugins stay disabled
   - Claude Code: `~/.claude/CLAUDE.md`
   - OpenCode: `~/.config/opencode/`
-  - Pi: `~/.pi/agent/{settings.json,keybindings.json,extensions/,themes/}`
+  - Pi: installed only; settings, extensions, themes, and MCP configuration stay vanilla

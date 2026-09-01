@@ -1,22 +1,14 @@
 .DS_Store
 
-# Pi runtime state — never deploy
+# Defensive guard if Pi runtime state is ever added to the source accidentally.
 .pi/agent/auth.json
 .pi/agent/sessions
-.pi/agent/extensions/**/node_modules
-
-# Editor-only TS workspace files — used here in ~/code/dotfiles/dot_pi/...
-# for vtsls type resolution; pi runtime in ~/.pi/ does not need them.
-.pi/agent/extensions/package.json
-.pi/agent/extensions/package-lock.json
-.pi/agent/extensions/tsconfig.json
 
 # vim.pack writes this lockfile at runtime (:PackUpdate); let it own it per-machine.
 .config/nvim/nvim-pack-lock.json
 
 # Repo-meta files live in ~/code/dotfiles/, not ~/
 README.md
-DOTFILES_POLICY.md
 docs
 install.sh
 packages.txt

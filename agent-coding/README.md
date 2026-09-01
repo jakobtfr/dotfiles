@@ -8,12 +8,17 @@ Part of `~/code/dotfiles/`, but **read in place** -- not deployed by chezmoi (it
 
 - **Single source/runtime path:** `~/code/dotfiles/agent-coding/`
 - **Shared skills:** `~/code/dotfiles/agent-coding/skills/`, symlinked as `~/.agents/skills`, `~/.claude/skills`, and `~/.config/opencode/skills`
-- **Codex-native skills:** `dot_agents/skills` is a symlink source, deployed as `~/.agents/skills -> ~/code/dotfiles/agent-coding/skills`
-- **Claude Code-native skills:** `dot_claude/skills` is a symlink source, deployed as `~/.claude/skills -> ~/code/dotfiles/agent-coding/skills`
-- **OpenCode-native skills:** `dot_config/opencode/skills` is a symlink source, deployed as `~/.config/opencode/skills -> ~/code/dotfiles/agent-coding/skills`
-- **Harness adapters:** Codex, Claude Code, and OpenCode discover symlinked shared skills natively; Pi points at the same root.
-- **Pi extensions:** source `~/code/dotfiles/dot_pi/agent/extensions/`, deployed to `~/.pi/agent/extensions/`
-- **Sync:** Edit here, then `dotsync` (skills npm deps reinstall via `run_after`).
+- **Codex-native skills:** `dot_agents/symlink_skills.tmpl` deploys `~/.agents/skills -> ~/code/dotfiles/agent-coding/skills`
+- **Claude Code-native skills:** `dot_claude/symlink_skills.tmpl` deploys `~/.claude/skills -> ~/code/dotfiles/agent-coding/skills`
+- **OpenCode-native skills:** `dot_config/opencode/symlink_skills.tmpl` deploys `~/.config/opencode/skills -> ~/code/dotfiles/agent-coding/skills`
+- **Harness adapters:** Codex, Claude Code, OpenCode, and Pi discover the shared skills through their native skill paths.
+- **Sync:** Edit here, then `dotsync`.
+
+## Vanilla-first boundary
+
+- Keep harness defaults unless a small adapter is required to share rules or skills.
+- Pi has no managed settings, models, modes, keybindings, themes, extensions, packages, or MCP configuration.
+- Codex optional plugins are not part of this repository and remain disabled locally.
 
 ## Config Chain
 
@@ -36,7 +41,7 @@ Shared files should stay provider-agnostic:
 
 - Use `AGENTS.md` and `SKILL.md` for canonical behavior and workflows.
 - Prefer neutral env vars such as `AGENT_TMUX_SOCKET_DIR`, `AGENT_AUTH_DIR`, and `AGENT_SUMMARIZER_CMD`.
-- Keep harness-specific config in adapter locations such as `dot_codex/`, `dot_claude/`, `dot_pi/`, and `dot_config/opencode/`.
+- Keep unavoidable harness-specific config in adapter locations such as `dot_codex/`, `dot_claude/`, and `dot_config/opencode/`.
 - Keep compatibility fallbacks for existing local state when practical.
 
 ## Shared Skills
