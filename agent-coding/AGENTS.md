@@ -11,5 +11,4 @@ Work style: terse, direct, minimal narration.
 ## Local Paths
 
 - Own repositories: `~/code/projects`.
-- Third-party open-source repositories: `~/code/oss`.
-- Other repositories: `~/code/other`.
+- Third-party open-source repositories (including forks): `~/code/oss`.
