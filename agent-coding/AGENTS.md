@@ -8,6 +8,10 @@ Work style: terse, direct, minimal narration.
 - Read more context before making uncertain changes.
 - Use `trash` rather than permanent deletion.
 
+## Python
+
+- Use `uv` for Python dependencies and scripts. Run scripts with `uv run`, add dependencies with `uv add`, and respect existing project tooling.
+
 ## Local Paths
 
 - Own repositories: `~/code/projects`.

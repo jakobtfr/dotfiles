@@ -48,12 +48,7 @@ Shared files should stay provider-agnostic:
 
 Shared skills live in `skills/` and are read from `~/code/dotfiles/agent-coding/skills/`.
 
-- `commit/` -- commit workflow and Conventional Commit formatting.
-- `github-deep-review/` -- deep issue/PR review: cause, provenance, best fix, proof, risk.
 - `librarian/` -- cache remote repos under `~/.cache/checkouts` for source inspection.
-- `review-fix/` -- run one subagent `/review` and resolve requested changes.
-- `skill-cleaner/` -- audit skill budget, duplicates, usage, and stale skills.
-- `summarize/` -- convert URLs/files to Markdown and optionally summarize.
 - `tmux/` -- persistent, user-attachable terminals when native sessions are insufficient.
-- `uv/` -- Python scripts, deps, and builds with `uv`.
-- `agent-browser/` -- official Vercel Labs discovery skill; loads version-matched guidance from the installed CLI.
+
+The Python tooling preference for `uv` lives in `AGENTS.md`.
