@@ -52,6 +52,7 @@ Gated off on non-darwin via `.chezmoiignore`.
 | `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex global instruction bootstrap |
 | `~/.codex/bedrock-models.json` | `dot_codex/bedrock-models.json` | Bedrock model catalog with the 1M context default |
 | `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md.tmpl` | Claude Code instruction bootstrap |
+| `~/.claude/settings.json` | `dot_claude/create_settings.json` | Create-once seed: default model Opus 5.5, high effort; Claude Code owns the file afterwards |
 | `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config + rules bootstrap + native skills |
 
 `~/.codex/config.toml` is not continuously managed because Codex writes project trust and other runtime state into that file. Chezmoi seeds it once with stable defaults, including the Bedrock model catalog path. `~/.codex/azure.config.toml` is also create-once: chezmoi seeds the Azure profile on new machines, then leaves local Codex trust/project edits alone. Optional Codex plugins are not managed and remain disabled locally.

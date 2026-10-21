@@ -20,6 +20,7 @@ place -- it is `.chezmoiignore`d, so there is no deployed `~/agent-coding/` copy
 | `~/.config/opencode/skills` | `dot_config/opencode/symlink_skills.tmpl` | Symlink to `~/code/dotfiles/agent-coding/skills` for native OpenCode skill discovery |
 | `~/.codex/AGENTS.md` | `dot_codex/AGENTS.md.tmpl` | Codex bootstrap, same pointer as `~/AGENTS.md` |
 | `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md.tmpl` | Claude Code bootstrap pointing to `~/code/dotfiles/agent-coding/AGENTS.md` |
+| `~/.claude/settings.json` | `dot_claude/create_settings.json` | Create-once seed: default model Opus 5.5, high effort |
 | `~/.config/opencode/` | `dot_config/opencode/` | OpenCode config, rules bootstrap, and native skills |
 
 Pi is intentionally unmanaged beyond installing the CLI. Its native defaults own
