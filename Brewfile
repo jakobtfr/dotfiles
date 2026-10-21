@@ -27,6 +27,9 @@ brew "uv"
 brew "trash-cli" if OS.linux?
 
 if OS.mac?
+  brew "gcc"
+  brew "llvm"
+
   cask "ghostty"
   cask "aerospace"
   cask "font-jetbrains-mono"

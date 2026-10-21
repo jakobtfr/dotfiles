@@ -8,4 +8,11 @@ Brewfile
 {{ if ne .chezmoi.os "darwin" }}
 .config/aerospace
 .config/ghostty
+.zprofile
+.local/bin/cc
+.local/bin/c++
+.local/bin/gcc
+.local/bin/g++
+.local/bin/clang
+.local/bin/clang++
 {{ end }}
