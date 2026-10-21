@@ -1,24 +1,11 @@
 .DS_Store
-
-# Defensive guard if Pi runtime state is ever added to the source accidentally.
-.pi/agent/auth.json
-.pi/agent/sessions
+README.md
+Brewfile
 
 # vim.pack writes this lockfile at runtime (:PackUpdate); let it own it per-machine.
 .config/nvim/nvim-pack-lock.json
 
-# Repo-meta files live in ~/code/dotfiles/, not ~/
-README.md
-docs
-install.sh
-packages.txt
-
-# Agent rules + shared skills are read in place from ~/code/dotfiles/agent-coding/;
-# not deployed to ~/agent-coding (all references point at the repo path directly).
-agent-coding
-
 {{ if ne .chezmoi.os "darwin" }}
 .config/aerospace
-.config/wezterm
 .config/ghostty
 {{ end }}

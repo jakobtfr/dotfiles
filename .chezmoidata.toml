@@ -1,9 +1,0 @@
-# Default values - override per machine in ~/.config/chezmoi/chezmoi.toml
-# [data]
-#   has_mise = true
-#   has_brazil = true
-#   email = "you@gmail.com"
-has_mise = false
-has_brazil = false
-email_personal = "jatfr05@gmail.com"
-email_professional = "jakob.friedrich05@gmail.com"

@@ -16,10 +16,6 @@ fi
 [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 {{ end -}}
 
-{{ if .has_mise -}}
-command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
-{{ end -}}
-
 SHELL_CONFIG="$HOME/.config/shell"
 
 if [[ -d "$SHELL_CONFIG" ]]; then
@@ -40,19 +36,4 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.toolbox/bin:$PATH"
-
-{{ if .has_brazil -}}
-[[ -f "$HOME/.brazil_completion/zsh_completion" ]] && source "$HOME/.brazil_completion/zsh_completion"
-{{ end -}}
-
-{{ if eq .chezmoi.os "darwin" -}}
-corretto_home="/Library/Java/JavaVirtualMachines/amazon-corretto-25.jdk/Contents/Home"
-[[ -d "$corretto_home" ]] && export JAVA_HOME="$corretto_home"
-unset corretto_home
-{{ end -}}
-
-# Google Cloud SDK, if installed manually under $HOME.
-[[ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]] && source "$HOME/google-cloud-sdk/path.zsh.inc"
-[[ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]] && source "$HOME/google-cloud-sdk/completion.zsh.inc"
 

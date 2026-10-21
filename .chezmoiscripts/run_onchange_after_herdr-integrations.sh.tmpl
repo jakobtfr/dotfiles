@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Re-runs when herdr updates, so the agent hooks stay current.
+# herdr: {{ if lookPath "herdr" }}{{ output "herdr" "--version" | trim }}{{ end }}
+set -euo pipefail
+
+for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+  [[ -x "$brew_bin" ]] && eval "$("$brew_bin" shellenv)" && break
+done
+
+command -v herdr >/dev/null || exit 0
+herdr integration install claude
+herdr integration install codex

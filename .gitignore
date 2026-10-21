@@ -1,11 +1,4 @@
-# Defensive guard: Pi runtime state stays app-owned and must never be committed.
-dot_pi/agent/auth.json
-dot_pi/agent/sessions/
-
 node_modules/
-
-# Amazon-internal infra detail (Cloud Desktop hostname). Local-only.
-dot_config/tmuxp/amazon.yaml
 
 # Stray log nvim/plugins write when run from inside this repo dir.
 nvim.log

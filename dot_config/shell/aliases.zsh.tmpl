@@ -1,14 +1,6 @@
 # For a full list of active aliases, run `alias`.
-alias zshconfig="nvim ~/.zshrc"
-alias ohmyzsh="nvim ~/.oh-my-zsh"
-alias python="python3"
-alias pip="pip3"
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 alias claude="claude --dangerously-skip-permissions"
-
-{{ if .has_brazil -}}
-alias bb="brazil-build"
-{{ end -}}
 
 {{ if ne .chezmoi.os "darwin" -}}
 alias trash="trash-put"
@@ -29,13 +21,6 @@ dotsync() {
   git -C "$repo" commit -m "$msg" || return 1
   git -C "$repo" push
 }
-
-dotapply() {
-  chezmoi diff || return 1
-  chezmoi apply
-}
-
-amz() { mwinit -o -s && tmuxp load amazon; }
 
 dotpull() {
   local repo

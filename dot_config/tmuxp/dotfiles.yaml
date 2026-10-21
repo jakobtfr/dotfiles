@@ -1,9 +1,0 @@
-session_name: Dotfiles
-start_directory: ~/code/dotfiles/
-windows:
-  - window_name: editor
-    panes:
-      - shell_command:
-        - nvim .
-  - window_name: sh
-  - window_name: agent

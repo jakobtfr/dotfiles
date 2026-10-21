@@ -1,9 +1,0 @@
-session_name: cpp
-start_directory: ~/code/projects/cpp
-windows:
-  - window_name: editor
-    panes:
-      - shell_command:
-          - nvim .
-  - window_name: sh
-  - window_name: agent

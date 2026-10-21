@@ -1,33 +1,33 @@
 # dotfiles
 
-Full inventory: see `docs/dotfiles.md`.
-Agent setup: see `docs/agent-setup.md`.
+Managed with [chezmoi](https://chezmoi.io); the source lives in `~/code/dotfiles`.
 
 ## New machine
 
 ```bash
-mkdir -p ~/code
-git clone https://github.com/jakobtfr/dotfiles.git ~/code/dotfiles
-cd ~/code/dotfiles
-./install.sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
+brew install chezmoi
+chezmoi init --apply --source ~/code/dotfiles jakobtfr/dotfiles
 ```
 
-This installs Homebrew if needed, installs packages/casks from `packages.txt`, configures chezmoi to use this checkout as the source, and applies the dotfiles.
+## Daily
 
-Daily usage: `dotapply`, `dotsync "chore(dotfiles): tweak shell"`, `dotpull`.
+- `dotpull`: pull, apply, and `brew bundle` if the `Brewfile` changed
+- `dotsync "msg"`: commit and push
 
-## Managed by chezmoi
+## Layout
 
-- Shell: `.zshrc`, `.p10k.zsh`, `.config/shell/{aliases,env}.zsh`
-- Prompt: `.config/starship.toml`
-- Editor: `.config/nvim/`
-- Multiplexer: `.tmux.conf`, `.config/tmuxp/`, `.config/herdr/`
-- Terminals: `.config/ghostty/`, `.config/wezterm/` (macOS only)
-- Window manager: `.config/aerospace/` (macOS only)
-- Agents:
-  - Global: `~/AGENTS.md` pointer; `~/code/dotfiles/agent-coding/` is the canonical rules + shared skills (read in place, not deployed)
-  - Native skills: `~/.agents/skills`, `~/.claude/skills`, and `~/.config/opencode/skills` symlink to `~/code/dotfiles/agent-coding/skills`
-  - Codex: minimal bootstrap and model profiles; optional plugins stay disabled
-  - Claude Code: `~/.claude/CLAUDE.md`
-  - OpenCode: `~/.config/opencode/`
-  - Pi: installed only; settings, extensions, themes, and MCP configuration stay vanilla
+- `Brewfile`: packages and casks (casks are macOS only)
+- `dot_*`: shell (zsh + p10k), nvim, tmux, herdr, ghostty, aerospace
+- `.chezmoiscripts/`: `brew bundle` on Brewfile change; herdr agent hooks on herdr update
+
+## Agents (Claude Code + Codex)
+
+- Global rules: `dot_agents/AGENTS.md` → `~/.agents/AGENTS.md`; `~/.codex/AGENTS.md` symlinks to it,
+  `~/.claude/CLAUDE.md` imports it.
+- Repo rules: plain `AGENTS.md` in the repo (both agents read it natively).
+- Skills: `dot_agents/skills/<name>/` → `~/.agents/skills` (Codex). For Claude, add
+  `dot_claude/skills/symlink_<name>.tmpl` containing `{{ .chezmoi.homeDir }}/.agents/skills/<name>`.
+- `create_*` files (`~/.claude/settings.json`, `~/.codex/config.toml`) are first-run seeds only;
+  the apps own them afterwards.

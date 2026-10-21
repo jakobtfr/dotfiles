@@ -15,4 +15,5 @@ Work style: terse, direct, minimal narration.
 ## Local Paths
 
 - Own repositories: `~/code/projects`.
-- Third-party open-source repositories (including forks): `~/code/oss`.
+- Third-party open-source repositories you modify (including forks): `~/code/oss`.
+- Read-only inspection of remote repositories: use the `librarian` skill (`~/.cache/checkouts`).
