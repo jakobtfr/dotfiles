@@ -1,5 +1,18 @@
 # For a full list of active aliases, run `alias`.
-alias codex="codex --dangerously-bypass-approvals-and-sandbox"
+# Keep the app's shared Codex state; override only CLI inference authentication.
+unalias codex 2>/dev/null
+function codex {
+  local key_file="$HOME/wichtig/untitled folder/key"
+  if [[ ! -r "$key_file" || ! -s "$key_file" ]]; then
+    print -u2 -- "Codex API key is missing or unreadable: $key_file"
+    return 1
+  fi
+  local -x OPENAI_API_KEY="$(<"$key_file")"
+  command codex --dangerously-bypass-approvals-and-sandbox \
+    -c 'model_provider="cli_api"' \
+    -c 'model_providers.cli_api={name="OpenAI API",base_url="https://api.openai.com/v1",wire_api="responses",env_key="OPENAI_API_KEY",requires_openai_auth=false}' \
+    "$@"
+}
 alias claude="claude --dangerously-skip-permissions"
 
 {{ if ne .chezmoi.os "darwin" -}}

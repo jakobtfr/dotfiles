@@ -31,3 +31,8 @@ chezmoi init --apply --source ~/code/dotfiles jakobtfr/dotfiles
   `dot_claude/skills/symlink_<name>.tmpl` containing `{{ .chezmoi.homeDir }}/.agents/skills/<name>`.
 - `create_*` files (`~/.claude/settings.json`, `~/.codex/config.toml`) are first-run seeds only;
   the apps own them afterwards.
+- The shell's `codex` function uses API billing with the key in
+  `~/wichtig/untitled folder/key`. It overrides the provider per invocation and keeps
+  `~/.codex` shared with the subscription app (config, sessions, skills, and plugins).
+  The key stays outside this repository. `codex login status` still reports the shared
+  app login; the `cli_api` provider uses the key file for inference.
