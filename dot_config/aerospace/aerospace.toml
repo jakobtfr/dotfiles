@@ -48,47 +48,48 @@ cmd-q = [
   'close --quit-if-last-window'
 ]
 
-alt-f = 'fullscreen'
+ctrl-alt-f = 'fullscreen'
 
-ctrl-left = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop left'
-ctrl-down = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop down'
-ctrl-up = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop up'
-ctrl-right = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop right'
+ctrl-alt-left = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop left'
+ctrl-alt-down = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop down'
+ctrl-alt-up = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop up'
+ctrl-alt-right = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop right'
 
-ctrl-shift-h = 'move left'
-ctrl-shift-j = 'move down'
-ctrl-shift-k = 'move up'
-ctrl-shift-l = 'move right'
-ctrl-shift-down = 'move down'
-ctrl-shift-up = 'move up'
-ctrl-shift-right = 'move right'
+ctrl-alt-shift-left = 'move left'
+ctrl-alt-shift-down = 'move down'
+ctrl-alt-shift-up = 'move up'
+ctrl-alt-shift-right = 'move right'
 
-ctrl-1 = 'workspace --auto-back-and-forth 1'  # Browser
-ctrl-2 = 'workspace --auto-back-and-forth 2'  # Terminal
-ctrl-3 = 'workspace --auto-back-and-forth 3'  # Notes
-ctrl-4 = 'workspace --auto-back-and-forth 4'  # Communication
-ctrl-5 = 'workspace --auto-back-and-forth 5'  # 
-ctrl-6 = 'workspace --auto-back-and-forth 6'  # 
-ctrl-7 = 'workspace --auto-back-and-forth 7'  #
-ctrl-8 = 'workspace --auto-back-and-forth 8'  #
-ctrl-9 = 'workspace --auto-back-and-forth 9'  # Spotify
+ctrl-alt-a = 'workspace --auto-back-and-forth A'  # AI
+ctrl-alt-b = 'workspace --auto-back-and-forth B'  # Browser
+ctrl-alt-c = 'workspace --auto-back-and-forth C'  # Chat
+ctrl-alt-l = 'workspace --auto-back-and-forth L'  # Learning
+ctrl-alt-m = 'workspace --auto-back-and-forth M'  # Music
+ctrl-alt-n = 'workspace --auto-back-and-forth N'  # Notes
+ctrl-alt-t = 'workspace --auto-back-and-forth T'  # Terminal
+ctrl-alt-1 = 'workspace --auto-back-and-forth 1'  # Scratch
+ctrl-alt-2 = 'workspace --auto-back-and-forth 2'  # Scratch
+ctrl-alt-3 = 'workspace --auto-back-and-forth 3'  # Scratch
+ctrl-alt-4 = 'workspace --auto-back-and-forth 4'  # Scratch
+ctrl-alt-5 = 'workspace --auto-back-and-forth 5'  # Scratch
 
-ctrl-shift-1 = 'move-node-to-workspace 1'
-ctrl-shift-2 = 'move-node-to-workspace 2'
-ctrl-shift-3 = 'move-node-to-workspace 3'
-ctrl-shift-4 = 'move-node-to-workspace 4'
-ctrl-shift-5 = 'move-node-to-workspace 5'
-ctrl-shift-6 = 'move-node-to-workspace 6'
-ctrl-shift-7 = 'move-node-to-workspace 7'
-ctrl-shift-8 = 'move-node-to-workspace 8'
-ctrl-shift-9 = 'move-node-to-workspace 9'
+ctrl-alt-shift-a = 'move-node-to-workspace A'
+ctrl-alt-shift-b = 'move-node-to-workspace B'
+ctrl-alt-shift-c = 'move-node-to-workspace C'
+ctrl-alt-shift-l = 'move-node-to-workspace L'
+ctrl-alt-shift-m = 'move-node-to-workspace M'
+ctrl-alt-shift-n = 'move-node-to-workspace N'
+ctrl-alt-shift-t = 'move-node-to-workspace T'
+ctrl-alt-shift-1 = 'move-node-to-workspace 1'
+ctrl-alt-shift-2 = 'move-node-to-workspace 2'
+ctrl-alt-shift-3 = 'move-node-to-workspace 3'
+ctrl-alt-shift-4 = 'move-node-to-workspace 4'
+ctrl-alt-shift-5 = 'move-node-to-workspace 5'
 
-ctrl-alt-h = []
-ctrl-shift-s = 'mode service'
-ctrl-0 = 'focus-monitor next --wrap-around'
-ctrl-shift-0 = [
-  'move-workspace-to-monitor --wrap-around next'
-]
+ctrl-alt-semicolon = 'mode service'
+ctrl-alt-esc = 'enable off'  # Re-enable via menu bar or `aerospace enable on`
+ctrl-alt-tab = 'focus-monitor next --wrap-around'
+ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
 [mode.service.binding]
     esc = ['reload-config', 'mode main']
@@ -96,33 +97,45 @@ ctrl-shift-0 = [
     f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
     backspace = ['close-all-windows-but-current', 'mode main']
 
+# Browser
 [[on-window-detected]]
 if.app-id = 'org.mozilla.firefox'
-run = ['move-node-to-workspace 1']
+run = ['move-node-to-workspace B']
 
-# Code
+# Terminal
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
-run = ['move-node-to-workspace 2']
+run = ['move-node-to-workspace T']
 
 # Notes
 [[on-window-detected]]
 if.app-id = 'md.obsidian'
-run = ['move-node-to-workspace 3']
+run = ['move-node-to-workspace N']
 
-# Communication
+# AI
+[[on-window-detected]]
+if.app-id = 'com.openai.codex'
+run = ['move-node-to-workspace A']
+
+# Learning
+[[on-window-detected]]
+if.app-id = 'net.ankiweb.anki'
+run = ['move-node-to-workspace L']
+
+# Chat
 [[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace C']
 
 [[on-window-detected]]
 if.app-id = 'net.whatsapp.WhatsApp'
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace C']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace C']
 
+# Music
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
-run = ['move-node-to-workspace 9']
+run = ['move-node-to-workspace M']
