@@ -72,6 +72,7 @@ ctrl-alt-2 = 'workspace --auto-back-and-forth 2'  # Scratch
 ctrl-alt-3 = 'workspace --auto-back-and-forth 3'  # Scratch
 ctrl-alt-4 = 'workspace --auto-back-and-forth 4'  # Scratch
 ctrl-alt-5 = 'workspace --auto-back-and-forth 5'  # Scratch
+ctrl-alt-0 = 'workspace --auto-back-and-forth 0'  # Secondary monitor
 
 ctrl-alt-shift-a = 'move-node-to-workspace A'
 ctrl-alt-shift-b = 'move-node-to-workspace B'
@@ -85,11 +86,15 @@ ctrl-alt-shift-2 = 'move-node-to-workspace 2'
 ctrl-alt-shift-3 = 'move-node-to-workspace 3'
 ctrl-alt-shift-4 = 'move-node-to-workspace 4'
 ctrl-alt-shift-5 = 'move-node-to-workspace 5'
+ctrl-alt-shift-0 = 'move-node-to-workspace 0'
 
 ctrl-alt-semicolon = 'mode service'
 ctrl-alt-esc = 'enable off'  # Re-enable via menu bar or `aerospace enable on`
 ctrl-alt-tab = 'focus-monitor next --wrap-around'
 ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+[workspace-to-monitor-force-assignment]
+    0 = ['secondary', 'main']  # Falls back to main without a second monitor
 
 [mode.service.binding]
     esc = ['reload-config', 'mode main']
