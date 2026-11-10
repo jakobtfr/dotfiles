@@ -1,0 +1,10 @@
+{
+  "interfaceFontFamily": "",
+  "textFontFamily": "JetBrains Mono",
+  "cssTheme": "Minimal",
+  "accentColor": "",
+  "translucency": true,
+  "enabledCssSnippets": [
+    "no-ligatures"
+  ]
+}
