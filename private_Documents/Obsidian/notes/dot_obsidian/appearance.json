@@ -5,6 +5,7 @@
   "accentColor": "",
   "translucency": true,
   "enabledCssSnippets": [
-    "no-ligatures"
+    "no-ligatures",
+    "no-cursor-blink"
   ]
 }

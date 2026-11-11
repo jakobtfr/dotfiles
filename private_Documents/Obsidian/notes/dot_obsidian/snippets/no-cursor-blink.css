@@ -1,0 +1,7 @@
+/* Keep the editor caret solid instead of blinking. */
+
+.cm-cursorLayer,
+.cm-cursor,
+.cm-cursor-primary {
+  animation: none !important;
+}
