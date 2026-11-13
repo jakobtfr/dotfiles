@@ -1,5 +1,6 @@
 .DS_Store
 README.md
+HOMELAB.md
 Brewfile
 
 # vim.pack writes this lockfile at runtime (:PackUpdate); let it own it per-machine.
