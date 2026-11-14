@@ -1,17 +1,17 @@
--- tmux prefix and repeatable pane navigation.
+-- tmux prefix; ctrl+hjkl pane navigation.
 rex.bind("ctrl+a>ctrl+a", "pane.send_key", { key = "ctrl+a" })
 rex.bind("ctrl+a>r", "client.config.reload")
 rex.mode("repeat", { exclusive = true })
 rex.bind("ctrl+a>ctrl+r", "client.mode.enter", { name = "repeat" })
 rex.bind("repeat/enter", "client.mode.exit")
 rex.bind("repeat/escape", "client.mode.exit")
-rex.bind("ctrl+a>k", "pane.focus", { direction = "up" })
+rex.bind("ctrl+k", "pane.focus", { direction = "up" })
 rex.bind("repeat/k", "pane.focus", { direction = "up" })
-rex.bind("ctrl+a>j", "pane.focus", { direction = "down" })
+rex.bind("ctrl+j", "pane.focus", { direction = "down" })
 rex.bind("repeat/j", "pane.focus", { direction = "down" })
-rex.bind("ctrl+a>h", "pane.focus", { direction = "left" })
+rex.bind("ctrl+h", "pane.focus", { direction = "left" })
 rex.bind("repeat/h", "pane.focus", { direction = "left" })
-rex.bind("ctrl+a>l", "pane.focus", { direction = "right" })
+rex.bind("ctrl+l", "pane.focus", { direction = "right" })
 rex.bind("repeat/l", "pane.focus", { direction = "right" })
 
 -- Herdr resize mode, sessions, tabs, and panes.
@@ -38,9 +38,6 @@ rex.bind("ctrl+a>shift+,", "pane.move", { direction = "left" })
 rex.bind("ctrl+a>shift+h", "pane.move", { direction = "left" })
 rex.bind("ctrl+a>shift+.", "pane.move", { direction = "right" })
 rex.bind("ctrl+a>shift+l", "pane.move", { direction = "right" })
-
--- Ghostty: LF is the single control key ctrl+j.
-rex.bind("ctrl+j", "pane.send_key", { key = "ctrl+j" })
 
 -- iTerm2 global tab-move shortcuts. cmd+n already matches Rex.
 -- Profile escape-sequence bindings have no Rex counterpart.
