@@ -23,6 +23,7 @@ All devices are in my Tailscale network, so the same names work at home and on t
 | Device | How | Address |
 |---|---|---|
 | NAS | browser | `http://ananas:5000` |
+| NAS files | file browser | `smb://ananas/homes` (Mac: Finder → Go → Connect to Server; Debian: Files → Other Locations). Log in with the NAS user, domain `WORKGROUP`. |
 | azpc | terminal | `ssh <my user>@azpc` (works with my Mac's SSH key, no password) |
 
 If a name doesn't work, use the Tailscale IP from the Tailscale app or https://login.tailscale.com/admin/machines.
@@ -37,7 +38,7 @@ If a name doesn't work, use the Tailscale IP from the Tailscale app or https://l
 - **Users:**
   - my user: log in with SSH key only.
   - a separate backup user: only for the NAS backup. Password is in my password manager. Password login only works from the home network or Tailscale.
-- **Usually switched off.** I turn it on once a month for the offline backup (see below).
+- **Usually switched off.** I turn it on once a month for the offline backup (see below). It stays off after a power cut (BIOS setting).
 - **While on:** security updates install automatically, it never goes to sleep, and it restarts at 04:00 if an update needs it.
 - **Turn it on remotely:** FRITZ!Box → Heimnetz → Netzwerk → azpc → "Computer starten" (or the MyFRITZ!App).
 - **Fixed IP:** set in the FRITZ!Box (same for the NAS).
