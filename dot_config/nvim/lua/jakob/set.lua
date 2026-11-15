@@ -7,18 +7,12 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
-vim.opt.wrap = false -- default off (code); prose filetypes turn it on below
-vim.opt.linebreak = true -- when wrap is on, break at word boundaries, not mid-word
-vim.opt.breakindent = true -- wrapped lines keep the line's indent
+vim.opt.wrap = false -- never soft-wrap: one buffer line = one screen line
+vim.opt.linebreak = true -- only matters if wrap is toggled on manually
+vim.opt.breakindent = true -- same; wrapped lines keep the line's indent
+vim.opt.sidescrolloff = 8 -- keep some context when scrolling horizontally (zl/zh, zL/zH)
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "markdown", "text", "gitcommit", "tex", "typst", "help" },
-	callback = function()
-		vim.opt_local.wrap = true
-	end,
-})
-
--- move by visual line unless a count is given, so wrapped prose scrolls row-by-row
+-- move by visual line unless a count is given; equals buffer lines when nowrap
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
 vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
 
