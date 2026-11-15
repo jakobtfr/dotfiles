@@ -1,7 +1,0 @@
-{{ if eq .chezmoi.os "linux" -}}
-# Not in the Arch repos; pinned upstream release (macOS gets it from the Brewfile).
-[".local/share/powerlevel10k"]
-type = "archive"
-url = "https://github.com/romkatv/powerlevel10k/archive/refs/tags/v1.20.0.tar.gz"
-stripComponents = 1
-{{ end -}}

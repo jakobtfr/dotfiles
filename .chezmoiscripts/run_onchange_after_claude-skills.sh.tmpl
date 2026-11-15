@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Link every skill in ~/.agents/skills into ~/.claude/skills (Codex reads ~/.agents/skills directly).
+# Re-runs when the skill list changes: {{ glob (joinPath .chezmoi.sourceDir "dot_agents/skills/*") | join " " }}
+set -euo pipefail
+
+mkdir -p ~/.claude/skills
+for skill in ~/.agents/skills/*/; do
+  ln -sfn "${skill%/}" ~/.claude/skills/
+done

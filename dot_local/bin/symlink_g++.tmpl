@@ -1,0 +1,2 @@
+{{- /* Newest Homebrew GCC, so a major update (g++-16 → g++-17) needs no edit. */ -}}
+{{ with glob "/opt/homebrew/opt/gcc/bin/g++-[0-9]*" }}{{ last . }}{{ end }}

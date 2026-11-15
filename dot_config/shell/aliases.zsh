@@ -2,10 +2,6 @@
 alias claude="claude --dangerously-skip-permissions"
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 
-{{ if ne .chezmoi.os "darwin" -}}
-alias trash="trash-put"
-{{ end -}}
-
 dotsync() {
   local repo
   repo="$(chezmoi source-path)"

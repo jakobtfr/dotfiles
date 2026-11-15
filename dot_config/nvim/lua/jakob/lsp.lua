@@ -1,35 +1,19 @@
-local servers = {
-	"basedpyright",
-	"clangd",
-	"cmake",
-	"jdtls",
-	"ruff",
-	"rust_analyzer",
-	"ts_ls",
-}
+-- Server configs come from nvim-lspconfig; binaries from Brewfile / packages-arch.txt.
 
--- "standard" matches pyright defaults; basedpyright's "recommended" default nags
--- about missing annotations and Any/Unknown types.
-vim.lsp.config("basedpyright", {
-	settings = {
-		basedpyright = {
-			analysis = {
-				typeCheckingMode = "standard",
-			},
-		},
-	},
-})
-
--- basedpyright owns hover/type info; ruff is diagnostics + formatting only.
+-- pyright owns hover/type info; ruff is diagnostics + formatting only.
 vim.lsp.config("ruff", {
 	on_attach = function(client)
 		client.server_capabilities.hoverProvider = false
 	end,
 })
 
-if #servers > 0 then
-	vim.lsp.enable(servers)
-end
+vim.lsp.enable({
+	"clangd",
+	"pyright",
+	"ruff",
+	"rust_analyzer",
+	"ts_ls",
+})
 
 -- Mapped unconditionally, mirroring Neovim's built-in gr* LSP defaults.
 vim.keymap.set("n", "grd", vim.lsp.buf.definition, { desc = "vim.lsp.buf.definition()" })

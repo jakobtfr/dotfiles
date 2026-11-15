@@ -1,20 +1,28 @@
-# Arch packages (official repos + AUR). Installed by `dotpull`
-# (chezmoi re-runs `paru -S --needed` whenever this file changes).
-# Not in the repos: powerlevel10k (.chezmoiexternal), herdr + Claude Code (upstream installers).
+# Arch packages (official repos + AUR). `dotpull` installs anything missing
+# whenever this file changes.
 
 # Shell
 chezmoi
+zsh-theme-powerlevel10k
 zsh-autosuggestions
 zsh-syntax-highlighting
 atuin
+trash-cli
 
-# Editor + multiplexer
+# Editor + terminal + multiplexer
 neovim
 tree-sitter-cli
-typescript-language-server
 stylua
 biome
+ghostty
 tmux
+
+# Language servers (see nvim lsp.lua)
+pyright
+clang
+ruff
+rust-analyzer
+typescript-language-server
 
 # CLI
 github-cli
@@ -25,9 +33,13 @@ nodejs
 pnpm
 python
 uv
-trash-cli
+rust
 openai-codex
 btop
+
+# Apps
+firefox
+ente-auth-bin
 
 # System
 pacman-contrib
@@ -35,7 +47,7 @@ bluez
 bluez-utils
 informant
 
-# Sway (tiling WM, port of aerospace)
+# Sway
 sway
 swaybg
 swaylock
@@ -43,20 +55,18 @@ swayidle
 fuzzel
 i3status-rust
 xdg-desktop-portal-wlr
+xdg-desktop-portal-gtk
 grim
 slurp
 wl-clipboard
 wlsunset
-xdg-desktop-portal-gtk
 polkit-gnome
 mako
 cliphist
 playerctl
 pipewire-pulse
+wireplumber
 
 # Fonts
 ttf-jetbrains-mono
 noto-fonts-emoji
-
-# AUR
-ente-auth-bin

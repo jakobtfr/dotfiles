@@ -1,5 +1,4 @@
-# macOS only; Arch uses packages-arch.txt.
-# Installed by `dotpull` (chezmoi re-runs `brew bundle` whenever this file changes).
+# macOS packages. `dotpull` installs anything missing whenever this file changes.
 
 # Shell
 brew "chezmoi"
@@ -11,11 +10,15 @@ brew "atuin"
 # Editor + multiplexer
 brew "neovim"
 brew "tree-sitter-cli"
-brew "typescript-language-server"
 brew "stylua"
 brew "biome"
 brew "tmux"
-brew "herdr"
+
+# Language servers (see nvim lsp.lua)
+brew "pyright"
+brew "ruff"
+brew "rust-analyzer"
+brew "typescript-language-server"
 
 # CLI
 brew "gh"
@@ -26,13 +29,13 @@ brew "node"
 brew "pnpm"
 brew "python"
 brew "uv"
+brew "rust"
 brew "gcc"
 brew "llvm"
 
 cask "ghostty"
 cask "aerospace"
 cask "font-jetbrains-mono"
-cask "claude-code"
 cask "codex"
 cask "firefox"
 cask "slack"

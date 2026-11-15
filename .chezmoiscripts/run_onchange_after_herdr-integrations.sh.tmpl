@@ -3,11 +3,6 @@
 # herdr: {{ if lookPath "herdr" }}{{ output "herdr" "--version" | trim }}{{ end }}
 set -euo pipefail
 
-for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
-  [[ -x "$brew_bin" ]] && eval "$("$brew_bin" shellenv)" && break
-done
-export PATH="$HOME/.local/bin:$PATH"
-
 command -v herdr >/dev/null || exit 0
 herdr integration install claude
 herdr integration install codex

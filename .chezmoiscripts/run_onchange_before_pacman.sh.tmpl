@@ -1,11 +1,9 @@
-{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch") -}}
+{{ if eq .chezmoi.os "linux" -}}
 #!/usr/bin/env bash
 # packages-arch.txt hash: {{ include "packages-arch.txt" | sha256sum }}
 set -euo pipefail
 
 mapfile -t pkgs < <(grep -Ev '^\s*(#|$)' {{ joinPath .chezmoi.sourceDir "packages-arch.txt" | quote }})
 mapfile -t missing < <(pacman -T "${pkgs[@]}" || true)
-[[ ${#missing[@]} -eq 0 ]] && exit 0
-
-paru -S --needed "${missing[@]}"
+[[ ${#missing[@]} -eq 0 ]] || paru -S --needed --removemake "${missing[@]}"
 {{ end -}}

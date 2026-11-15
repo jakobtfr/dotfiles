@@ -5,39 +5,25 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${USER}.zsh" ]]; t
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${USER}.zsh"
 fi
 
-{{ if eq .chezmoi.os "darwin" -}}
-# Brew must be first so brew-installed tools are in PATH
-if [[ -x /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -x /usr/local/bin/brew ]]; then
-  eval "$(/usr/local/bin/brew shellenv)"
-fi
-{{ end -}}
-
-SHELL_CONFIG="$HOME/.config/shell"
-
-if [[ -d "$SHELL_CONFIG" ]]; then
-  for file in "$SHELL_CONFIG"/*.zsh(N.); do
-    source "$file"
-  done
-fi
+# Everything in ~/.config/shell is sourced, including untracked files like local.zsh.
+for file in ~/.config/shell/*.zsh(N.); do
+  source "$file"
+done
 
 {{ if eq .chezmoi.os "darwin" -}}
-if command -v brew >/dev/null 2>&1; then
-  brew_prefix="$(brew --prefix)"
-  [[ -f "$brew_prefix/share/powerlevel10k/powerlevel10k.zsh-theme" ]] && source "$brew_prefix/share/powerlevel10k/powerlevel10k.zsh-theme"
-  [[ -f "$brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && source "$brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-  [[ -f "$brew_prefix/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && source "$brew_prefix/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-  unset brew_prefix
-fi
+p10k_dir=$HOMEBREW_PREFIX/share/powerlevel10k
+plugin_dir=$HOMEBREW_PREFIX/share
 {{- else -}}
-[[ -f ~/.local/share/powerlevel10k/powerlevel10k.zsh-theme ]] && source ~/.local/share/powerlevel10k/powerlevel10k.zsh-theme
-[[ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-[[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+p10k_dir=/usr/share/zsh-theme-powerlevel10k
+plugin_dir=/usr/share/zsh/plugins
 {{- end }}
+for file in \
+  $p10k_dir/powerlevel10k.zsh-theme \
+  $plugin_dir/zsh-autosuggestions/zsh-autosuggestions.zsh \
+  $plugin_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh; do
+  [[ -r $file ]] && source $file
+done
+unset file p10k_dir plugin_dir
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-export PATH="$HOME/.local/bin:$PATH"
-
