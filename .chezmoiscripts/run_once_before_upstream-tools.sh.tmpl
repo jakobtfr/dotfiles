@@ -1,0 +1,11 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env bash
+# Tools without an official Arch package: official installers into ~/.local/bin.
+# Both update themselves afterwards (`herdr update`, Claude Code auto-update).
+set -euo pipefail
+
+export PATH="$HOME/.local/bin:$PATH"
+
+command -v herdr >/dev/null || curl -fsSL https://herdr.dev/install.sh | sh
+command -v claude >/dev/null || curl -fsSL https://claude.ai/install.sh | bash
+{{ end -}}

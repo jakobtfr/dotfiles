@@ -1,3 +1,4 @@
+# macOS only; Arch uses packages-arch.txt.
 # Installed by `dotpull` (chezmoi re-runs `brew bundle` whenever this file changes).
 
 # Shell
@@ -24,19 +25,15 @@ brew "node"
 brew "pnpm"
 brew "python"
 brew "uv"
-brew "trash-cli" if OS.linux?
+brew "gcc"
+brew "llvm"
 
-if OS.mac?
-  brew "gcc"
-  brew "llvm"
-
-  cask "ghostty"
-  cask "aerospace"
-  cask "font-jetbrains-mono"
-  cask "claude-code"
-  cask "codex"
-  cask "firefox"
-  cask "slack"
-  cask "spotify"
-  cask "anki"
-end
+cask "ghostty"
+cask "aerospace"
+cask "font-jetbrains-mono"
+cask "claude-code"
+cask "codex"
+cask "firefox"
+cask "slack"
+cask "spotify"
+cask "anki"

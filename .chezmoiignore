@@ -1,13 +1,13 @@
 .DS_Store
 README.md
 Brewfile
+packages-arch.txt
 
 # vim.pack writes this lockfile at runtime (:PackUpdate); let it own it per-machine.
 .config/nvim/nvim-pack-lock.json
 
 {{ if ne .chezmoi.os "darwin" }}
 .config/aerospace
-.config/ghostty
 .zprofile
 .local/bin/cc
 .local/bin/c++

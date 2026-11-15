@@ -4,6 +4,8 @@ Managed with [chezmoi](https://chezmoi.io); the source lives in `~/code/dotfiles
 
 ## New machine
 
+macOS:
+
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -11,16 +13,26 @@ brew install chezmoi
 chezmoi init --apply --source ~/code/dotfiles jakobtfr/dotfiles
 ```
 
+Arch (no Homebrew, no AUR):
+
+```bash
+sudo pacman -S --needed chezmoi git
+chezmoi init --apply --source ~/code/dotfiles jakobtfr/dotfiles
+```
+
 ## Daily
 
-- `dotpull`: pull, apply, and `brew bundle` if the `Brewfile` changed
+- `dotpull`: pull, apply, and install packages if `Brewfile` (macOS) or `packages-arch.txt` (Arch) changed
 - `dotsync "msg"`: commit and push
 
 ## Layout
 
-- `Brewfile`: packages and casks (casks are macOS only)
+- `Brewfile`: macOS packages and casks
+- `packages-arch.txt`: Arch packages (official repos only)
+- `.chezmoiexternal.toml.tmpl`: powerlevel10k on Linux (pinned upstream release)
 - `dot_*`: shell (zsh + p10k), nvim, tmux, herdr, ghostty, aerospace
-- `.chezmoiscripts/`: `brew bundle` on Brewfile change; herdr agent hooks on herdr update
+- `.chezmoiscripts/`: `brew bundle` / `pacman -S --needed` on package-list change; on Linux, herdr and
+  Claude Code via their official installers (once; they self-update); herdr agent hooks on herdr update
 
 ## Agents (Claude Code + Codex)
 
