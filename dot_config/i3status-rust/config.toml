@@ -7,6 +7,11 @@ theme = "native"   # inherit swaybar colors
 [icons]
 icons = "none"     # text labels, no icon font needed
 
+# Bose QC headphones: click = connect/disconnect (must be paired once via bluetoothctl).
+[[block]]
+block = "bluetooth"
+mac = "E4:58:BC:42:7A:7C"
+
 # Volume: updates instantly; click = mute, scroll = change.
 [[block]]
 block = "sound"
