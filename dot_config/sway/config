@@ -8,8 +8,8 @@ input type:keyboard {
     xkb_layout us
     xkb_options caps:escape
     # macOS fastest: InitialKeyRepeat 15 (225ms), KeyRepeat 2 (30ms ≈ 33/s)
-    repeat_delay 225
-    repeat_rate 33
+    repeat_delay 250
+    repeat_rate 30
 }
 
 input type:pointer {
