@@ -20,6 +20,7 @@ brew "herdr"
 # CLI
 brew "gh"
 brew "ripgrep"
+brew "jq"
 brew "fd"
 brew "node"
 brew "pnpm"

@@ -30,7 +30,7 @@ chezmoi init --apply --source ~/code/dotfiles jakobtfr/dotfiles
 - `Brewfile`: macOS packages and casks
 - `packages-arch.txt`: Arch packages (official repos only)
 - `.chezmoiexternal.toml.tmpl`: powerlevel10k on Linux (pinned upstream release)
-- `dot_*`: shell (zsh + p10k), nvim, tmux, herdr, ghostty, aerospace
+- `dot_*`: shell (zsh + p10k), nvim, tmux, herdr, ghostty, aerospace (macOS), sway (Linux)
 - `.chezmoiscripts/`: `brew bundle` / `pacman -S --needed` on package-list change; on Linux, herdr and
   Claude Code via their official installers (once; they self-update); herdr agent hooks on herdr update
 

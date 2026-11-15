@@ -1,0 +1,130 @@
+# SWAY CONFIG — Linux port of ../aerospace/aerospace.toml
+# Prefix: ctrl-alt-cmd → Ctrl+Alt+Super (same physical bottom-left keys). cmd → Super.
+
+set $term ghostty
+set $menu fuzzel
+
+input type:keyboard {
+    xkb_layout us
+    xkb_options caps:escape
+}
+
+# Gaps: 0 (sway default). No title bars on tiled windows.
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders smart
+
+# AeroSpace: on-focus-changed / on-focused-monitor-changed → move-mouse lazy-center
+mouse_warping container
+# AeroSpace: --boundaries-action stop
+focus_wrapping no
+# AeroSpace: workspace --auto-back-and-forth
+workspace_auto_back_and_forth yes
+
+floating_modifier Mod4 normal
+
+# --- main mode ---------------------------------------------------------------
+
+bindsym Mod4+q kill
+bindsym Mod4+space exec $menu
+bindsym Mod4+Return exec $term
+
+bindsym Ctrl+Mod1+Mod4+f fullscreen
+
+bindsym Ctrl+Mod1+Mod4+Left  focus left
+bindsym Ctrl+Mod1+Mod4+Down  focus down
+bindsym Ctrl+Mod1+Mod4+Up    focus up
+bindsym Ctrl+Mod1+Mod4+Right focus right
+
+bindsym Ctrl+Mod1+Mod4+Shift+Left  move left
+bindsym Ctrl+Mod1+Mod4+Shift+Down  move down
+bindsym Ctrl+Mod1+Mod4+Shift+Up    move up
+bindsym Ctrl+Mod1+Mod4+Shift+Right move right
+
+bindsym Ctrl+Mod1+Mod4+a workspace A
+bindsym Ctrl+Mod1+Mod4+b workspace B
+bindsym Ctrl+Mod1+Mod4+c workspace C
+bindsym Ctrl+Mod1+Mod4+l workspace L
+bindsym Ctrl+Mod1+Mod4+m workspace M
+bindsym Ctrl+Mod1+Mod4+n workspace N
+bindsym Ctrl+Mod1+Mod4+t workspace T
+bindsym Ctrl+Mod1+Mod4+1 workspace 1
+bindsym Ctrl+Mod1+Mod4+2 workspace 2
+bindsym Ctrl+Mod1+Mod4+3 workspace 3
+bindsym Ctrl+Mod1+Mod4+4 workspace 4
+bindsym Ctrl+Mod1+Mod4+5 workspace 5
+bindsym Ctrl+Mod1+Mod4+0 workspace 0
+
+bindsym Ctrl+Mod1+Mod4+Shift+a move container to workspace A
+bindsym Ctrl+Mod1+Mod4+Shift+b move container to workspace B
+bindsym Ctrl+Mod1+Mod4+Shift+c move container to workspace C
+bindsym Ctrl+Mod1+Mod4+Shift+l move container to workspace L
+bindsym Ctrl+Mod1+Mod4+Shift+m move container to workspace M
+bindsym Ctrl+Mod1+Mod4+Shift+n move container to workspace N
+bindsym Ctrl+Mod1+Mod4+Shift+t move container to workspace T
+bindsym Ctrl+Mod1+Mod4+Shift+1 move container to workspace 1
+bindsym Ctrl+Mod1+Mod4+Shift+2 move container to workspace 2
+bindsym Ctrl+Mod1+Mod4+Shift+3 move container to workspace 3
+bindsym Ctrl+Mod1+Mod4+Shift+4 move container to workspace 4
+bindsym Ctrl+Mod1+Mod4+Shift+5 move container to workspace 5
+bindsym Ctrl+Mod1+Mod4+Shift+0 move container to workspace 0
+
+bindsym Ctrl+Mod1+Mod4+Tab       focus output right
+bindsym Ctrl+Mod1+Mod4+Shift+Tab move workspace to output right
+
+bindsym Ctrl+Mod1+Mod4+semicolon mode service
+# AeroSpace: enable off → pass all keys through until Ctrl+Alt+Super+Esc again
+bindsym Ctrl+Mod1+Mod4+Escape mode passthrough
+
+# Workspace 0 on the secondary monitor, falls back to main. Set names via `swaymsg -t get_outputs`.
+# workspace 0 output HDMI-A-1 DP-1
+
+# --- modes -------------------------------------------------------------------
+
+mode service {
+    bindsym Escape    reload; mode default
+    bindsym r         layout default; mode default
+    bindsym f         floating toggle; mode default
+    bindsym Backspace mode default
+    # Session: lock / exit (logout) / poweroff / reboot
+    bindsym l         exec swaylock -f -c 000000; mode default
+    bindsym Shift+e   exec swaynag -t warning -m 'Log out?' -B 'Yes' 'swaymsg exit'; mode default
+    bindsym Shift+p   exec swaynag -t warning -m 'Power off?' -B 'Yes' 'systemctl poweroff'; mode default
+    bindsym s         exec systemctl suspend; mode default
+    bindsym Shift+b   exec swaynag -t warning -m 'Reboot?' -B 'Yes' 'systemctl reboot'; mode default
+}
+
+mode passthrough {
+    bindsym Ctrl+Mod1+Mod4+Escape mode default
+}
+
+# --- window rules (on-window-detected) ---------------------------------------
+# Wayland apps match app_id, XWayland apps match class.
+
+assign [app_id="firefox"] workspace B
+assign [app_id="com.mitchellh.ghostty"] workspace T
+assign [app_id="obsidian"] workspace N
+assign [class="obsidian"] workspace N
+assign [app_id="org.anki.anki"] workspace L
+assign [class="Anki"] workspace L
+assign [app_id="Slack"] workspace C
+assign [class="Slack"] workspace C
+# Spotify sets its class after mapping, so assign doesn't catch it.
+for_window [class="Spotify"] move container to workspace M
+
+# --- bar / session -----------------------------------------------------------
+
+bar {
+    position top
+    status_command while date +'%a %d %b  %H:%M'; do sleep 30; done
+}
+
+exec swayidle -w \
+    timeout 600 'swaylock -f -c 000000' \
+    timeout 900 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+    before-sleep 'swaylock -f -c 000000'
+
+# Night light (KDE NightColor equivalent). Follows sunrise/sunset for southern Germany.
+exec wlsunset -t 3400 -T 6500 -l 48.5 -L 11.0
+
+include /etc/sway/config.d/*

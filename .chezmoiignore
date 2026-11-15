@@ -16,3 +16,7 @@ packages-arch.txt
 .local/bin/clang
 .local/bin/clang++
 {{ end }}
+
+{{ if ne .chezmoi.os "linux" }}
+.config/sway
+{{ end }}

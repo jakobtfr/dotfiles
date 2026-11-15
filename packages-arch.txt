@@ -19,6 +19,7 @@ tmux
 # CLI
 github-cli
 ripgrep
+jq
 fd
 nodejs
 pnpm
@@ -26,6 +27,18 @@ python
 uv
 trash-cli
 openai-codex
+
+# Sway (tiling WM, port of aerospace)
+sway
+swaybg
+swaylock
+swayidle
+fuzzel
+xdg-desktop-portal-wlr
+grim
+slurp
+wl-clipboard
+wlsunset
 
 # Fonts
 ttf-jetbrains-mono
