@@ -1,0 +1,17 @@
+# swaybar status line (status_command in ../sway/config).
+# Block docs: https://greshake.github.io/i3status-rust/i3status_rs/blocks/
+
+[theme]
+theme = "native"   # inherit swaybar colors
+
+[icons]
+icons = "none"     # text labels, no icon font needed
+
+# Volume: updates instantly; click = mute, scroll = change.
+[[block]]
+block = "sound"
+
+[[block]]
+block = "time"
+interval = 30
+format = " $timestamp.datetime(f:'%a %d %b  %H:%M') "

@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Screenshot helper for Sway: screenshot [full|region|window]
+set -euo pipefail
+
+mode=${1:-full}
+dir="$HOME/Pictures/Screenshots"
+out="$dir/$(date +%Y-%m-%d_%H-%M-%S).png"
+mkdir -p "$dir"
+
+case $mode in
+    full) grim "$out" ;;
+    region)
+        geom=$(slurp) || exit 1
+        grim -g "$geom" "$out"
+        ;;
+    window)
+        rect=$(swaymsg -t get_tree -r |
+            jq -r '.. | objects | select(.focused? == true) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' |
+            head -n1)
+        grim -g "$rect" "$out"
+        ;;
+    *)
+        echo "usage: screenshot [full|region|window]" >&2
+        exit 2
+        ;;
+esac

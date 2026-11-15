@@ -1,5 +1,5 @@
-# Arch packages from the official repos (no AUR). Installed by `dotpull`
-# (chezmoi re-runs `pacman -S --needed` whenever this file changes).
+# Arch packages (official repos + AUR). Installed by `dotpull`
+# (chezmoi re-runs `paru -S --needed` whenever this file changes).
 # Not in the repos: powerlevel10k (.chezmoiexternal), herdr + Claude Code (upstream installers).
 
 # Shell
@@ -27,6 +27,13 @@ python
 uv
 trash-cli
 openai-codex
+btop
+
+# System
+pacman-contrib
+bluez
+bluez-utils
+informant
 
 # Sway (tiling WM, port of aerospace)
 sway
@@ -34,11 +41,22 @@ swaybg
 swaylock
 swayidle
 fuzzel
+i3status-rust
 xdg-desktop-portal-wlr
 grim
 slurp
 wl-clipboard
 wlsunset
+xdg-desktop-portal-gtk
+polkit-gnome
+mako
+cliphist
+playerctl
+pipewire-pulse
 
 # Fonts
 ttf-jetbrains-mono
+noto-fonts-emoji
+
+# AUR
+ente-auth-bin
