@@ -43,55 +43,56 @@ key-mapping.preset = 'qwerty'
 # - Arrows.         left, down, up, right
 
 # All possible modifiers: cmd, alt, ctrl, shift
+# Prefix: ctrl-alt-cmd (adjacent bottom-left keys; same physical keys as ctrl-super-alt on Linux)
 
 cmd-q = [
   'close --quit-if-last-window'
 ]
 
-ctrl-alt-f = 'fullscreen'
+ctrl-alt-cmd-f = 'fullscreen'
 
-ctrl-alt-left = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop left'
-ctrl-alt-down = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop down'
-ctrl-alt-up = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop up'
-ctrl-alt-right = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop right'
+ctrl-alt-cmd-left = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop left'
+ctrl-alt-cmd-down = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop down'
+ctrl-alt-cmd-up = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop up'
+ctrl-alt-cmd-right = 'focus --boundaries all-monitors-outer-frame --boundaries-action stop right'
 
-ctrl-alt-shift-left = 'move left'
-ctrl-alt-shift-down = 'move down'
-ctrl-alt-shift-up = 'move up'
-ctrl-alt-shift-right = 'move right'
+ctrl-alt-cmd-shift-left = 'move left'
+ctrl-alt-cmd-shift-down = 'move down'
+ctrl-alt-cmd-shift-up = 'move up'
+ctrl-alt-cmd-shift-right = 'move right'
 
-ctrl-alt-a = 'workspace --auto-back-and-forth A'  # AI
-ctrl-alt-b = 'workspace --auto-back-and-forth B'  # Browser
-ctrl-alt-c = 'workspace --auto-back-and-forth C'  # Chat
-ctrl-alt-l = 'workspace --auto-back-and-forth L'  # Learning
-ctrl-alt-m = 'workspace --auto-back-and-forth M'  # Music
-ctrl-alt-n = 'workspace --auto-back-and-forth N'  # Notes
-ctrl-alt-t = 'workspace --auto-back-and-forth T'  # Terminal
-ctrl-alt-1 = 'workspace --auto-back-and-forth 1'  # Scratch
-ctrl-alt-2 = 'workspace --auto-back-and-forth 2'  # Scratch
-ctrl-alt-3 = 'workspace --auto-back-and-forth 3'  # Scratch
-ctrl-alt-4 = 'workspace --auto-back-and-forth 4'  # Scratch
-ctrl-alt-5 = 'workspace --auto-back-and-forth 5'  # Scratch
-ctrl-alt-0 = 'workspace --auto-back-and-forth 0'  # Secondary monitor
+ctrl-alt-cmd-a = 'workspace --auto-back-and-forth A'  # AI
+ctrl-alt-cmd-b = 'workspace --auto-back-and-forth B'  # Browser
+ctrl-alt-cmd-c = 'workspace --auto-back-and-forth C'  # Chat
+ctrl-alt-cmd-l = 'workspace --auto-back-and-forth L'  # Learning
+ctrl-alt-cmd-m = 'workspace --auto-back-and-forth M'  # Music
+ctrl-alt-cmd-n = 'workspace --auto-back-and-forth N'  # Notes
+ctrl-alt-cmd-t = 'workspace --auto-back-and-forth T'  # Terminal
+ctrl-alt-cmd-1 = 'workspace --auto-back-and-forth 1'  # Scratch
+ctrl-alt-cmd-2 = 'workspace --auto-back-and-forth 2'  # Scratch
+ctrl-alt-cmd-3 = 'workspace --auto-back-and-forth 3'  # Scratch
+ctrl-alt-cmd-4 = 'workspace --auto-back-and-forth 4'  # Scratch
+ctrl-alt-cmd-5 = 'workspace --auto-back-and-forth 5'  # Scratch
+ctrl-alt-cmd-0 = 'workspace --auto-back-and-forth 0'  # Secondary monitor
 
-ctrl-alt-shift-a = 'move-node-to-workspace A'
-ctrl-alt-shift-b = 'move-node-to-workspace B'
-ctrl-alt-shift-c = 'move-node-to-workspace C'
-ctrl-alt-shift-l = 'move-node-to-workspace L'
-ctrl-alt-shift-m = 'move-node-to-workspace M'
-ctrl-alt-shift-n = 'move-node-to-workspace N'
-ctrl-alt-shift-t = 'move-node-to-workspace T'
-ctrl-alt-shift-1 = 'move-node-to-workspace 1'
-ctrl-alt-shift-2 = 'move-node-to-workspace 2'
-ctrl-alt-shift-3 = 'move-node-to-workspace 3'
-ctrl-alt-shift-4 = 'move-node-to-workspace 4'
-ctrl-alt-shift-5 = 'move-node-to-workspace 5'
-ctrl-alt-shift-0 = 'move-node-to-workspace 0'
+ctrl-alt-cmd-shift-a = 'move-node-to-workspace A'
+ctrl-alt-cmd-shift-b = 'move-node-to-workspace B'
+ctrl-alt-cmd-shift-c = 'move-node-to-workspace C'
+ctrl-alt-cmd-shift-l = 'move-node-to-workspace L'
+ctrl-alt-cmd-shift-m = 'move-node-to-workspace M'
+ctrl-alt-cmd-shift-n = 'move-node-to-workspace N'
+ctrl-alt-cmd-shift-t = 'move-node-to-workspace T'
+ctrl-alt-cmd-shift-1 = 'move-node-to-workspace 1'
+ctrl-alt-cmd-shift-2 = 'move-node-to-workspace 2'
+ctrl-alt-cmd-shift-3 = 'move-node-to-workspace 3'
+ctrl-alt-cmd-shift-4 = 'move-node-to-workspace 4'
+ctrl-alt-cmd-shift-5 = 'move-node-to-workspace 5'
+ctrl-alt-cmd-shift-0 = 'move-node-to-workspace 0'
 
-ctrl-alt-semicolon = 'mode service'
-ctrl-alt-esc = 'enable off'  # Re-enable via menu bar or `aerospace enable on`
-ctrl-alt-tab = 'focus-monitor next --wrap-around'
-ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+ctrl-alt-cmd-semicolon = 'mode service'
+ctrl-alt-cmd-esc = 'enable off'  # Re-enable via menu bar or `aerospace enable on`
+ctrl-alt-cmd-tab = 'focus-monitor next --wrap-around'
+ctrl-alt-cmd-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
 [workspace-to-monitor-force-assignment]
     0 = ['secondary', 'main']  # Falls back to main without a second monitor
