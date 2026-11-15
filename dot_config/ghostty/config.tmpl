@@ -23,8 +23,10 @@ selection-foreground = #e0def4
 window-padding-x = 4
 window-padding-y = 4
 window-padding-color = background
+{{ if eq .chezmoi.os "darwin" -}}
 background-opacity = 0.95
 background-blur-radius = 20
+{{ end -}}
 
 font-family = JetBrains Mono
 font-size = 15
