@@ -7,14 +7,12 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
-vim.opt.wrap = false -- never soft-wrap: one buffer line = one screen line
-vim.opt.linebreak = true -- only matters if wrap is toggled on manually
-vim.opt.breakindent = true -- same; wrapped lines keep the line's indent
-vim.opt.sidescrolloff = 8 -- keep some context when scrolling horizontally (zl/zh, zL/zH)
+vim.opt.wrap = true -- soft-wrap long lines so the whole line stays visible
+vim.opt.linebreak = true -- wrap at word boundaries instead of mid-word
+vim.opt.breakindent = true -- wrapped rows keep the line's indent
+vim.opt.sidescrolloff = 8 -- horizontal scroll context when wrap is off
 
--- move by visual line unless a count is given; equals buffer lines when nowrap
-vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
-vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
+-- j/k keep moving by real buffer lines (default). Use gj/gk for wrapped screen lines.
 
 vim.opt.swapfile = false
 vim.opt.undofile = true
