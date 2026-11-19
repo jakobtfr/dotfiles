@@ -11,8 +11,20 @@ vim.api.nvim_create_autocmd("PackChanged", {
 	end,
 })
 
+-- VimTeX reads its options when it loads, so set them before vim.pack.add.
+-- Compile with latexmk (<localleader>ll, localleader is "\"), view with <localleader>lv.
+-- Inverse search: Cmd-Shift-click in Skim, Ctrl-click in Zathura.
+if vim.fn.has("mac") == 1 then
+	vim.g.vimtex_view_method = "skim"
+	vim.g.vimtex_view_skim_sync = 1
+	vim.g.vimtex_view_skim_reading_bar = 1
+else
+	vim.g.vimtex_view_method = "zathura"
+end
+
 vim.pack.add({
 	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
+	"https://github.com/lervag/vimtex",
 	{ src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1.0.0 - 2.0.0") },
 	"https://github.com/stevearc/conform.nvim",
 	{ src = "https://github.com/tpope/vim-fugitive", version = "master" },
@@ -51,6 +63,8 @@ require("conform").setup({
 		lua = { "stylua" },
 		python = { "ruff_organize_imports", "ruff_format" },
 		rust = { "rustfmt" },
+		tex = { "tex-fmt" },
+		bib = { "tex-fmt" },
 		typescript = { "biome" },
 		javascript = { "biome" },
 	},
@@ -145,13 +159,18 @@ local ts_languages = {
 	"query",
 	"markdown",
 	"markdown_inline",
+	"bibtex",
 }
 if #vim.api.nvim_list_uis() > 0 then
 	require("nvim-treesitter").install(ts_languages)
 end
--- Highlight with treesitter wherever a parser is available.
+-- Highlight with treesitter wherever a parser is available. Not for tex:
+-- VimTeX's syntax drives its math detection, motions and concealment.
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(event)
+		if event.match == "tex" then
+			return
+		end
 		pcall(vim.treesitter.start, event.buf)
 	end,
 })

@@ -19,6 +19,12 @@ brew "pyright"
 brew "ruff"
 brew "rust-analyzer"
 brew "typescript-language-server"
+brew "texlab"
+
+# LaTeX (see nvim plugins.lua: VimTeX + tex-fmt)
+brew "tex-fmt"
+cask "mactex-no-gui"
+cask "skim"
 
 # CLI
 brew "gh"

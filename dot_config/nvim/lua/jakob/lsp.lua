@@ -12,6 +12,7 @@ vim.lsp.enable({
 	"pyright",
 	"ruff",
 	"rust_analyzer",
+	"texlab",
 	"ts_ls",
 })
 

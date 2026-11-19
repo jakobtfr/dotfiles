@@ -23,6 +23,21 @@ clang
 ruff
 rust-analyzer
 typescript-language-server
+texlab
+
+# LaTeX (see nvim plugins.lua: VimTeX + tex-fmt). latexmk is in texlive-binextra.
+texlive-basic
+texlive-binextra
+texlive-latexrecommended
+texlive-latexextra
+texlive-fontsrecommended
+texlive-mathscience
+texlive-bibtexextra
+texlive-langgerman
+biber
+tex-fmt
+zathura
+zathura-pdf-mupdf
 
 # CLI
 github-cli

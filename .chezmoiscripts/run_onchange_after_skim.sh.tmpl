@@ -1,0 +1,13 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+# Skim → Neovim inverse search for VimTeX (Cmd-Shift-click in the PDF jumps to the source).
+set -euo pipefail
+
+domain=net.sourceforge.skim-app.skim
+defaults write "$domain" SKTeXEditorPreset -string "Custom"
+defaults write "$domain" SKTeXEditorCommand -string "/opt/homebrew/bin/nvim"
+defaults write "$domain" SKTeXEditorArguments -string "--headless -c \"VimtexInverseSearch %line '%file'\""
+# Reload the PDF after each compile without asking.
+defaults write "$domain" SKAutoCheckFileUpdate -bool true
+defaults write "$domain" SKAutoReloadFileUpdate -bool true
+{{ end -}}
