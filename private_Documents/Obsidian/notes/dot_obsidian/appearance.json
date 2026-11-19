@@ -7,5 +7,6 @@
   "enabledCssSnippets": [
     "no-ligatures",
     "no-cursor-blink"
-  ]
+  ],
+  "showRibbon": true
 }
